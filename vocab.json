@@ -113,7 +113,8 @@
     {
       "k": "戒め",
       "h": "いましめ",
-      "r": "교훈 훈계 경계"
+      "r": "교훈 훈계 경계",
+      "imp": true
     },
     {
       "k": "敷地",
@@ -309,7 +310,7 @@
   "memorized": [
     false,
     false,
-    true,
+    false,
     false,
     false,
     false,
@@ -369,5 +370,5 @@
     false,
     false
   ],
-  "savedAt": 1786608051666
+  "savedAt": 1786608077358
 }
