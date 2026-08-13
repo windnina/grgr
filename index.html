@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
+<html lang="ko"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>일본어 단어장</title>
@@ -110,12 +108,18 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
   padding: 10px 8px; border-bottom: 1px solid #eee;
   font-size: 16px; vertical-align: middle; background: #fff;
 }
-.vocab-table tr.memorized td { background: #f6fdf8; }
+.vocab-table tr.important td { background: #fff8f0; }
+.vocab-table tr.important.meaning-row td { background: #fff8f0; }
 /* 클릭시 main행 + 이어지는 meaning행 함께 하이라이트 */
-.vocab-table tbody tr:not(.meaning-row):active td { background: #f0f0f0; }
-.vocab-table tbody tr:not(.meaning-row):active + .meaning-row td { background: #f0f0f0; }
-.vocab-table tbody .meaning-row:active td { background: #f0f0f0; }
-.vocab-table tbody tr:has(+ .meaning-row:active) td { background: #f0f0f0; }
+.vocab-table tbody tr:not(.meaning-row):active td { background: #efefef; }
+.vocab-table tbody tr:not(.meaning-row):active + .meaning-row td { background: #efefef; }
+.vocab-table tbody .meaning-row:active td { background: #efefef; }
+.vocab-table tbody tr:has(+ .meaning-row:active) td { background: #efefef; }
+/* 중요 단어 클릭시 */
+.vocab-table tbody tr.important:not(.meaning-row):active td { background: #ffeedd; }
+.vocab-table tbody tr.important:not(.meaning-row):active + .meaning-row td { background: #ffeedd; }
+.vocab-table tbody .meaning-row.important:active td { background: #ffeedd; }
+.vocab-table tbody tr.important:has(+ .meaning-row:active) td { background: #ffeedd; }
 
 .num-cell { color: #ccc; font-size: 10px; width: 20px; white-space: nowrap; padding-left: 12px !important; padding-right: 4px !important; }
 .kanji-cell { display: none; }
@@ -216,7 +220,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
   border-radius: 12px; cursor: pointer; font-size: 14px; text-align: center;
   transition: all 0.15s; color: #333; line-height: 1.4;
 }
-.choice-btn:hover:not(:disabled) { border-color: #1a2535; background: #f0f2f5; }
+.choice-btn:hover:not(:disabled) { }
 .choice-btn.correct { background: #27ae60; border-color: #27ae60; color: #fff; }
 .choice-btn.wrong { background: #e74c3c; border-color: #e74c3c; color: #fff; }
 .choice-btn.reveal { background: #f0faf4; border-color: #27ae60; color: #27ae60; }
@@ -249,12 +253,13 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
 .wrong-hira { font-size: 12px; color: #bbb; min-width: 90px; }
 .wrong-kr { color: #27ae60; font-size: 13px; }
 .retry-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-.btn-secondary { padding: 11px 26px; background: #fff; color: #1a2535; border: 2px solid #1a2535; border-radius: 28px; font-size: 14px; font-weight: 600; cursor: pointer; }
+.btn-secondary { padding: 12px 26px; background: #fff; color: #1a2535; border: 2px solid #1a2535; border-radius: 28px; font-size: 15px; font-weight: 600; cursor: pointer; }
+.retry-btns .btn-primary { margin-top: 0; }
 
 /* ---- 단일 레이아웃 (모바일 통일) ---- */
 .combined-cell {
   display: table-cell;
-  font-size: 18px; font-weight: 700; color: #1a2535;
+  font-size: 22px; font-weight: 700; color: #1a2535;
   vertical-align: middle;
 }
 
@@ -269,7 +274,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
   border-bottom: 1px solid #eee; background: #fff;
   line-height: 1.5;
 }
-.meaning-row.memorized .meaning-mobile-cell { background: #f6fdf8; }
+.meaning-row.important .meaning-mobile-cell { background: #fff8f0; }
 
 
 .mem-btn { font-size: 13px; padding: 5px 12px; }
@@ -289,6 +294,9 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
   <div class="settings-wrap" style="display:flex;align-items:center;">
     <button class="btn-settings" id="btn-settings" onclick="toggleDropdown()">⚙</button>
     <div class="dropdown" id="settings-dropdown">
+      <button class="dd-item" id="dd-github" onclick="openGithubModal(); closeDropdown()">
+        <span class="dd-icon">🔗</span> <span id="dd-github-label">GitHub 연동됨 ✓</span>
+      </button>
       <button class="dd-item" id="dd-connect" onclick="connectFile()">
         <span class="dd-icon">📂</span> 파일 연결
       </button>
@@ -319,15 +327,16 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
       </div>
     </div>
     <div class="header-right">
-      <span class="save-status" id="save-status"></span>
+      <button id="gh-sync-btn" onclick="writeToGitHub()" style="display: inline-block; padding: 5px 12px; background: rgb(36, 41, 46); color: rgb(255, 255, 255); border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: 14px; font-size: 12px; font-weight: 600; cursor: pointer;">↑ GitHub</button>
+      <span class="save-status saving" id="save-status">GitHub 동기화 중…</span>
     </div>
   </div>
   <table class="vocab-table">
 
-    <tbody id="vocab-tbody"></tbody>
+    <tbody id="vocab-tbody"><tr><td class="num-cell">1</td><td class="kanji-cell">小銭</td><td class="hira-cell">じゃりせん</td><td class="combined-cell">小銭<span class="combined-hira">じゃりせん</span></td><td class="meaning-cell">잔돈, 동전</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(0)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">잔돈, 동전</td></tr><tr><td class="num-cell">2</td><td class="kanji-cell">勝ち気</td><td class="hira-cell">かちき</td><td class="combined-cell">勝ち気<span class="combined-hira">かちき</span></td><td class="meaning-cell">기가센 지기싫어하는</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(1)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">기가센 지기싫어하는</td></tr><tr><td class="num-cell">3</td><td class="kanji-cell">お詫びの印</td><td class="hira-cell">おわびのじるし</td><td class="combined-cell">お詫びの印<span class="combined-hira">おわびのじるし</span></td><td class="meaning-cell">사죄의 뜻으로</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(2)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">사죄의 뜻으로</td></tr><tr><td class="num-cell">4</td><td class="kanji-cell">シャバい</td><td class="hira-cell">しゃばい</td><td class="combined-cell">シャバい<span class="combined-hira">しゃばい</span></td><td class="meaning-cell">촌스럽다, 노잼 (부정적 표현)</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(3)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">촌스럽다, 노잼 (부정적 표현)</td></tr><tr><td class="num-cell">5</td><td class="kanji-cell">誇示</td><td class="hira-cell">こじ</td><td class="combined-cell">誇示<span class="combined-hira">こじ</span></td><td class="meaning-cell">과시</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(4)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">과시</td></tr><tr><td class="num-cell">6</td><td class="kanji-cell">粗大</td><td class="hira-cell">そだい</td><td class="combined-cell">粗大<span class="combined-hira">そだい</span></td><td class="meaning-cell">조대 대형</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(5)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">조대 대형</td></tr><tr><td class="num-cell">7</td><td class="kanji-cell">真心を込めたおもてなし</td><td class="hira-cell">まごころをこめたおもてなし</td><td class="combined-cell">真心を込めたおもてなし<span class="combined-hira">まごころをこめたおもてなし</span></td><td class="meaning-cell">마고코로 정성담긴 환대</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(6)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">마고코로 정성담긴 환대</td></tr><tr><td class="num-cell">8</td><td class="kanji-cell">盛ん</td><td class="hira-cell">さかん</td><td class="combined-cell">盛ん<span class="combined-hira">さかん</span></td><td class="meaning-cell">성함 기세가좋음 맹렬함</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(7)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">성함 기세가좋음 맹렬함</td></tr><tr><td class="num-cell">9</td><td class="kanji-cell">穀倉地帯</td><td class="hira-cell">こくそうちたい</td><td class="combined-cell">穀倉地帯<span class="combined-hira">こくそうちたい</span></td><td class="meaning-cell">곡창지대</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(8)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">곡창지대</td></tr><tr><td class="num-cell">10</td><td class="kanji-cell">打ち切れる</td><td class="hira-cell">ぶちきれる</td><td class="combined-cell">打ち切れる<span class="combined-hira">ぶちきれる</span></td><td class="meaning-cell">갑자기 화를 폭발하다</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(9)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">갑자기 화를 폭발하다</td></tr><tr><td class="num-cell">11</td><td class="kanji-cell"><span style="color:#ccc">—</span></td><td class="hira-cell">ぞっとする</td><td class="combined-cell"><span style="font-weight:700">ぞっとする</span></td><td class="meaning-cell">소름끼치다</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(10)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">소름끼치다</td></tr><tr><td class="num-cell">12</td><td class="kanji-cell">躊躇</td><td class="hira-cell">ちゅうちょ</td><td class="combined-cell">躊躇<span class="combined-hira">ちゅうちょ</span></td><td class="meaning-cell">주저</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(11)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">주저</td></tr><tr><td class="num-cell">13</td><td class="kanji-cell">容赦</td><td class="hira-cell">ようしゃ</td><td class="combined-cell">容赦<span class="combined-hira">ようしゃ</span></td><td class="meaning-cell">용서 자비</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(12)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">용서 자비</td></tr><tr><td class="num-cell">14</td><td class="kanji-cell">仕業</td><td class="hira-cell">しわざ</td><td class="combined-cell">仕業<span class="combined-hira">しわざ</span></td><td class="meaning-cell">짓 소행</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(13)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">짓 소행</td></tr><tr><td class="num-cell">15</td><td class="kanji-cell">ガチ勢</td><td class="hira-cell">がちぜい</td><td class="combined-cell">ガチ勢<span class="combined-hira">がちぜい</span></td><td class="meaning-cell">광팬</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(14)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">광팬</td></tr><tr><td class="num-cell">16</td><td class="kanji-cell">擦る</td><td class="hira-cell">こする</td><td class="combined-cell">擦る<span class="combined-hira">こする</span></td><td class="meaning-cell">문지르다</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(15)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">문지르다</td></tr><tr><td class="num-cell">17</td><td class="kanji-cell">冒瀆</td><td class="hira-cell">ぼうとく</td><td class="combined-cell">冒瀆<span class="combined-hira">ぼうとく</span></td><td class="meaning-cell">모독</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(16)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">모독</td></tr><tr><td class="num-cell">18</td><td class="kanji-cell">間際</td><td class="hira-cell">まぎわ</td><td class="combined-cell">間際<span class="combined-hira">まぎわ</span></td><td class="meaning-cell">직전 막하려는 찰나</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(17)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">직전 막하려는 찰나</td></tr><tr><td class="num-cell">19</td><td class="kanji-cell">根絶やし</td><td class="hira-cell">ねだやし</td><td class="combined-cell">根絶やし<span class="combined-hira">ねだやし</span></td><td class="meaning-cell">근절하다</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(18)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">근절하다</td></tr><tr><td class="num-cell">20</td><td class="kanji-cell">譲歩</td><td class="hira-cell">じょうほ</td><td class="combined-cell">譲歩<span class="combined-hira">じょうほ</span></td><td class="meaning-cell">양보</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(19)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">양보</td></tr><tr><td class="num-cell">21</td><td class="kanji-cell">嗜み</td><td class="hira-cell">たしなみ</td><td class="combined-cell">嗜み<span class="combined-hira">たしなみ</span></td><td class="meaning-cell">소양 조심성 마음가짐</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(20)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">소양 조심성 마음가짐</td></tr><tr><td class="num-cell">22</td><td class="kanji-cell">戒め</td><td class="hira-cell">いましめ</td><td class="combined-cell">戒め<span class="combined-hira">いましめ</span></td><td class="meaning-cell">교훈 훈계 경계</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(21)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">교훈 훈계 경계</td></tr><tr><td class="num-cell">23</td><td class="kanji-cell">敷地</td><td class="hira-cell">しきち</td><td class="combined-cell">敷地<span class="combined-hira">しきち</span></td><td class="meaning-cell">부지</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(22)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">부지</td></tr><tr><td class="num-cell">24</td><td class="kanji-cell">身代金</td><td class="hira-cell">みのしろきん</td><td class="combined-cell">身代金<span class="combined-hira">みのしろきん</span></td><td class="meaning-cell">몸값</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(23)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">몸값</td></tr><tr><td class="num-cell">25</td><td class="kanji-cell">教わる</td><td class="hira-cell">おそわる</td><td class="combined-cell">教わる<span class="combined-hira">おそわる</span></td><td class="meaning-cell">배우다</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(24)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">배우다</td></tr><tr><td class="num-cell">26</td><td class="kanji-cell">駄賃</td><td class="hira-cell">だちん</td><td class="combined-cell">駄賃<span class="combined-hira">だちん</span></td><td class="meaning-cell">수고비 심부름값</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(25)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">수고비 심부름값</td></tr><tr><td class="num-cell">27</td><td class="kanji-cell">湿気っている</td><td class="hira-cell">しけっている</td><td class="combined-cell">湿気っている<span class="combined-hira">しけっている</span></td><td class="meaning-cell">눅눅하다</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(26)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">눅눅하다</td></tr><tr><td class="num-cell">28</td><td class="kanji-cell">強いて言えば</td><td class="hira-cell">しいていえば</td><td class="combined-cell">強いて言えば<span class="combined-hira">しいていえば</span></td><td class="meaning-cell">굳이 말하자면</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(27)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">굳이 말하자면</td></tr><tr><td class="num-cell">29</td><td class="kanji-cell">突き当たり</td><td class="hira-cell">つきあたり</td><td class="combined-cell">突き当たり<span class="combined-hira">つきあたり</span></td><td class="meaning-cell">막다른곳</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(28)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">막다른곳</td></tr><tr><td class="num-cell">30</td><td class="kanji-cell">見張り番</td><td class="hira-cell">みはりばん</td><td class="combined-cell">見張り番<span class="combined-hira">みはりばん</span></td><td class="meaning-cell">감시자</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(29)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">감시자</td></tr><tr><td class="num-cell">31</td><td class="kanji-cell">希釈</td><td class="hira-cell">きしゃく</td><td class="combined-cell">希釈<span class="combined-hira">きしゃく</span></td><td class="meaning-cell">희석</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(30)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">희석</td></tr><tr><td class="num-cell">32</td><td class="kanji-cell">収まる</td><td class="hira-cell">おさまる</td><td class="combined-cell">収まる<span class="combined-hira">おさまる</span></td><td class="meaning-cell">수습되다</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(31)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">수습되다</td></tr><tr><td class="num-cell">33</td><td class="kanji-cell">松葉杖</td><td class="hira-cell">まつばづえ</td><td class="combined-cell">松葉杖<span class="combined-hira">まつばづえ</span></td><td class="meaning-cell">목발, 지팡이</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(32)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">목발, 지팡이</td></tr><tr><td class="num-cell">34</td><td class="kanji-cell">臍繰り</td><td class="hira-cell">へそくり</td><td class="combined-cell">臍繰り<span class="combined-hira">へそくり</span></td><td class="meaning-cell">비상금</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(33)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">비상금</td></tr><tr><td class="num-cell">35</td><td class="kanji-cell">挿す</td><td class="hira-cell">さす</td><td class="combined-cell">挿す<span class="combined-hira">さす</span></td><td class="meaning-cell">꽂다, 삽입하다</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(34)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">꽂다, 삽입하다</td></tr><tr><td class="num-cell">36</td><td class="kanji-cell">知る人ぞ知る</td><td class="hira-cell">しるひとぞしる</td><td class="combined-cell">知る人ぞ知る<span class="combined-hira">しるひとぞしる</span></td><td class="meaning-cell">알만한사람은 안다</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(35)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">알만한사람은 안다</td></tr><tr><td class="num-cell">37</td><td class="kanji-cell">詰め替え</td><td class="hira-cell">つめかえ</td><td class="combined-cell">詰め替え<span class="combined-hira">つめかえ</span></td><td class="meaning-cell">리필</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(36)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">리필</td></tr><tr><td class="num-cell">38</td><td class="kanji-cell">手放す</td><td class="hira-cell">てばなす</td><td class="combined-cell">手放す<span class="combined-hira">てばなす</span></td><td class="meaning-cell">손을놓다</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(37)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">손을놓다</td></tr><tr><td class="num-cell">39</td><td class="kanji-cell">弾ける</td><td class="hira-cell">はじける</td><td class="combined-cell">弾ける<span class="combined-hira">はじける</span></td><td class="meaning-cell">터지다 세게튀다</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(38)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">터지다 세게튀다</td></tr><tr><td class="num-cell">40</td><td class="kanji-cell">寸前</td><td class="hira-cell">すんぜん</td><td class="combined-cell">寸前<span class="combined-hira">すんぜん</span></td><td class="meaning-cell">직전</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(39)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">직전</td></tr><tr><td class="num-cell">41</td><td class="kanji-cell"><span style="color:#ccc">—</span></td><td class="hira-cell">ビリ</td><td class="combined-cell"><span style="font-weight:700">ビリ</span></td><td class="meaning-cell">꼴찌</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(40)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">꼴찌</td></tr><tr><td class="num-cell">42</td><td class="kanji-cell">浸す</td><td class="hira-cell">ひたす</td><td class="combined-cell">浸す<span class="combined-hira">ひたす</span></td><td class="meaning-cell">담그다 적시다</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(41)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">담그다 적시다</td></tr><tr><td class="num-cell">43</td><td class="kanji-cell">お浸し</td><td class="hira-cell">おひたし</td><td class="combined-cell">お浸し<span class="combined-hira">おひたし</span></td><td class="meaning-cell">채소 살짝절임</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(42)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">채소 살짝절임</td></tr><tr><td class="num-cell">44</td><td class="kanji-cell">消耗戦</td><td class="hira-cell">しょうもうせん</td><td class="combined-cell">消耗戦<span class="combined-hira">しょうもうせん</span></td><td class="meaning-cell">소모전</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(43)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">소모전</td></tr><tr><td class="num-cell">45</td><td class="kanji-cell">没収</td><td class="hira-cell">ほっしゅう</td><td class="combined-cell">没収<span class="combined-hira">ほっしゅう</span></td><td class="meaning-cell">몰수</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(44)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">몰수</td></tr><tr><td class="num-cell">46</td><td class="kanji-cell">補い合う</td><td class="hira-cell">おぎないあう</td><td class="combined-cell">補い合う<span class="combined-hira">おぎないあう</span></td><td class="meaning-cell">서로 보완하다</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(45)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">서로 보완하다</td></tr><tr><td class="num-cell">47</td><td class="kanji-cell">畳む</td><td class="hira-cell">たたむ</td><td class="combined-cell">畳む<span class="combined-hira">たたむ</span></td><td class="meaning-cell">접다 개다 포개다</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(46)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">접다 개다 포개다</td></tr><tr><td class="num-cell">48</td><td class="kanji-cell">ほら吹き</td><td class="hira-cell">ほらふき</td><td class="combined-cell">ほら吹き<span class="combined-hira">ほらふき</span></td><td class="meaning-cell">허풍쟁이</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(47)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">허풍쟁이</td></tr><tr><td class="num-cell">49</td><td class="kanji-cell">楽譜</td><td class="hira-cell">がくふ</td><td class="combined-cell">楽譜<span class="combined-hira">がくふ</span></td><td class="meaning-cell">악보</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(48)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">악보</td></tr><tr><td class="num-cell">50</td><td class="kanji-cell">立てかける</td><td class="hira-cell">たてかける</td><td class="combined-cell">立てかける<span class="combined-hira">たてかける</span></td><td class="meaning-cell">기대세우다</td><td class="action-cell-main" rowspan="2"><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(49)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">기대세우다</td></tr></tbody>
   </table>
-  <div class="page-tabs-wrap" id="page-tabs-wrap" style="display:none">
-    <div class="page-tabs" id="page-tabs"></div>
+  <div class="page-tabs-wrap" id="page-tabs-wrap" style="display: block;">
+    <div class="page-tabs" id="page-tabs"><button class="page-tab active">1~50</button><button class="page-tab">51~60</button></div>
   </div>
 </div>
 
@@ -433,74 +442,346 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
   </div>
 </div>
 
+<!-- ===== GitHub 설정 모달 ===== -->
+<div class="modal-overlay" id="github-modal">
+  <div class="modal-box">
+    <div class="modal-title">GitHub 연동 설정</div>
+    <div class="form-row">
+      <label class="form-label">Personal Access Token</label>
+      <input class="form-input" id="gh-token" type="password" placeholder="ghp_xxxxxxxxxxxx">
+      <div style="font-size:11px;color:#aaa;margin-top:4px">GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → public_repo 권한 체크</div>
+    </div>
+    <div class="form-grid">
+      <div class="form-row">
+        <label class="form-label">사용자명</label>
+        <input class="form-input" id="gh-owner" placeholder="windnina">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Repository</label>
+        <input class="form-input" id="gh-repo" placeholder="grgr">
+      </div>
+    </div>
+    <div class="form-row">
+      <label class="form-label">파일 경로</label>
+      <input class="form-input" id="gh-path" placeholder="index.html">
+    </div>
+    <div class="modal-footer">
+      <button class="btn-save" onclick="saveGithubConfig()">저장</button>
+      <button class="btn-cancel" onclick="closeGithubModal()">취소</button>
+      <button class="btn-cancel" id="gh-disconnect" onclick="disconnectGithub()" style="display: inline-block; color: rgb(231, 76, 60); border-color: rgb(231, 76, 60);">연동 해제</button>
+    </div>
+    <div id="gh-status" style="margin-top:12px;font-size:13px;color:#888">✓ 저장됐어요. 다음 편집부터 자동 동기화돼요.</div>
+  </div>
+</div>
+
 <script>
 // =============================================
 // 기본 단어 데이터
 // =============================================
 const DEFAULT_VOCAB = /*[VOCAB_START]*/[
-  {k:'小銭',                    h:'じゃりせん',               r:'잔돈, 동전'},
-  {k:'勝ち気',                  h:'かちき',                   r:'기가센 지기싫어하는'},
-  {k:'お詫びの印',              h:'おわびのじるし',           r:'사죄의 뜻으로'},
-  {k:'シャバい',                h:'しゃばい',                 r:'촌스럽다, 노잼 (부정적 표현)'},
-  {k:'誇示',                    h:'こじ',                     r:'과시'},
-  {k:'粗大',                    h:'そだい',                   r:'조대 대형'},
-  {k:'真心を込めたおもてなし',  h:'まごころをこめたおもてなし', r:'마고코로 정성담긴 환대'},
-  {k:'盛ん',                    h:'さかん',                   r:'성함 기세가좋음 맹렬함'},
-  {k:'穀倉地帯',                h:'こくそうちたい',           r:'곡창지대'},
-  {k:'打ち切れる',              h:'ぶちきれる',               r:'갑자기 화를 폭발하다'},
-  {k:'',                        h:'ぞっとする',               r:'소름끼치다'},
-  {k:'躊躇',                    h:'ちゅうちょ',               r:'주저'},
-  {k:'容赦',                    h:'ようしゃ',                 r:'용서 자비'},
-  {k:'仕業',                    h:'しわざ',                   r:'짓 소행'},
-  {k:'ガチ勢',                  h:'がちぜい',                 r:'광팬'},
-  {k:'擦る',                    h:'こする',                   r:'문지르다'},
-  {k:'冒瀆',                    h:'ぼうとく',                 r:'모독'},
-  {k:'間際',                    h:'まぎわ',                   r:'직전 막하려는 찰나'},
-  {k:'根絶やし',                h:'ねだやし',                 r:'근절하다'},
-  {k:'譲歩',                    h:'じょうほ',                 r:'양보'},
-  {k:'嗜み',                    h:'たしなみ',                 r:'소양 조심성 마음가짐'},
-  {k:'戒め',                    h:'いましめ',                 r:'교훈 훈계 경계'},
-  {k:'敷地',                    h:'しきち',                   r:'부지'},
-  {k:'身代金',                  h:'みのしろきん',             r:'몸값'},
-  {k:'教わる',                  h:'おそわる',                 r:'배우다'},
-  {k:'駄賃',                    h:'だちん',                   r:'수고비 심부름값'},
-  {k:'湿気っている',            h:'しけっている',             r:'눅눅하다'},
-  {k:'強いて言えば',            h:'しいていえば',             r:'굳이 말하자면'},
-  {k:'突き当たり',              h:'つきあたり',               r:'막다른곳'},
-  {k:'見張り番',                h:'みはりばん',               r:'감시자'},
-  {k:'希釈',                    h:'きしゃく',                 r:'희석'},
-  {k:'収まる',                  h:'おさまる',                 r:'수습되다'},
-  {k:'松葉杖',                  h:'まつばづえ',               r:'목발, 지팡이'},
-  {k:'臍繰り',                  h:'へそくり',                 r:'비상금'},
-  {k:'挿す',                    h:'さす',                     r:'꽂다, 삽입하다'},
-  {k:'知る人ぞ知る',            h:'しるひとぞしる',           r:'알만한사람은 안다'},
-  {k:'詰め替え',                h:'つめかえ',                 r:'리필'},
-  {k:'手放す',                  h:'てばなす',                 r:'손을놓다'},
-  {k:'弾ける',                  h:'はじける',                 r:'터지다 세게튀다'},
-  {k:'寸前',                    h:'すんぜん',                 r:'직전'},
-  {k:'',                        h:'ビリ',                     r:'꼴찌'},
-  {k:'浸す',                    h:'ひたす',                   r:'담그다 적시다'},
-  {k:'お浸し',                  h:'おひたし',                 r:'채소 살짝절임'},
-  {k:'消耗戦',                  h:'しょうもうせん',           r:'소모전'},
-  {k:'没収',                    h:'ほっしゅう',               r:'몰수'},
-  {k:'補い合う',                h:'おぎないあう',             r:'서로 보완하다'},
-  {k:'畳む',                    h:'たたむ',                   r:'접다 개다 포개다'},
-  {k:'ほら吹き',                h:'ほらふき',                 r:'허풍쟁이'},
-  {k:'楽譜',                    h:'がくふ',                   r:'악보'},
-  {k:'立てかける',              h:'たてかける',               r:'기대세우다'},
-  {k:'集い',                    h:'つどい',                   r:'모임'},
-  {k:'上達',                    h:'じょうたつ',               r:'향상됨 실력기능'},
-  {k:'背筋',                    h:'せすじ',                   r:'등골'},
-  {k:'咳払い',                  h:'せきばらい',               r:'헛기침'},
-  {k:'素っぴん',                h:'すっぴん',                 r:'쌩얼'},
-  {k:'生憎',                    h:'あいにく',                 r:'공교롭게 상황이 여의치않아 유감'},
-  {k:'長引く',                  h:'ながびく',                 r:'오래끌다'},
-  {k:'肩書き',                  h:'かたがき',                 r:'직함'},
-  {k:'荷が重い',                h:'にがおもい',               r:'책임이 무겁다'},
-  {k:'遊歩道',                  h:'ゆうほどう',               r:'산책로'},
+  {
+    "k": "小銭",
+    "h": "じゃりせん",
+    "r": "잔돈, 동전"
+  },
+  {
+    "k": "勝ち気",
+    "h": "かちき",
+    "r": "기가센 지기싫어하는"
+  },
+  {
+    "k": "お詫びの印",
+    "h": "おわびのじるし",
+    "r": "사죄의 뜻으로"
+  },
+  {
+    "k": "シャバい",
+    "h": "しゃばい",
+    "r": "촌스럽다, 노잼 (부정적 표현)"
+  },
+  {
+    "k": "誇示",
+    "h": "こじ",
+    "r": "과시"
+  },
+  {
+    "k": "粗大",
+    "h": "そだい",
+    "r": "조대 대형"
+  },
+  {
+    "k": "真心を込めたおもてなし",
+    "h": "まごころをこめたおもてなし",
+    "r": "마고코로 정성담긴 환대"
+  },
+  {
+    "k": "盛ん",
+    "h": "さかん",
+    "r": "성함 기세가좋음 맹렬함"
+  },
+  {
+    "k": "穀倉地帯",
+    "h": "こくそうちたい",
+    "r": "곡창지대"
+  },
+  {
+    "k": "打ち切れる",
+    "h": "ぶちきれる",
+    "r": "갑자기 화를 폭발하다"
+  },
+  {
+    "k": "",
+    "h": "ぞっとする",
+    "r": "소름끼치다"
+  },
+  {
+    "k": "躊躇",
+    "h": "ちゅうちょ",
+    "r": "주저"
+  },
+  {
+    "k": "容赦",
+    "h": "ようしゃ",
+    "r": "용서 자비"
+  },
+  {
+    "k": "仕業",
+    "h": "しわざ",
+    "r": "짓 소행"
+  },
+  {
+    "k": "ガチ勢",
+    "h": "がちぜい",
+    "r": "광팬"
+  },
+  {
+    "k": "擦る",
+    "h": "こする",
+    "r": "문지르다"
+  },
+  {
+    "k": "冒瀆",
+    "h": "ぼうとく",
+    "r": "모독"
+  },
+  {
+    "k": "間際",
+    "h": "まぎわ",
+    "r": "직전 막하려는 찰나"
+  },
+  {
+    "k": "根絶やし",
+    "h": "ねだやし",
+    "r": "근절하다"
+  },
+  {
+    "k": "譲歩",
+    "h": "じょうほ",
+    "r": "양보"
+  },
+  {
+    "k": "嗜み",
+    "h": "たしなみ",
+    "r": "소양 조심성 마음가짐"
+  },
+  {
+    "k": "戒め",
+    "h": "いましめ",
+    "r": "교훈 훈계 경계"
+  },
+  {
+    "k": "敷地",
+    "h": "しきち",
+    "r": "부지"
+  },
+  {
+    "k": "身代金",
+    "h": "みのしろきん",
+    "r": "몸값"
+  },
+  {
+    "k": "教わる",
+    "h": "おそわる",
+    "r": "배우다"
+  },
+  {
+    "k": "駄賃",
+    "h": "だちん",
+    "r": "수고비 심부름값"
+  },
+  {
+    "k": "湿気っている",
+    "h": "しけっている",
+    "r": "눅눅하다"
+  },
+  {
+    "k": "強いて言えば",
+    "h": "しいていえば",
+    "r": "굳이 말하자면"
+  },
+  {
+    "k": "突き当たり",
+    "h": "つきあたり",
+    "r": "막다른곳"
+  },
+  {
+    "k": "見張り番",
+    "h": "みはりばん",
+    "r": "감시자"
+  },
+  {
+    "k": "希釈",
+    "h": "きしゃく",
+    "r": "희석"
+  },
+  {
+    "k": "収まる",
+    "h": "おさまる",
+    "r": "수습되다"
+  },
+  {
+    "k": "松葉杖",
+    "h": "まつばづえ",
+    "r": "목발, 지팡이"
+  },
+  {
+    "k": "臍繰り",
+    "h": "へそくり",
+    "r": "비상금"
+  },
+  {
+    "k": "挿す",
+    "h": "さす",
+    "r": "꽂다, 삽입하다"
+  },
+  {
+    "k": "知る人ぞ知る",
+    "h": "しるひとぞしる",
+    "r": "알만한사람은 안다"
+  },
+  {
+    "k": "詰め替え",
+    "h": "つめかえ",
+    "r": "리필"
+  },
+  {
+    "k": "手放す",
+    "h": "てばなす",
+    "r": "손을놓다"
+  },
+  {
+    "k": "弾ける",
+    "h": "はじける",
+    "r": "터지다 세게튀다"
+  },
+  {
+    "k": "寸前",
+    "h": "すんぜん",
+    "r": "직전"
+  },
+  {
+    "k": "",
+    "h": "ビリ",
+    "r": "꼴찌"
+  },
+  {
+    "k": "浸す",
+    "h": "ひたす",
+    "r": "담그다 적시다"
+  },
+  {
+    "k": "お浸し",
+    "h": "おひたし",
+    "r": "채소 살짝절임"
+  },
+  {
+    "k": "消耗戦",
+    "h": "しょうもうせん",
+    "r": "소모전"
+  },
+  {
+    "k": "没収",
+    "h": "ほっしゅう",
+    "r": "몰수"
+  },
+  {
+    "k": "補い合う",
+    "h": "おぎないあう",
+    "r": "서로 보완하다"
+  },
+  {
+    "k": "畳む",
+    "h": "たたむ",
+    "r": "접다 개다 포개다"
+  },
+  {
+    "k": "ほら吹き",
+    "h": "ほらふき",
+    "r": "허풍쟁이"
+  },
+  {
+    "k": "楽譜",
+    "h": "がくふ",
+    "r": "악보"
+  },
+  {
+    "k": "立てかける",
+    "h": "たてかける",
+    "r": "기대세우다"
+  },
+  {
+    "k": "集い",
+    "h": "つどい",
+    "r": "모임"
+  },
+  {
+    "k": "上達",
+    "h": "じょうたつ",
+    "r": "향상됨 실력기능"
+  },
+  {
+    "k": "背筋",
+    "h": "せすじ",
+    "r": "등골"
+  },
+  {
+    "k": "咳払い",
+    "h": "せきばらい",
+    "r": "헛기침"
+  },
+  {
+    "k": "素っぴん",
+    "h": "すっぴん",
+    "r": "쌩얼"
+  },
+  {
+    "k": "生憎",
+    "h": "あいにく",
+    "r": "공교롭게 상황이 여의치않아 유감"
+  },
+  {
+    "k": "長引く",
+    "h": "ながびく",
+    "r": "오래끌다"
+  },
+  {
+    "k": "肩書き",
+    "h": "かたがき",
+    "r": "직함"
+  },
+  {
+    "k": "荷が重い",
+    "h": "にがおもい",
+    "r": "책임이 무겁다"
+  },
+  {
+    "k": "遊歩道",
+    "h": "ゆうほどう",
+    "r": "산책로"
+  }
 ]/*[VOCAB_END]*/;
 
-const DEFAULT_MEMORIZED = /*[MEM_START]*/[]/*[MEM_END]*/;
+const DEFAULT_MEMORIZED = /*[MEM_START]*/[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]/*[MEM_END]*/;
 
 // =============================================
 // 상태
@@ -639,9 +920,124 @@ async function writeToFile() {
 }
 
 function afterEdit() {
-  saveData();        // localStorage (백업)
-  writeToFile();     // 파일에 자동 덮어쓰기 (연결된 경우)
+  saveData();
+  writeToFile();
+  writeToGitHub();
   buildVocabTable();
+}
+
+// =============================================
+// GitHub API 연동
+// =============================================
+let githubConfig = JSON.parse(localStorage.getItem('github_config') || 'null');
+
+function updateGithubBtn() {
+  const lbl = document.getElementById('dd-github-label');
+  const disc = document.getElementById('gh-disconnect');
+  const syncBtn = document.getElementById('gh-sync-btn');
+  if (githubConfig && githubConfig.token) {
+    if (lbl) lbl.textContent = 'GitHub 연동됨 ✓';
+    if (disc) disc.style.display = 'inline-block';
+    if (syncBtn) syncBtn.style.display = 'inline-block';
+  } else {
+    if (lbl) lbl.textContent = 'GitHub 연동';
+    if (disc) disc.style.display = 'none';
+    if (syncBtn) syncBtn.style.display = 'none';
+  }
+}
+
+function openGithubModal() {
+  const cfg = githubConfig || {};
+  document.getElementById('gh-token').value = cfg.token || '';
+  document.getElementById('gh-owner').value = cfg.owner || '';
+  document.getElementById('gh-repo').value  = cfg.repo  || '';
+  document.getElementById('gh-path').value  = cfg.path  || 'index.html';
+  document.getElementById('gh-status').textContent = '';
+  updateGithubBtn();
+  document.getElementById('github-modal').classList.add('open');
+}
+
+function closeGithubModal() {
+  document.getElementById('github-modal').classList.remove('open');
+}
+
+function saveGithubConfig() {
+  const token = document.getElementById('gh-token').value.trim();
+  const owner = document.getElementById('gh-owner').value.trim();
+  const repo  = document.getElementById('gh-repo').value.trim();
+  const path  = document.getElementById('gh-path').value.trim();
+  if (!token || !owner || !repo || !path) {
+    document.getElementById('gh-status').textContent = '모든 항목을 입력해주세요.';
+    return;
+  }
+  githubConfig = { token, owner, repo, path };
+  localStorage.setItem('github_config', JSON.stringify(githubConfig));
+  updateGithubBtn();
+  document.getElementById('gh-status').textContent = '✓ 저장됐어요. 다음 편집부터 자동 동기화돼요.';
+  setTimeout(closeGithubModal, 1500);
+}
+
+function disconnectGithub() {
+  githubConfig = null;
+  localStorage.removeItem('github_config');
+  updateGithubBtn();
+  document.getElementById('gh-status').textContent = '연동이 해제됐어요.';
+  setTimeout(closeGithubModal, 1200);
+}
+
+function buildUpdatedHTML() {
+  let html = document.documentElement.outerHTML;
+  html = html.replace(
+    /\/\*\[VOCAB_START\]\*\/[\s\S]*?\/\*\[VOCAB_END\]\*\//,
+    '/*[VOCAB_START]*/' + JSON.stringify(VOCAB, null, 2) + '/*[VOCAB_END]*/'
+  );
+  html = html.replace(
+    /\/\*\[MEM_START\]\*\/[\s\S]*?\/\*\[MEM_END\]\*\//,
+    '/*[MEM_START]*/' + JSON.stringify(memorized) + '/*[MEM_END]*/'
+  );
+  return html;
+}
+
+function htmlToBase64(html) {
+  const bytes = new TextEncoder().encode(html);
+  let binary = '';
+  const chunk = 8192;
+  for (let i = 0; i < bytes.length; i += chunk) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
+  }
+  return btoa(binary);
+}
+
+async function writeToGitHub() {
+  if (!githubConfig || !githubConfig.token) return;
+  const { token, owner, repo, path } = githubConfig;
+  const st = document.getElementById('save-status');
+  st.textContent = 'GitHub 동기화 중…'; st.className = 'save-status saving';
+  try {
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+    const headers = {
+      'Authorization': `token ${token}`,
+      'Accept': 'application/vnd.github.v3+json'
+    };
+    const getRes = await fetch(apiUrl, { headers });
+    if (!getRes.ok) throw new Error('SHA 조회 실패 (' + getRes.status + ')');
+    const { sha } = await getRes.json();
+
+    const content = htmlToBase64(buildUpdatedHTML());
+
+    const putRes = await fetch(apiUrl, {
+      method: 'PUT',
+      headers: { ...headers, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: '단어장 업데이트', content, sha })
+    });
+    if (!putRes.ok) throw new Error('업로드 실패 (' + putRes.status + ')');
+
+    st.textContent = '✓ GitHub 동기화 완료'; st.className = 'save-status';
+    setTimeout(() => { if (st.textContent.includes('동기화')) st.textContent = ''; }, 3000);
+  } catch(e) {
+    st.textContent = '동기화 실패: ' + e.message; st.className = 'save-status error';
+    console.error(e);
+  }
 }
 
 function exportData() {
@@ -774,7 +1170,7 @@ function buildVocabTable() {
     const v = VOCAB[vocabIdx];
     const mem = memorized[vocabIdx];
     const tr = document.createElement('tr');
-    if (mem) tr.classList.add('memorized');
+    if (v.imp) tr.classList.add('important');
 
     const displayNum = currentPage * PAGE_SIZE + rowIdx + 1;
 
@@ -811,7 +1207,7 @@ function buildVocabTable() {
 
     // 의미 행: num셀(구분선) + 뜻 (알아 버튼은 rowspan으로 메인 행에서 처리)
     const mr = document.createElement('tr');
-    mr.className = 'meaning-row' + (mem ? ' memorized' : '');
+    mr.className = 'meaning-row' + (v.imp ? ' important' : '');
     mr.innerHTML =
       '<td class="num-cell" style="border-bottom:1px solid #eee"></td>' +
       '<td colspan="4" class="meaning-mobile-cell">' + meaningMobile + '</td>';
@@ -1070,6 +1466,8 @@ function resetQuiz() {
 // =============================================
 initData();
 buildVocabTable();
+updateGithubBtn();
 </script>
-</body>
-</html>
+
+
+</body></html>
