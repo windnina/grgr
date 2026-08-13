@@ -1,6 +1,11 @@
 {
   "vocab": [
     {
+      "k": "ドッキリ",
+      "h": "",
+      "r": "몰카"
+    },
+    {
       "k": "隠蔽",
       "h": "いんぺい",
       "r": "은폐",
@@ -628,6 +633,7 @@
     false,
     false,
     false,
+    false,
     true,
     true,
     true,
@@ -689,5 +695,5 @@
     false,
     false
   ],
-  "savedAt": 1786629359676
+  "savedAt": 1786629399583
 }
