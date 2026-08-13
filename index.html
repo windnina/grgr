@@ -1008,11 +1008,22 @@ function htmlToBase64(html) {
   return btoa(binary);
 }
 
+let _ghSyncing = false;
+let _ghTimer = null;
 async function writeToGitHub() {
   if (!githubConfig || !githubConfig.token) return;
+  if (_ghSyncing) return;  // 중복 호출 방지
+  _ghSyncing = true;
   const { token, owner, repo, path } = githubConfig;
   const st = document.getElementById('save-status');
   st.textContent = 'GitHub 동기화 중…'; st.className = 'save-status saving';
+
+  // 15초 안에 안 끝나면 강제 초기화
+  const timeout = setTimeout(() => {
+    _ghSyncing = false;
+    st.textContent = '';
+  }, 15000);
+
   try {
     const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
     const headers = {
@@ -1036,7 +1047,11 @@ async function writeToGitHub() {
     setTimeout(() => { st.textContent = ''; }, 2000);
   } catch(e) {
     st.textContent = '동기화 실패: ' + e.message; st.className = 'save-status error';
+    setTimeout(() => { st.textContent = ''; }, 4000);
     console.error(e);
+  } finally {
+    clearTimeout(timeout);
+    _ghSyncing = false;
   }
 }
 
