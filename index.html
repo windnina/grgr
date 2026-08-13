@@ -75,10 +75,14 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
 .dd-divider { height: 1px; background: #eee; margin: 4px 0; }
 
 .save-status {
-  font-size: 12px; color: #27ae60; font-weight: 600; white-space: nowrap;
+  position: fixed; bottom: 72px; left: 50%; transform: translateX(-50%);
+  background: rgba(30,30,30,0.82); color: #fff; font-size: 13px; font-weight: 600;
+  padding: 7px 18px; border-radius: 20px; white-space: nowrap;
+  pointer-events: none; z-index: 999;
+  opacity: 0; transition: opacity 0.2s;
 }
-.save-status.saving { color: #aaa; }
-.save-status.error  { color: #e74c3c; }
+.save-status.visible { opacity: 1; }
+.save-status.error  { background: rgba(200,40,40,0.9); }
 
 /* ---- Page sub-tabs ---- */
 .page-tabs-wrap {
@@ -331,7 +335,6 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
       </div>
     </div>
     <div class="header-right">
-      <span class="save-status saving" id="save-status">GitHub 동기화 중…</span>
     </div>
   </div>
   <table class="vocab-table">
@@ -785,7 +788,7 @@ const DEFAULT_VOCAB = /*[VOCAB_START]*/[
 ]/*[VOCAB_END]*/;
 
 const DEFAULT_MEMORIZED = /*[MEM_START]*/[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]/*[MEM_END]*/;
-const DEFAULT_SAVED_AT = /*[SAVEDAT_START]*/1786602579017/*[SAVEDAT_END]*/;
+const DEFAULT_SAVED_AT = /*[SAVEDAT_START]*/1786603277034/*[SAVEDAT_END]*/;
 
 // =============================================
 // 상태
@@ -886,13 +889,27 @@ document.addEventListener('click', e => {
   if (wrap && !wrap.contains(e.target)) closeDropdown();
 });
 
+let _stTimer = null;
+function showStatus(msg, type, duration) {
+  const st = document.getElementById('save-status');
+  clearTimeout(_stTimer);
+  st.textContent = msg;
+  st.className = 'save-status visible' + (type ? ' ' + type : '');
+  if (duration !== 0) {
+    _stTimer = setTimeout(() => { st.classList.remove('visible'); }, duration || 2000);
+  }
+}
+function hideStatus() {
+  const st = document.getElementById('save-status');
+  clearTimeout(_stTimer);
+  st.classList.remove('visible');
+}
+
 function updateConnectBtn() {
   const item = document.getElementById('dd-connect');
-  const st   = document.getElementById('save-status');
   if (fileHandle) {
     item.innerHTML = '<span class="dd-icon">🔗</span> ' + fileHandle.name;
     item.classList.add('linked');
-    st.textContent = '';
   } else {
     item.innerHTML = '<span class="dd-icon">📂</span> 파일 연결';
     item.classList.remove('linked');
@@ -902,7 +919,7 @@ function updateConnectBtn() {
 async function writeToFile() {
   if (!fileHandle) return;
   const st = document.getElementById('save-status');
-  st.textContent = '저장 중…'; st.className = 'save-status saving';
+  showStatus('저장 중…', '', 0);
   try {
     let html = document.documentElement.outerHTML;
     html = html.replace(
@@ -916,10 +933,9 @@ async function writeToFile() {
     const writable = await fileHandle.createWritable();
     await writable.write(new Blob([html], { type: 'text/html; charset=utf-8' }));
     await writable.close();
-    st.textContent = '✓ 저장됨'; st.className = 'save-status';
-    setTimeout(() => { if (st.textContent === '✓ 저장됨') st.textContent = ''; }, 2000);
+    showStatus('✓ 저장됨', '', 2000);
   } catch(e) {
-    st.textContent = '저장 실패 — 재연결 필요'; st.className = 'save-status error';
+    showStatus('저장 실패 — 재연결 필요', 'error', 4000);
     fileHandle = null;
     updateConnectBtn();
     console.error(e);
@@ -1026,13 +1042,12 @@ async function writeToGitHub() {
   if (_ghSyncing) return;  // 중복 호출 방지
   _ghSyncing = true;
   const { token, owner, repo, path } = githubConfig;
-  const st = document.getElementById('save-status');
-  st.textContent = 'GitHub 동기화 중…'; st.className = 'save-status saving';
+  showStatus('GitHub 동기화 중…', '', 0);
 
   // 15초 안에 안 끝나면 강제 초기화
   const timeout = setTimeout(() => {
     _ghSyncing = false;
-    st.textContent = '';
+    hideStatus();
   }, 15000);
 
   try {
@@ -1054,11 +1069,9 @@ async function writeToGitHub() {
     });
     if (!putRes.ok) throw new Error('업로드 실패 (' + putRes.status + ')');
 
-    st.textContent = '✓ 완료'; st.className = 'save-status';
-    setTimeout(() => { st.textContent = ''; }, 2000);
+    showStatus('✓ 동기화 완료', '', 2000);
   } catch(e) {
-    st.textContent = '동기화 실패: ' + e.message; st.className = 'save-status error';
-    setTimeout(() => { st.textContent = ''; }, 8000);
+    showStatus('동기화 실패: ' + e.message, 'error', 8000);
     console.error(e);
   } finally {
     clearTimeout(timeout);
@@ -1248,6 +1261,7 @@ function buildVocabTable() {
 function toggleMemo(i) {
   memorized[i] = !memorized[i];
   saveData();
+  writeToGitHub();
   buildVocabTable();
 }
 
@@ -1538,6 +1552,7 @@ buildVocabTable();
 updateGithubBtn();
 pullFromGitHub();
 </script>
+<div class="save-status visible" id="save-status">GitHub 동기화 중…</div>
 
 
 </body></html>
