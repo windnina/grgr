@@ -1032,8 +1032,8 @@ async function writeToGitHub() {
     });
     if (!putRes.ok) throw new Error('업로드 실패 (' + putRes.status + ')');
 
-    st.textContent = '✓ GitHub 동기화 완료'; st.className = 'save-status';
-    setTimeout(() => { if (st.textContent.includes('동기화')) st.textContent = ''; }, 3000);
+    st.textContent = '✓ 완료'; st.className = 'save-status';
+    setTimeout(() => { st.textContent = ''; }, 2000);
   } catch(e) {
     st.textContent = '동기화 실패: ' + e.message; st.className = 'save-status error';
     console.error(e);
