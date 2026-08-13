@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "没収",
+      "h": "ぼっしゅう",
+      "r": "몰수",
+      "imp": true
+    },
+    {
       "k": "査定",
       "h": "さてい",
       "r": "조사나 심사하여 정함(집값)"
@@ -464,6 +470,7 @@
     false,
     false,
     false,
+    false,
     true,
     true,
     true,
@@ -525,5 +532,5 @@
     false,
     false
   ],
-  "savedAt": 1786625040439
+  "savedAt": 1786625135900
 }
