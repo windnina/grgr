@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>일본어 단어장</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; min-height: 100vh; }
+
+/* ---- Nav ---- */
+.tab-nav {
+  display: flex; background: #1a2535; padding: 0 20px; gap: 4px;
+  align-items: flex-end; position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+.tab-btn {
+  padding: 12px 24px; border: none; border-radius: 8px 8px 0 0;
+  cursor: pointer; font-size: 15px; font-weight: 600;
+  background: #2c3e50; color: #7a8fa3; transition: all 0.2s;
+}
+.tab-btn.active { background: #f0f2f5; color: #1a2535; }
+.tab-btn:hover:not(.active) { background: #3d5166; color: #ccd; }
+
+.tab-panel { display: none; padding: 16px 0; padding-bottom: 60px; }
+.tab-panel.active { display: block; }
+
+/* ---- Vocab header ---- */
+.vocab-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 0; flex-wrap: wrap; gap: 8px; padding: 10px 16px;
+  border-bottom: 1px solid #e8e8e8;
+}
+.header-left { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; flex: 1; }
+.header-right { display: flex; gap: 8px; align-items: center; }
+
+.filter-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+.filter-btn {
+  padding: 5px 14px; border: 1.5px solid #ddd; border-radius: 16px;
+  background: #fff; font-size: 13px; color: #555; cursor: pointer;
+  font-family: inherit; transition: all 0.2s; white-space: nowrap;
+}
+.filter-btn.active { background: #1a2535; color: #fff; border-color: #1a2535; }
+
+.btn-add {
+  padding: 7px 16px; background: #2980b9; color: #fff; border: none;
+  border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: 600; transition: background 0.2s;
+}
+.btn-add:hover { background: #1a6fa0; }
+
+/* ---- Settings dropdown ---- */
+.settings-wrap { position: relative; }
+.btn-settings {
+  padding: 6px 8px; background: transparent; color: #7a8fa3; border: none;
+  border-radius: 8px; cursor: pointer; font-size: 18px; line-height: 1;
+  transition: all 0.2s; display: flex; align-items: center;
+}
+.btn-settings:hover { color: #fff; }
+.btn-settings.open  { color: #fff; }
+
+.dropdown {
+  display: none; position: absolute; right: 0; top: calc(100% + 8px);
+  background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+  min-width: 200px; overflow: hidden; z-index: 200;
+}
+.dropdown.open { display: block; }
+
+.dd-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 16px; font-size: 14px; color: #333;
+  cursor: pointer; transition: background 0.15s; border: none;
+  background: none; width: 100%; text-align: left;
+}
+.dd-item:hover { background: #f5f5f5; }
+.dd-item .dd-icon { font-size: 16px; width: 22px; text-align: center; }
+.dd-item.linked { color: #1a6fa0; font-weight: 600; }
+.dd-divider { height: 1px; background: #eee; margin: 4px 0; }
+
+.save-status {
+  font-size: 12px; color: #27ae60; font-weight: 600; white-space: nowrap;
+}
+.save-status.saving { color: #aaa; }
+.save-status.error  { color: #e74c3c; }
+
+/* ---- Page sub-tabs ---- */
+.page-tabs-wrap {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  padding: 10px 16px; border-top: 1px solid #e0e0e0;
+  background: #fff; z-index: 50;
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+}
+.page-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.page-tab {
+  padding: 5px 14px; border-radius: 16px; border: 1.5px solid #ddd;
+  background: #fff; cursor: pointer; font-size: 13px; transition: all 0.2s;
+}
+.page-tab.active { background: #1a2535; color: #fff; border-color: #1a2535; }
+
+/* ---- Vocab table ---- */
+.vocab-table {
+  width: 100%; border-collapse: collapse;
+}
+.vocab-table th {
+  background: #f0f2f5; color: #888; padding: 8px 10px;
+  text-align: left; font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  border-bottom: 1px solid #e0e0e0;
+}
+.vocab-table td {
+  padding: 10px 8px; border-bottom: 1px solid #eee;
+  font-size: 16px; vertical-align: middle; background: #fff;
+}
+.vocab-table tr.memorized td { background: #f6fdf8; }
+/* 클릭시 main행 + 이어지는 meaning행 함께 하이라이트 */
+.vocab-table tbody tr:not(.meaning-row):active td { background: #f0f0f0; }
+.vocab-table tbody tr:not(.meaning-row):active + .meaning-row td { background: #f0f0f0; }
+.vocab-table tbody .meaning-row:active td { background: #f0f0f0; }
+.vocab-table tbody tr:has(+ .meaning-row:active) td { background: #f0f0f0; }
+
+.num-cell { color: #ccc; font-size: 10px; width: 20px; white-space: nowrap; padding-left: 12px !important; padding-right: 4px !important; }
+.kanji-cell { display: none; }
+.kanji-meaning { font-size: 12px; color: #aaa; margin-top: 2px; font-weight: 400; }
+.hira-cell { display: none; }
+.meaning-cell { display: none; }
+.action-cell { display: none; }
+.example-text { font-size: 13px; color: #999; font-style: italic; line-height: 1.5; }
+.combined-hira { font-size: 14px; font-weight: 400; color: #666; margin-left: 6px; }
+.action-cell-main {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: right;
+  padding-right: 12px !important;
+  white-space: nowrap;
+}
+
+.vocab-table tbody tr { cursor: pointer; }
+.mem-btn {
+  padding: 4px 10px; border: 1.5px solid #ccc; border-radius: 16px;
+  cursor: pointer; font-size: 12px; background: #fff; color: #888; transition: all 0.2s;
+}
+.mem-btn.on { background: #27ae60; border-color: #27ae60; color: #fff; }
+
+/* ---- Modal ---- */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  z-index: 1000; justify-content: center; align-items: center; padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: #fff; border-radius: 16px; padding: 28px 28px 24px;
+  width: 100%; max-width: 480px; box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+  max-height: 90vh; overflow-y: auto;
+}
+.modal-title { font-size: 18px; font-weight: 700; color: #1a2535; margin-bottom: 20px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-row { margin-bottom: 14px; }
+.form-label {
+  display: block; font-size: 11px; color: #888; font-weight: 700;
+  margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.form-input, .form-textarea {
+  width: 100%; padding: 9px 12px; border: 1.5px solid #ddd; border-radius: 8px;
+  font-size: 16px; font-family: inherit; transition: border-color 0.2s; color: #333;
+}
+.form-input:focus, .form-textarea:focus { outline: none; border-color: #2980b9; }
+.form-textarea { resize: vertical; min-height: 72px; }
+.modal-footer { display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; align-items: center; }
+.btn-save {
+  padding: 10px 24px; background: #1a2535; color: #fff; border: none;
+  border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;
+}
+.btn-save:hover { background: #2c3e50; }
+.btn-cancel {
+  padding: 10px 18px; background: #fff; color: #666;
+  border: 1.5px solid #ddd; border-radius: 8px; font-size: 14px; cursor: pointer;
+}
+.btn-delete {
+  padding: 10px 18px; background: #fff; color: #e74c3c; border: 1.5px solid #e74c3c;
+  border-radius: 8px; font-size: 14px; cursor: pointer; margin-left: auto;
+}
+
+/* ---- Quiz ---- */
+.quiz-container { max-width: 680px; margin: 0 auto; padding: 0 16px; }
+.quiz-start {
+  text-align: center; padding: 52px 24px; background: #fff;
+  border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.quiz-start h2 { font-size: 24px; color: #1a2535; margin-bottom: 10px; }
+.quiz-start p { color: #777; font-size: 14px; margin-bottom: 26px; line-height: 1.6; }
+.opt-label { font-size: 13px; color: #999; margin: 16px 0 8px; }
+.start-options { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.option-chip {
+  padding: 7px 16px; border: 2px solid #ddd; border-radius: 20px;
+  cursor: pointer; font-size: 13px; background: #fff; transition: all 0.2s;
+}
+.option-chip.selected { border-color: #1a2535; background: #1a2535; color: #fff; }
+.btn-primary {
+  margin-top: 22px; padding: 12px 36px; background: #1a2535; color: #fff;
+  border: none; border-radius: 28px; font-size: 15px; font-weight: 600; cursor: pointer;
+}
+.btn-primary:hover { background: #2c3e50; }
+.quiz-question { display: none; }
+.qprog-text { display: flex; justify-content: space-between; font-size: 12px; color: #999; margin-bottom: 6px; }
+.qprog-wrap { background: #e5e7eb; border-radius: 10px; height: 7px; margin-bottom: 18px; overflow: hidden; }
+.qprog-bar { height: 100%; background: #1a2535; border-radius: 10px; transition: width 0.3s; }
+.question-card {
+  background: #fff; border-radius: 16px; padding: 32px 28px;
+  text-align: center; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.q-kanji { font-size: 34px; font-weight: 700; color: #1a2535; margin-bottom: 8px; letter-spacing: 2px; }
+.q-hira { font-size: 17px; color: #999; min-height: 24px; }
+.q-prompt { margin-top: 16px; font-size: 13px; color: #ccc; }
+.choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.choice-btn {
+  padding: 14px 10px; background: #fff; border: 2px solid #e5e7eb;
+  border-radius: 12px; cursor: pointer; font-size: 14px; text-align: center;
+  transition: all 0.15s; color: #333; line-height: 1.4;
+}
+.choice-btn:hover:not(:disabled) { border-color: #1a2535; background: #f0f2f5; }
+.choice-btn.correct { background: #27ae60; border-color: #27ae60; color: #fff; }
+.choice-btn.wrong { background: #e74c3c; border-color: #e74c3c; color: #fff; }
+.choice-btn.reveal { background: #f0faf4; border-color: #27ae60; color: #27ae60; }
+.choice-btn:disabled { cursor: default; }
+.q-feedback { text-align: center; font-size: 14px; min-height: 22px; font-weight: 600; color: transparent; margin-bottom: 8px; }
+.q-feedback.ok { color: #27ae60; }
+.q-feedback.ng { color: #e74c3c; }
+.btn-next {
+  width: 100%; padding: 13px; background: #1a2535; color: #fff; border: none;
+  border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; display: none;
+}
+.btn-next:hover { background: #2c3e50; }
+.quiz-results { display: none; text-align: center; }
+.result-card { background: #fff; border-radius: 16px; padding: 44px 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 16px; }
+.result-score { font-size: 64px; font-weight: 800; color: #1a2535; line-height: 1; }
+.result-score small { font-size: 22px; color: #aaa; }
+.result-msg { font-size: 18px; margin: 14px 0 6px; }
+.result-sub { color: #888; font-size: 13px; }
+.result-breakdown { display: flex; gap: 14px; justify-content: center; margin: 20px 0; flex-wrap: wrap; }
+.result-stat { background: #f5f5f5; border-radius: 12px; padding: 12px 22px; text-align: center; }
+.result-stat .num { font-size: 26px; font-weight: 700; }
+.result-stat .lbl { font-size: 11px; color: #999; margin-top: 2px; }
+.result-stat.green .num { color: #27ae60; }
+.result-stat.red .num { color: #e74c3c; }
+.wrong-list { background: #fff; border-radius: 16px; padding: 20px 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 16px; text-align: left; }
+.wrong-list h3 { font-size: 14px; color: #e74c3c; margin-bottom: 14px; }
+.wrong-item { padding: 9px 0; border-bottom: 1px solid #f0f0f0; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.wrong-item:last-child { border-bottom: none; }
+.wrong-jp { font-size: 15px; font-weight: 600; color: #1a2535; min-width: 120px; }
+.wrong-hira { font-size: 12px; color: #bbb; min-width: 90px; }
+.wrong-kr { color: #27ae60; font-size: 13px; }
+.retry-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.btn-secondary { padding: 11px 26px; background: #fff; color: #1a2535; border: 2px solid #1a2535; border-radius: 28px; font-size: 14px; font-weight: 600; cursor: pointer; }
+
+/* ---- 단일 레이아웃 (모바일 통일) ---- */
+.combined-cell {
+  display: table-cell;
+  font-size: 18px; font-weight: 700; color: #1a2535;
+  vertical-align: middle;
+}
+
+/* 메인 행 하단선 제거 (meaning-row가 이어지므로) */
+.vocab-table tbody tr:not(.meaning-row) td { border-bottom: none; padding-bottom: 3px; }
+
+/* 한국어 뜻 줄바꿈 행 */
+.meaning-row { display: table-row; }
+.meaning-mobile-cell {
+  font-size: 15px; color: #333;
+  padding: 1px 10px 10px 8px !important;
+  border-bottom: 1px solid #eee; background: #fff;
+  line-height: 1.5;
+}
+.meaning-row.memorized .meaning-mobile-cell { background: #f6fdf8; }
+
+
+.mem-btn { font-size: 13px; padding: 5px 12px; }
+.filter-btn { font-size: 14px; padding: 6px 16px; }
+.btn-add { font-size: 14px; }
+.page-tab { font-size: 14px; padding: 6px 16px; }
+</style>
+</head>
+<body>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('vocab',this)">단어장</button>
+  <button class="tab-btn" onclick="switchTab('quiz',this)">시험</button>
+  <div style="flex:1"></div>
+  <div style="display:flex;align-items:center;gap:8px;padding:8px 0;">
+  <button class="btn-add" onclick="openAddModal()">추가</button>
+  <div class="settings-wrap" style="display:flex;align-items:center;">
+    <button class="btn-settings" id="btn-settings" onclick="toggleDropdown()">⚙</button>
+    <div class="dropdown" id="settings-dropdown">
+      <button class="dd-item" id="dd-connect" onclick="connectFile()">
+        <span class="dd-icon">📂</span> 파일 연결
+      </button>
+      <button class="dd-item" onclick="saveAsHTML(); closeDropdown()">
+        <span class="dd-icon">💾</span> 수동 저장
+      </button>
+      <div class="dd-divider"></div>
+      <button class="dd-item" onclick="exportData(); closeDropdown()">
+        <span class="dd-icon">⬇</span> JSON 백업
+      </button>
+      <label class="dd-item" style="cursor:pointer">
+        <span class="dd-icon">⬆</span> JSON 복원
+        <input type="file" accept=".json" onchange="importData(event)" style="display:none">
+      </label>
+    </div>
+  </div>
+  </div>
+</nav>
+
+<!-- ===== 단어장 탭 ===== -->
+<div id="tab-vocab" class="tab-panel active">
+  <div class="vocab-header">
+    <div class="header-left">
+      <div class="filter-btns" id="filter-btns">
+        <button class="filter-btn active" onclick="setFilter('all')">전체</button>
+        <button class="filter-btn" onclick="setFilter('memorized')">알고있음</button>
+        <button class="filter-btn" onclick="setFilter('not')">모르는 단어</button>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="save-status" id="save-status"></span>
+    </div>
+  </div>
+  <table class="vocab-table">
+
+    <tbody id="vocab-tbody"></tbody>
+  </table>
+  <div class="page-tabs-wrap" id="page-tabs-wrap" style="display:none">
+    <div class="page-tabs" id="page-tabs"></div>
+  </div>
+</div>
+
+<!-- ===== 시험 탭 ===== -->
+<div id="tab-quiz" class="tab-panel">
+  <div class="quiz-container">
+    <div id="quiz-start" class="quiz-start">
+      <h2>✏️ 단어 시험</h2>
+      <p>일본어를 보고 맞는 한국어 뜻을 고르세요.</p>
+      <div class="opt-label">문제 수</div>
+      <div class="start-options" id="count-options">
+        <div class="option-chip" data-val="10" onclick="selectCount(this)">10문제</div>
+        <div class="option-chip selected" data-val="20" onclick="selectCount(this)">20문제</div>
+        <div class="option-chip" data-val="30" onclick="selectCount(this)">30문제</div>
+        <div class="option-chip" data-val="9999" onclick="selectCount(this)">전체</div>
+      </div>
+      <div class="opt-label">범위</div>
+      <div class="start-options" id="scope-options">
+        <div class="option-chip selected" data-val="all" onclick="selectScope(this)">전체</div>
+        <div class="option-chip" data-val="not" onclick="selectScope(this)">모르는 단어만</div>
+      </div>
+      <button class="btn-primary" onclick="startQuiz()">시작하기</button>
+    </div>
+
+    <div id="quiz-question" class="quiz-question">
+      <div class="qprog-text">
+        <span id="qp-text">1 / 20</span>
+        <span id="qs-text">맞힌 수: 0</span>
+      </div>
+      <div class="qprog-wrap"><div class="qprog-bar" id="qp-bar" style="width:0%"></div></div>
+      <div class="question-card">
+        <div class="q-kanji" id="q-kanji"></div>
+        <div class="q-hira" id="q-hira"></div>
+        <div class="q-prompt">한국어 뜻은?</div>
+      </div>
+      <div class="q-feedback" id="q-feedback"></div>
+      <div class="choices-grid" id="q-choices"></div>
+      <button class="btn-next" id="btn-next" onclick="nextQuestion()">다음 문제 →</button>
+    </div>
+
+    <div id="quiz-results" class="quiz-results">
+      <div class="result-card">
+        <div class="result-score"><span id="r-score">0</span><small> / <span id="r-total">20</span></small></div>
+        <div class="result-msg" id="r-msg"></div>
+        <div class="result-sub" id="r-sub"></div>
+        <div class="result-breakdown">
+          <div class="result-stat green"><div class="num" id="r-correct">0</div><div class="lbl">정답</div></div>
+          <div class="result-stat red"><div class="num" id="r-wrong-n">0</div><div class="lbl">오답</div></div>
+        </div>
+      </div>
+      <div id="wrong-list-section" class="wrong-list" style="display:none">
+        <h3>❌ 틀린 단어 복습</h3>
+        <div id="wrong-list-body"></div>
+      </div>
+      <div class="retry-btns">
+        <button class="btn-secondary" onclick="resetQuiz()">처음으로</button>
+        <button class="btn-primary" onclick="startQuiz()">다시 시험보기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 단어 추가/수정 모달 ===== -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal-box">
+    <div class="modal-title" id="modal-title">단어 추가</div>
+    <div class="form-grid">
+      <div class="form-row">
+        <label class="form-label">한자표기</label>
+        <input class="form-input" id="modal-k" style="font-size:17px">
+      </div>
+      <div class="form-row">
+        <label class="form-label">히라가나</label>
+        <input class="form-input" id="modal-h">
+      </div>
+    </div>
+    <div class="form-row">
+      <label class="form-label">한국어 뜻 <span style="color:#e74c3c">*</span></label>
+      <input class="form-input" id="modal-r">
+    </div>
+    <div class="form-row">
+      <label class="form-label">한자뜻 (각 한자의 음·훈)</label>
+      <input class="form-input" id="modal-km">
+    </div>
+    <div class="form-row">
+      <label class="form-label">예문</label>
+      <textarea class="form-textarea" id="modal-ex"></textarea>
+    </div>
+    <div class="form-row" style="display:flex;align-items:center;gap:8px">
+      <input type="checkbox" id="modal-imp" style="width:16px;height:16px;cursor:pointer;accent-color:#e74c3c">
+      <label for="modal-imp" style="font-size:14px;color:#e74c3c;font-weight:600;cursor:pointer">중요 단어로 표시</label>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-save" onclick="saveModal()">저장</button>
+      <button class="btn-cancel" onclick="closeModal()">취소</button>
+      <button class="btn-delete" id="modal-delete-btn" onclick="confirmDelete()" style="display:none">삭제</button>
+    </div>
+    <div id="modal-confirm-delete" style="display:none;margin-top:12px;padding:12px;background:#fff0f0;border-radius:8px;text-align:center">
+      <div style="font-size:14px;color:#c0392b;margin-bottom:10px">정말 삭제할까요?</div>
+      <button onclick="deleteWord()" style="background:#e74c3c;color:#fff;border:none;border-radius:6px;padding:7px 18px;font-size:14px;cursor:pointer;margin-right:8px">삭제</button>
+      <button onclick="document.getElementById('modal-confirm-delete').style.display='none'" style="background:#aaa;color:#fff;border:none;border-radius:6px;padding:7px 18px;font-size:14px;cursor:pointer">취소</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// =============================================
+// 기본 단어 데이터
+// =============================================
+const DEFAULT_VOCAB = /*[VOCAB_START]*/[
+  {k:'小銭',                    h:'じゃりせん',               r:'잔돈, 동전'},
+  {k:'勝ち気',                  h:'かちき',                   r:'기가센 지기싫어하는'},
+  {k:'お詫びの印',              h:'おわびのじるし',           r:'사죄의 뜻으로'},
+  {k:'シャバい',                h:'しゃばい',                 r:'촌스럽다, 노잼 (부정적 표현)'},
+  {k:'誇示',                    h:'こじ',                     r:'과시'},
+  {k:'粗大',                    h:'そだい',                   r:'조대 대형'},
+  {k:'真心を込めたおもてなし',  h:'まごころをこめたおもてなし', r:'마고코로 정성담긴 환대'},
+  {k:'盛ん',                    h:'さかん',                   r:'성함 기세가좋음 맹렬함'},
+  {k:'穀倉地帯',                h:'こくそうちたい',           r:'곡창지대'},
+  {k:'打ち切れる',              h:'ぶちきれる',               r:'갑자기 화를 폭발하다'},
+  {k:'',                        h:'ぞっとする',               r:'소름끼치다'},
+  {k:'躊躇',                    h:'ちゅうちょ',               r:'주저'},
+  {k:'容赦',                    h:'ようしゃ',                 r:'용서 자비'},
+  {k:'仕業',                    h:'しわざ',                   r:'짓 소행'},
+  {k:'ガチ勢',                  h:'がちぜい',                 r:'광팬'},
+  {k:'擦る',                    h:'こする',                   r:'문지르다'},
+  {k:'冒瀆',                    h:'ぼうとく',                 r:'모독'},
+  {k:'間際',                    h:'まぎわ',                   r:'직전 막하려는 찰나'},
+  {k:'根絶やし',                h:'ねだやし',                 r:'근절하다'},
+  {k:'譲歩',                    h:'じょうほ',                 r:'양보'},
+  {k:'嗜み',                    h:'たしなみ',                 r:'소양 조심성 마음가짐'},
+  {k:'戒め',                    h:'いましめ',                 r:'교훈 훈계 경계'},
+  {k:'敷地',                    h:'しきち',                   r:'부지'},
+  {k:'身代金',                  h:'みのしろきん',             r:'몸값'},
+  {k:'教わる',                  h:'おそわる',                 r:'배우다'},
+  {k:'駄賃',                    h:'だちん',                   r:'수고비 심부름값'},
+  {k:'湿気っている',            h:'しけっている',             r:'눅눅하다'},
+  {k:'強いて言えば',            h:'しいていえば',             r:'굳이 말하자면'},
+  {k:'突き当たり',              h:'つきあたり',               r:'막다른곳'},
+  {k:'見張り番',                h:'みはりばん',               r:'감시자'},
+  {k:'希釈',                    h:'きしゃく',                 r:'희석'},
+  {k:'収まる',                  h:'おさまる',                 r:'수습되다'},
+  {k:'松葉杖',                  h:'まつばづえ',               r:'목발, 지팡이'},
+  {k:'臍繰り',                  h:'へそくり',                 r:'비상금'},
+  {k:'挿す',                    h:'さす',                     r:'꽂다, 삽입하다'},
+  {k:'知る人ぞ知る',            h:'しるひとぞしる',           r:'알만한사람은 안다'},
+  {k:'詰め替え',                h:'つめかえ',                 r:'리필'},
+  {k:'手放す',                  h:'てばなす',                 r:'손을놓다'},
+  {k:'弾ける',                  h:'はじける',                 r:'터지다 세게튀다'},
+  {k:'寸前',                    h:'すんぜん',                 r:'직전'},
+  {k:'',                        h:'ビリ',                     r:'꼴찌'},
+  {k:'浸す',                    h:'ひたす',                   r:'담그다 적시다'},
+  {k:'お浸し',                  h:'おひたし',                 r:'채소 살짝절임'},
+  {k:'消耗戦',                  h:'しょうもうせん',           r:'소모전'},
+  {k:'没収',                    h:'ほっしゅう',               r:'몰수'},
+  {k:'補い合う',                h:'おぎないあう',             r:'서로 보완하다'},
+  {k:'畳む',                    h:'たたむ',                   r:'접다 개다 포개다'},
+  {k:'ほら吹き',                h:'ほらふき',                 r:'허풍쟁이'},
+  {k:'楽譜',                    h:'がくふ',                   r:'악보'},
+  {k:'立てかける',              h:'たてかける',               r:'기대세우다'},
+  {k:'集い',                    h:'つどい',                   r:'모임'},
+  {k:'上達',                    h:'じょうたつ',               r:'향상됨 실력기능'},
+  {k:'背筋',                    h:'せすじ',                   r:'등골'},
+  {k:'咳払い',                  h:'せきばらい',               r:'헛기침'},
+  {k:'素っぴん',                h:'すっぴん',                 r:'쌩얼'},
+  {k:'生憎',                    h:'あいにく',                 r:'공교롭게 상황이 여의치않아 유감'},
+  {k:'長引く',                  h:'ながびく',                 r:'오래끌다'},
+  {k:'肩書き',                  h:'かたがき',                 r:'직함'},
+  {k:'荷が重い',                h:'にがおもい',               r:'책임이 무겁다'},
+  {k:'遊歩道',                  h:'ゆうほどう',               r:'산책로'},
+]/*[VOCAB_END]*/;
+
+const DEFAULT_MEMORIZED = /*[MEM_START]*/[]/*[MEM_END]*/;
+
+// =============================================
+// 상태
+// =============================================
+const STORAGE_KEY = 'jp_vocab_v1';
+const PAGE_SIZE = 50;
+
+let VOCAB = [];
+let memorized = [];
+let currentFilter = 'all';
+let currentPage = 0;
+let editIndex = -1;
+
+// 시험
+let quizCount = 20, quizScope = 'all';
+let quizItems = [], quizIdx = 0, quizScore = 0, quizWrong = [], answered = false;
+
+// =============================================
+// 저장 / 불러오기
+// =============================================
+function saveData() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ vocab: VOCAB, memorized }));
+  } catch(e) {
+    console.warn('localStorage 저장 실패:', e);
+  }
+}
+
+function initData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const d = JSON.parse(raw);
+      if (Array.isArray(d.vocab) && d.vocab.length > 0) {
+        VOCAB = d.vocab;
+        memorized = new Array(VOCAB.length).fill(false);
+        if (Array.isArray(d.memorized)) {
+          d.memorized.forEach((v, i) => { if (i < memorized.length) memorized[i] = !!v; });
+        }
+        return;
+      }
+    }
+  } catch(e) {}
+  // localStorage 없으면 HTML에 내장된 기본값 사용
+  VOCAB = DEFAULT_VOCAB.map(v => Object.assign({}, v));
+  memorized = new Array(VOCAB.length).fill(false);
+  if (Array.isArray(DEFAULT_MEMORIZED) && DEFAULT_MEMORIZED.length === VOCAB.length) {
+    DEFAULT_MEMORIZED.forEach((v, i) => { memorized[i] = !!v; });
+  }
+}
+
+// =============================================
+// 파일 자동저장 (File System Access API — Chrome/Edge)
+// =============================================
+let fileHandle = null;
+const canAutoSave = typeof window.showOpenFilePicker === 'function';
+
+async function connectFile() {
+  if (!canAutoSave) {
+    alert('자동 저장은 Chrome 또는 Edge 브라우저에서만 지원돼요.\n💾 수동저장 버튼을 사용해 주세요.');
+    return;
+  }
+  try {
+    const [handle] = await window.showOpenFilePicker({
+      types: [{ description: 'HTML 파일', accept: { 'text/html': ['.html'] } }],
+      multiple: false
+    });
+    // 쓰기 권한 확인
+    const perm = await handle.requestPermission({ mode: 'readwrite' });
+    if (perm !== 'granted') { alert('파일 쓰기 권한이 필요해요.'); return; }
+
+    fileHandle = handle;
+    updateConnectBtn();
+    closeDropdown();
+    await writeToFile();
+  } catch(e) {
+    if (e.name !== 'AbortError') console.error(e);
+  }
+}
+
+function toggleDropdown() {
+  const btn = document.getElementById('btn-settings');
+  const dd  = document.getElementById('settings-dropdown');
+  const open = dd.classList.toggle('open');
+  btn.classList.toggle('open', open);
+}
+
+function closeDropdown() {
+  document.getElementById('settings-dropdown').classList.remove('open');
+  document.getElementById('btn-settings').classList.remove('open');
+}
+
+document.addEventListener('click', e => {
+  const wrap = document.querySelector('.settings-wrap');
+  if (wrap && !wrap.contains(e.target)) closeDropdown();
+});
+
+function updateConnectBtn() {
+  const item = document.getElementById('dd-connect');
+  const st   = document.getElementById('save-status');
+  if (fileHandle) {
+    item.innerHTML = '<span class="dd-icon">🔗</span> ' + fileHandle.name;
+    item.classList.add('linked');
+    st.textContent = '';
+  } else {
+    item.innerHTML = '<span class="dd-icon">📂</span> 파일 연결';
+    item.classList.remove('linked');
+  }
+}
+
+async function writeToFile() {
+  if (!fileHandle) return;
+  const st = document.getElementById('save-status');
+  st.textContent = '저장 중…'; st.className = 'save-status saving';
+  try {
+    let html = document.documentElement.outerHTML;
+    html = html.replace(
+      /\/\*\[VOCAB_START\]\*\/[\s\S]*?\/\*\[VOCAB_END\]\*\//,
+      '/*[VOCAB_START]*/' + JSON.stringify(VOCAB, null, 2) + '/*[VOCAB_END]*/'
+    );
+    html = html.replace(
+      /\/\*\[MEM_START\]\*\/[\s\S]*?\/\*\[MEM_END\]\*\//,
+      '/*[MEM_START]*/' + JSON.stringify(memorized) + '/*[MEM_END]*/'
+    );
+    const writable = await fileHandle.createWritable();
+    await writable.write(new Blob([html], { type: 'text/html; charset=utf-8' }));
+    await writable.close();
+    st.textContent = '✓ 저장됨'; st.className = 'save-status';
+    setTimeout(() => { if (st.textContent === '✓ 저장됨') st.textContent = ''; }, 2000);
+  } catch(e) {
+    st.textContent = '저장 실패 — 재연결 필요'; st.className = 'save-status error';
+    fileHandle = null;
+    updateConnectBtn();
+    console.error(e);
+  }
+}
+
+function afterEdit() {
+  saveData();        // localStorage (백업)
+  writeToFile();     // 파일에 자동 덮어쓰기 (연결된 경우)
+  buildVocabTable();
+}
+
+function exportData() {
+  const json = JSON.stringify({ vocab: VOCAB, memorized }, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '일본어단어장_백업.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function saveAsHTML() {
+  let html = document.documentElement.outerHTML;
+
+  // 현재 VOCAB 데이터를 HTML 안에 치환
+  const vocabJSON = JSON.stringify(VOCAB, null, 2);
+  html = html.replace(
+    /\/\*\[VOCAB_START\]\*\/[\s\S]*?\/\*\[VOCAB_END\]\*\//,
+    '/*[VOCAB_START]*/' + vocabJSON + '/*[VOCAB_END]*/'
+  );
+
+  // 현재 memorized 상태도 치환
+  const memJSON = JSON.stringify(memorized);
+  html = html.replace(
+    /\/\*\[MEM_START\]\*\/[\s\S]*?\/\*\[MEM_END\]\*\//,
+    '/*[MEM_START]*/' + memJSON + '/*[MEM_END]*/'
+  );
+
+  const blob = new Blob([html], { type: 'text/html; charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = '일본어단어장.html';
+  a.click();
+  URL.revokeObjectURL(url);
+  alert('저장됐어요! 다운받은 파일로 기존 파일을 덮어쓰세요.');
+}
+
+function importData(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const d = JSON.parse(ev.target.result);
+      if (!Array.isArray(d.vocab)) throw new Error('invalid');
+      VOCAB = d.vocab;
+      memorized = new Array(VOCAB.length).fill(false);
+      if (Array.isArray(d.memorized)) {
+        d.memorized.forEach((v, i) => { if (i < memorized.length) memorized[i] = !!v; });
+      }
+      saveData();
+      currentPage = 0;
+      buildVocabTable();
+      alert(VOCAB.length + '개 단어를 불러왔어요.');
+    } catch(err) {
+      alert('파일을 읽을 수 없어요. 이 앱에서 내보낸 JSON 파일인지 확인해 주세요.');
+    }
+    e.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
+// =============================================
+// 탭 전환
+// =============================================
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  btn.classList.add('active');
+}
+
+// =============================================
+// 단어장 테이블
+// =============================================
+function esc(s) {
+  return String(s || '')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function getFilteredIndices() {
+  return VOCAB.map((_, i) => i).filter(i => {
+    if (currentFilter === 'memorized') return memorized[i];
+    if (currentFilter === 'not')       return !memorized[i];
+    return true;
+  });
+}
+
+function buildPageTabs(filteredIndices) {
+  const pages = Math.ceil(filteredIndices.length / PAGE_SIZE);
+  const wrap = document.getElementById('page-tabs-wrap');
+  const container = document.getElementById('page-tabs');
+  container.innerHTML = '';
+  if (pages <= 1) { wrap.style.display = 'none'; return; }
+  wrap.style.display = 'block';
+  for (let p = 0; p < pages; p++) {
+    const s = p * PAGE_SIZE + 1;
+    const e = Math.min((p + 1) * PAGE_SIZE, filteredIndices.length);
+    const btn = document.createElement('button');
+    btn.className = 'page-tab' + (p === currentPage ? ' active' : '');
+    btn.textContent = s + '~' + e;
+    btn.onclick = (pg => () => { currentPage = pg; buildVocabTable(); })(p);
+    container.appendChild(btn);
+  }
+}
+
+function buildVocabTable() {
+  const filtered = getFilteredIndices();
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  if (currentPage >= totalPages) currentPage = 0;
+
+  buildPageTabs(filtered);
+
+  const pageItems = filtered.slice(currentPage * PAGE_SIZE, (currentPage + 1) * PAGE_SIZE);
+  const tbody = document.getElementById('vocab-tbody');
+  tbody.innerHTML = '';
+
+  if (pageItems.length === 0) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td colspan="5" style="text-align:center;color:#aaa;padding:32px">표시할 단어가 없어요.</td>';
+    tbody.appendChild(tr);
+    updateStats();
+    return;
+  }
+
+  pageItems.forEach((vocabIdx, rowIdx) => {
+    const v = VOCAB[vocabIdx];
+    const mem = memorized[vocabIdx];
+    const tr = document.createElement('tr');
+    if (mem) tr.classList.add('memorized');
+
+    const displayNum = currentPage * PAGE_SIZE + rowIdx + 1;
+
+    const kanjiDisplay = v.k
+      ? esc(v.k) + (v.km ? '<div class="kanji-meaning">' + esc(v.km) + '</div>' : '')
+      : '<span style="color:#ccc">—</span>';
+
+    const hiraDisplay = v.h || '<span style="color:#ddd">—</span>';
+
+    const meaningDisplay = (v.imp ? '📌 ' : '') + esc(v.r) +
+      (v.ex ? '<div class="example-text">' + esc(v.ex) + '</div>' : '');
+
+    // 모바일용 합친 셀: 한자 없으면 히라가나만, 있으면 한자 + 히라가나(한자뜻) 나란히
+    const combinedDisplay = v.k
+      ? esc(v.k) +
+        '<span class="combined-hira">' + (v.h ? esc(v.h) : '') +
+        (v.km ? ' (' + esc(v.km) + ')' : '') + '</span>'
+      : '<span style="font-weight:700">' + esc(v.h) + '</span>';
+
+    // 모바일 뜻: 예문 인라인
+    const meaningMobile = (v.imp ? '📌 ' : '') + esc(v.r) +
+      (v.ex ? '<span style="color:#bbb;margin-left:6px;font-size:13px">' + esc(v.ex) + '</span>' : '');
+
+    const memBtn = '<button class="mem-btn' + (mem ? ' on' : '') + '" onclick="event.stopPropagation();toggleMemo(' + vocabIdx + ')">알아</button>';
+    tr.innerHTML =
+      '<td class="num-cell">' + displayNum + '</td>' +
+      '<td class="kanji-cell">' + kanjiDisplay + '</td>' +
+      '<td class="hira-cell">' + hiraDisplay + '</td>' +
+      '<td class="combined-cell">' + combinedDisplay + '</td>' +
+      '<td class="meaning-cell">' + meaningDisplay + '</td>' +
+      '<td class="action-cell-main" rowspan="2">' + memBtn + '</td>';
+    tr.onclick = () => openEditModal(vocabIdx);
+    tbody.appendChild(tr);
+
+    // 의미 행: num셀(구분선) + 뜻 (알아 버튼은 rowspan으로 메인 행에서 처리)
+    const mr = document.createElement('tr');
+    mr.className = 'meaning-row' + (mem ? ' memorized' : '');
+    mr.innerHTML =
+      '<td class="num-cell" style="border-bottom:1px solid #eee"></td>' +
+      '<td colspan="4" class="meaning-mobile-cell">' + meaningMobile + '</td>';
+    mr.onclick = () => openEditModal(vocabIdx);
+    tbody.appendChild(mr);
+  });
+
+  updateStats();
+}
+
+function toggleMemo(i) {
+  memorized[i] = !memorized[i];
+  saveData();
+  buildVocabTable();
+}
+
+function updateStats() {
+  const cnt = memorized.filter(Boolean).length;
+  document.getElementById('memo-stats').textContent = '알고있음: ' + cnt + ' / ' + VOCAB.length;
+}
+
+function setFilter(f) {
+  currentFilter = f;
+  currentPage = 0;
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent === {all:'전체', memorized:'알고있음', not:'모르는 단어'}[f]);
+  });
+  buildVocabTable();
+}
+
+// =============================================
+// 모달 (추가 / 수정)
+// =============================================
+function openAddModal() {
+  editIndex = -1;
+  document.getElementById('modal-title').textContent = '단어 추가';
+  ['modal-k','modal-h','modal-r','modal-km','modal-ex'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('modal-imp').checked = false;
+  document.getElementById('modal-delete-btn').style.display = 'none';
+  document.getElementById('edit-modal').classList.add('open');
+  setTimeout(() => document.getElementById('modal-k').focus(), 50);
+}
+
+function openEditModal(i) {
+  editIndex = i;
+  const v = VOCAB[i];
+  document.getElementById('modal-title').textContent = '단어 수정';
+  document.getElementById('modal-k').value   = v.k   || '';
+  document.getElementById('modal-h').value   = v.h   || '';
+  document.getElementById('modal-r').value   = v.r   || '';
+  document.getElementById('modal-km').value  = v.km  || '';
+  document.getElementById('modal-ex').value  = v.ex  || '';
+  document.getElementById('modal-imp').checked = !!v.imp;
+  document.getElementById('modal-delete-btn').style.display = 'inline-block';
+  document.getElementById('edit-modal').classList.add('open');
+  setTimeout(() => document.getElementById('modal-r').focus(), 50);
+}
+
+function closeModal() {
+  document.getElementById('edit-modal').classList.remove('open');
+  document.getElementById('modal-confirm-delete').style.display = 'none';
+}
+
+function saveModal() {
+  const k  = document.getElementById('modal-k').value.trim();
+  const h  = document.getElementById('modal-h').value.trim();
+  const r  = document.getElementById('modal-r').value.trim();
+  const km  = document.getElementById('modal-km').value.trim();
+  const ex  = document.getElementById('modal-ex').value.trim();
+  const imp = document.getElementById('modal-imp').checked;
+
+  if (!k && !h) { alert('한자 또는 히라가나 중 하나는 필수입니다.'); return; }
+  if (!r)       { alert('한국어 뜻은 필수입니다.'); return; }
+
+  const word = { k, h, r };
+  if (km)  word.km  = km;
+  if (ex)  word.ex  = ex;
+  if (imp) word.imp = true;
+
+  if (editIndex === -1) {
+    VOCAB.unshift(word);
+    memorized.unshift(false);
+    // 첫 페이지로 이동 (새 단어가 맨 앞에 추가됨)
+    currentPage = 0;
+  } else {
+    VOCAB[editIndex] = word;
+  }
+
+  closeModal();
+  afterEdit();
+}
+
+function confirmDelete() {
+  document.getElementById('modal-confirm-delete').style.display = 'block';
+}
+
+function deleteWord() {
+  if (editIndex === -1) return;
+  VOCAB.splice(editIndex, 1);
+  memorized.splice(editIndex, 1);
+  const maxPage = Math.max(0, Math.ceil(VOCAB.length / PAGE_SIZE) - 1);
+  if (currentPage > maxPage) currentPage = maxPage;
+  closeModal();
+  afterEdit();
+}
+
+
+// =============================================
+// 시험
+// =============================================
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function selectCount(el) {
+  document.querySelectorAll('#count-options .option-chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  quizCount = parseInt(el.dataset.val);
+}
+
+function selectScope(el) {
+  document.querySelectorAll('#scope-options .option-chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  quizScope = el.dataset.val;
+}
+
+function startQuiz() {
+  let pool = VOCAB.map((v, i) => ({ ...v, _i: i }));
+  if (quizScope === 'not') {
+    pool = pool.filter((_, i) => !memorized[i]);
+    if (pool.length < 4) {
+      alert('모르는 단어가 너무 적어요 (최소 4개). 전체 단어로 시험볼게요.');
+      pool = VOCAB.map((v, i) => ({ ...v, _i: i }));
+    }
+  }
+  if (pool.length === 0) { alert('단어가 없어요.'); return; }
+
+  const n = Math.min(quizCount, pool.length);
+  quizItems = shuffle(pool).slice(0, n);
+  quizIdx = 0; quizScore = 0; quizWrong = []; answered = false;
+
+  document.getElementById('quiz-start').style.display    = 'none';
+  document.getElementById('quiz-results').style.display  = 'none';
+  document.getElementById('quiz-question').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  if (quizIdx >= quizItems.length) { showResults(); return; }
+  answered = false;
+  const item  = quizItems[quizIdx];
+  const total = quizItems.length;
+
+  document.getElementById('qp-text').textContent = (quizIdx + 1) + ' / ' + total;
+  document.getElementById('qs-text').textContent = '맞힌 수: ' + quizScore;
+  document.getElementById('qp-bar').style.width  = (quizIdx / total * 100) + '%';
+  document.getElementById('q-kanji').textContent = item.k || item.h;
+  document.getElementById('q-hira').textContent  = item.k ? (item.h || '') : '';
+
+  const correct = item.r;
+  const others  = shuffle(VOCAB.filter(v => v.r !== correct).map(v => v.r)).slice(0, 3);
+  const choices = shuffle([correct, ...others]);
+
+  const fb = document.getElementById('q-feedback');
+  fb.textContent = ''; fb.className = 'q-feedback';
+  const grid = document.getElementById('q-choices');
+  grid.innerHTML = '';
+  choices.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = c;
+    btn.onclick = () => selectAnswer(btn, c, correct, grid);
+    grid.appendChild(btn);
+  });
+  document.getElementById('btn-next').style.display = 'none';
+}
+
+function selectAnswer(btn, chosen, correct, grid) {
+  if (answered) return;
+  answered = true;
+  grid.querySelectorAll('.choice-btn').forEach(b => {
+    b.disabled = true;
+    if (b.textContent === correct)
+      b.classList.add(chosen === correct ? 'correct' : 'reveal');
+  });
+  const fb = document.getElementById('q-feedback');
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    fb.textContent = '✓ 정답!'; fb.className = 'q-feedback ok';
+    quizScore++;
+    document.getElementById('qs-text').textContent = '맞힌 수: ' + quizScore;
+    setTimeout(() => { quizIdx++; renderQuestion(); }, 600);
+  } else {
+    btn.classList.add('wrong');
+    fb.textContent = '✗ 오답! 정답: ' + correct; fb.className = 'q-feedback ng';
+    quizWrong.push(quizItems[quizIdx]);
+    document.getElementById('qs-text').textContent = '맞힌 수: ' + quizScore;
+    const nb = document.getElementById('btn-next');
+    nb.style.display = 'block';
+    nb.textContent = quizIdx + 1 < quizItems.length ? '다음 문제 →' : '결과 보기 →';
+  }
+}
+
+function nextQuestion() { quizIdx++; renderQuestion(); }
+
+function showResults() {
+  document.getElementById('quiz-question').style.display = 'none';
+  document.getElementById('quiz-results').style.display  = 'block';
+  const total = quizItems.length;
+  const pct   = Math.round(quizScore / total * 100);
+  document.getElementById('r-score').textContent    = quizScore;
+  document.getElementById('r-total').textContent    = total;
+  document.getElementById('r-correct').textContent  = quizScore;
+  document.getElementById('r-wrong-n').textContent  = total - quizScore;
+  const [msg, sub] = pct === 100 ? ['🎉 완벽!',            '모두 맞혔어요!'] :
+                     pct >= 80  ? ['👏 잘했어요!',          '조금만 더 복습하면 완벽해요.'] :
+                     pct >= 60  ? ['📚 조금 더 필요해요',   '틀린 단어를 복습해 보세요.'] :
+                                  ['💪 다시 도전해봐요!',   '단어를 더 외운 뒤 다시 시험을 봐요.'];
+  document.getElementById('r-msg').textContent = msg;
+  document.getElementById('r-sub').textContent = sub;
+
+  const sec  = document.getElementById('wrong-list-section');
+  const body = document.getElementById('wrong-list-body');
+  if (quizWrong.length > 0) {
+    sec.style.display = 'block';
+    body.innerHTML = '';
+    quizWrong.forEach(v => {
+      const d = document.createElement('div');
+      d.className = 'wrong-item';
+      d.innerHTML =
+        '<span class="wrong-jp">'   + esc(v.k || v.h)         + '</span>' +
+        '<span class="wrong-hira">' + esc(v.k ? (v.h||'') : '') + '</span>' +
+        '<span class="wrong-kr">→ ' + esc(v.r)                + '</span>';
+      body.appendChild(d);
+    });
+  } else {
+    sec.style.display = 'none';
+  }
+}
+
+function resetQuiz() {
+  document.getElementById('quiz-results').style.display  = 'none';
+  document.getElementById('quiz-question').style.display = 'none';
+  document.getElementById('quiz-start').style.display    = 'block';
+}
+
+// =============================================
+// 초기화
+// =============================================
+initData();
+buildVocabTable();
+</script>
+</body>
+</html>
