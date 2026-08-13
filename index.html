@@ -408,7 +408,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
 <!-- ===== 단어 추가/수정 모달 ===== -->
 <div class="modal-overlay" id="edit-modal">
   <div class="modal-box">
-    <div class="modal-title" id="modal-title">단어 추가</div>
+    <div class="modal-title" id="modal-title">단어 수정</div>
     <div class="form-grid">
       <div class="form-row">
         <label class="form-label">한자표기</label>
@@ -438,7 +438,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
     <div class="modal-footer">
       <button class="btn-save" onclick="saveModal()">저장</button>
       <button class="btn-cancel" onclick="closeModal()">취소</button>
-      <button class="btn-delete" id="modal-delete-btn" onclick="confirmDelete()" style="display:none">삭제</button>
+      <button class="btn-delete" id="modal-delete-btn" onclick="confirmDelete()" style="display: inline-block;">삭제</button>
     </div>
     <div id="modal-confirm-delete" style="display:none;margin-top:12px;padding:12px;background:#fff0f0;border-radius:8px;text-align:center">
       <div style="font-size:14px;color:#c0392b;margin-bottom:10px">정말 삭제할까요?</div>
@@ -788,7 +788,7 @@ const DEFAULT_VOCAB = /*[VOCAB_START]*/[
 ]/*[VOCAB_END]*/;
 
 const DEFAULT_MEMORIZED = /*[MEM_START]*/[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]/*[MEM_END]*/;
-const DEFAULT_SAVED_AT = /*[SAVEDAT_START]*/1786603784137/*[SAVEDAT_END]*/;
+const DEFAULT_SAVED_AT = /*[SAVEDAT_START]*/1786603790787/*[SAVEDAT_END]*/;
 
 // =============================================
 // 상태
