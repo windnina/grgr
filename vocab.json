@@ -1,6 +1,11 @@
 {
   "vocab": [
     {
+      "k": "おむつ",
+      "h": "",
+      "r": "기저귀"
+    },
+    {
       "k": "嫉妬",
       "h": "しっと",
       "r": "질투",
@@ -608,6 +613,7 @@
     false,
     false,
     false,
+    false,
     true,
     true,
     true,
@@ -669,5 +675,5 @@
     false,
     false
   ],
-  "savedAt": 1786629229783
+  "savedAt": 1786629287927
 }
