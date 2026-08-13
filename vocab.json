@@ -1,11 +1,6 @@
 {
   "vocab": [
     {
-      "k": "ㅗ온",
-      "h": "",
-      "r": "ㅓ엍"
-    },
-    {
       "k": "小銭",
       "h": "じゃりせん",
       "r": "잔돈, 동전"
@@ -309,7 +304,6 @@
   "memorized": [
     true,
     true,
-    true,
     false,
     false,
     false,
@@ -369,5 +363,5 @@
     false,
     false
   ],
-  "savedAt": 1786607991790
+  "savedAt": 1786607994956
 }
