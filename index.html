@@ -301,8 +301,11 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
       <button class="dd-item" id="dd-github" onclick="openGithubModal(); closeDropdown()">
         <span class="dd-icon">🔗</span> <span id="dd-github-label">GitHub 연동됨 ✓</span>
       </button>
-      <button class="dd-item" id="dd-gh-sync" onclick="closeDropdown(); writeToGitHub()" style="display: block;">
-        <span class="dd-icon">↑</span> 지금 GitHub 동기화
+      <button class="dd-item" id="dd-gh-sync" onclick="closeDropdown(); syncHtmlToGitHub()" style="display: block;">
+        <span class="dd-icon">↑</span> UI를 GitHub에 업로드
+      </button>
+      <button class="dd-item" id="dd-vocab-sync" onclick="closeDropdown(); writeToGitHub()" style="display: block;">
+        <span class="dd-icon">💾</span> 단어 전체 저장 (vocab.json)
       </button>
       <button class="dd-item" id="dd-connect" onclick="connectFile()">
         <span class="dd-icon">📂</span> 파일 연결
@@ -788,7 +791,7 @@ const DEFAULT_VOCAB = /*[VOCAB_START]*/[
 ]/*[VOCAB_END]*/;
 
 const DEFAULT_MEMORIZED = /*[MEM_START]*/[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]/*[MEM_END]*/;
-const DEFAULT_SAVED_AT = /*[SAVEDAT_START]*/1786603277034/*[SAVEDAT_END]*/;
+const DEFAULT_SAVED_AT = /*[SAVEDAT_START]*/1786603754481/*[SAVEDAT_END]*/;
 
 // =============================================
 // 상태
@@ -958,14 +961,17 @@ function updateGithubBtn() {
   const lbl = document.getElementById('dd-github-label');
   const disc = document.getElementById('gh-disconnect');
   const syncItem = document.getElementById('dd-gh-sync');
+  const vocabSyncItem = document.getElementById('dd-vocab-sync');
   if (githubConfig && githubConfig.token) {
     if (lbl) lbl.textContent = 'GitHub 연동됨 ✓';
     if (disc) disc.style.display = 'inline-block';
     if (syncItem) syncItem.style.display = 'block';
+    if (vocabSyncItem) vocabSyncItem.style.display = 'block';
   } else {
     if (lbl) lbl.textContent = 'GitHub 연동';
     if (disc) disc.style.display = 'none';
     if (syncItem) syncItem.style.display = 'none';
+    if (vocabSyncItem) vocabSyncItem.style.display = 'none';
   }
 }
 
@@ -1035,40 +1041,40 @@ function htmlToBase64(html) {
   return btoa(binary);
 }
 
+// =============================================
+// GitHub 동기화 — vocab.json (데이터) / index.html (UI) 분리
+// =============================================
 let _ghSyncing = false;
-let _ghTimer = null;
+
+async function ghPut(token, owner, repo, filePath, contentStr, message) {
+  const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
+  const headers = {
+    'Authorization': `token ${token}`,
+    'Accept': 'application/vnd.github.v3+json',
+    'Content-Type': 'application/json'
+  };
+  // SHA 조회 (파일이 없으면 sha 없이 생성)
+  let sha;
+  const getRes = await fetch(apiUrl, { headers });
+  if (getRes.ok) sha = (await getRes.json()).sha;
+  else if (getRes.status !== 404) throw new Error('SHA 조회 실패 (' + getRes.status + ')');
+
+  const body = { message, content: htmlToBase64(contentStr) };
+  if (sha) body.sha = sha;
+  const putRes = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
+  if (!putRes.ok) throw new Error('업로드 실패 (' + putRes.status + ')');
+}
+
+// 단어 데이터 → vocab.json (편집할 때마다 호출)
 async function writeToGitHub() {
   if (!githubConfig || !githubConfig.token) return;
-  if (_ghSyncing) return;  // 중복 호출 방지
+  if (_ghSyncing) return;
   _ghSyncing = true;
-  const { token, owner, repo, path } = githubConfig;
-  showStatus('GitHub 동기화 중…', '', 0);
-
-  // 15초 안에 안 끝나면 강제 초기화
-  const timeout = setTimeout(() => {
-    _ghSyncing = false;
-    hideStatus();
-  }, 15000);
-
+  const { token, owner, repo } = githubConfig;
+  const timeout = setTimeout(() => { _ghSyncing = false; hideStatus(); }, 15000);
   try {
-    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-    const headers = {
-      'Authorization': `token ${token}`,
-      'Accept': 'application/vnd.github.v3+json'
-    };
-    const getRes = await fetch(apiUrl, { headers });
-    if (!getRes.ok) throw new Error('SHA 조회 실패 (' + getRes.status + ')');
-    const { sha } = await getRes.json();
-
-    const content = htmlToBase64(buildUpdatedHTML());
-
-    const putRes = await fetch(apiUrl, {
-      method: 'PUT',
-      headers: { ...headers, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: '단어장 업데이트', content, sha })
-    });
-    if (!putRes.ok) throw new Error('업로드 실패 (' + putRes.status + ')');
-
+    const payload = JSON.stringify({ vocab: VOCAB, memorized, savedAt: Date.now() }, null, 2);
+    await ghPut(token, owner, repo, 'vocab.json', payload, '단어 데이터 업데이트');
     showStatus('✓ 동기화 완료', '', 2000);
   } catch(e) {
     showStatus('동기화 실패: ' + e.message, 'error', 8000);
@@ -1076,6 +1082,20 @@ async function writeToGitHub() {
   } finally {
     clearTimeout(timeout);
     _ghSyncing = false;
+  }
+}
+
+// UI(HTML) → index.html (드롭다운 메뉴에서 수동 호출)
+async function syncHtmlToGitHub() {
+  if (!githubConfig || !githubConfig.token) return;
+  const { token, owner, repo, path } = githubConfig;
+  showStatus('UI 동기화 중…', '', 0);
+  try {
+    await ghPut(token, owner, repo, path, buildUpdatedHTML(), 'UI 업데이트');
+    showStatus('✓ UI 동기화 완료', '', 2000);
+  } catch(e) {
+    showStatus('UI 동기화 실패: ' + e.message, 'error', 8000);
+    console.error(e);
   }
 }
 
@@ -1503,39 +1523,33 @@ function resetQuiz() {
 }
 
 // =============================================
-// GitHub에서 최신 데이터 가져오기 (페이지 로드시)
+// vocab.json에서 최신 데이터 가져오기 (페이지 로드시)
 // =============================================
 async function pullFromGitHub() {
   if (!githubConfig || !githubConfig.token) return;
-  const { token, owner, repo, path } = githubConfig;
+  const { token, owner, repo } = githubConfig;
   try {
     const res = await fetch(
-      `https://api.github.com/repos/${owner}/${repo}/contents/${path}`,
+      `https://api.github.com/repos/${owner}/${repo}/contents/vocab.json`,
       { headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' } }
     );
-    if (!res.ok) return;
+    if (!res.ok) return; // vocab.json 없으면 무시 (첫 사용)
     const data = await res.json();
-    // base64 → UTF-8 디코딩
     const binary = atob(data.content.replace(/\n/g, ''));
     const bytes = new Uint8Array(binary.length);
     for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-    const html = new TextDecoder('utf-8').decode(bytes);
+    const json = JSON.parse(new TextDecoder('utf-8').decode(bytes));
 
-    const vocabMatch  = html.match(/\/\*\[VOCAB_START\]\*\/([\s\S]*?)\/\*\[VOCAB_END\]\*\//);
-    const memMatch    = html.match(/\/\*\[MEM_START\]\*\/([\s\S]*?)\/\*\[MEM_END\]\*\//);
-    const savedAtMatch = html.match(/\/\*\[SAVEDAT_START\]\*\/([\s\S]*?)\/\*\[SAVEDAT_END\]\*\//);
-    if (!vocabMatch) return;
-
-    const ghSavedAt = savedAtMatch ? parseInt(savedAtMatch[1]) : 0;
+    const ghSavedAt = json.savedAt || 0;
     const raw = localStorage.getItem(STORAGE_KEY);
     const localSavedAt = raw ? (JSON.parse(raw).savedAt || 0) : 0;
 
     if (ghSavedAt > localSavedAt) {
-      const ghVocab = JSON.parse(vocabMatch[1]);
-      const ghMem   = memMatch ? JSON.parse(memMatch[1]) : [];
-      VOCAB = ghVocab.map(v => Object.assign({}, v));
+      VOCAB = json.vocab.map(v => Object.assign({}, v));
       memorized = new Array(VOCAB.length).fill(false);
-      ghMem.forEach((v, i) => { if (i < memorized.length) memorized[i] = !!v; });
+      if (Array.isArray(json.memorized)) {
+        json.memorized.forEach((v, i) => { if (i < memorized.length) memorized[i] = !!v; });
+      }
       saveData();
       buildVocabTable();
     }
@@ -1552,7 +1566,7 @@ buildVocabTable();
 updateGithubBtn();
 pullFromGitHub();
 </script>
-<div class="save-status visible" id="save-status">GitHub 동기화 중…</div>
+<div class="save-status visible" id="save-status">UI 동기화 중…</div>
 
 
 </body></html>
