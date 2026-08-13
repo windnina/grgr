@@ -1,12 +1,6 @@
 {
   "vocab": [
     {
-      "k": "まはまらら",
-      "h": "",
-      "r": "아타웉",
-      "imp": true
-    },
-    {
       "k": "ㅏㅓ터ㅓㅌ",
       "h": "",
       "r": "ㅓ터얕",
@@ -325,7 +319,6 @@
   ],
   "memorized": [
     false,
-    false,
     true,
     true,
     true,
@@ -389,5 +382,5 @@
     false,
     false
   ],
-  "savedAt": 1786607983902
+  "savedAt": 1786607987921
 }
