@@ -303,6 +303,9 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
       <button class="dd-item" id="dd-vocab-sync" onclick="closeDropdown(); writeToGitHub()" style="display: block;">
         <span class="dd-icon">💾</span> 단어 전체 저장 (vocab.json)
       </button>
+      <button class="dd-item" id="dd-vocab-pull" onclick="closeDropdown(); forceLoadFromGitHub()" style="display: block;">
+        <span class="dd-icon">↓</span> GitHub에서 강제 불러오기
+      </button>
       <button class="dd-item" id="dd-connect" onclick="connectFile()">
         <span class="dd-icon">📂</span> 파일 연결
       </button>
@@ -784,7 +787,7 @@ const DEFAULT_VOCAB = /*[VOCAB_START]*/[
 ]/*[VOCAB_END]*/;
 
 const DEFAULT_MEMORIZED = /*[MEM_START]*/[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]/*[MEM_END]*/;
-const DEFAULT_SAVED_AT = /*[SAVEDAT_START]*/1786674005555/*[SAVEDAT_END]*/;
+const DEFAULT_SAVED_AT = /*[SAVEDAT_START]*/0/*[SAVEDAT_END]*/;
 
 // =============================================
 // 상태
@@ -946,16 +949,19 @@ function updateGithubBtn() {
   const disc = document.getElementById('gh-disconnect');
   const syncItem = document.getElementById('dd-gh-sync');
   const vocabSyncItem = document.getElementById('dd-vocab-sync');
+  const vocabPullItem = document.getElementById('dd-vocab-pull');
   if (githubConfig && githubConfig.token) {
     if (lbl) lbl.textContent = 'GitHub 연동됨 ✓';
     if (disc) disc.style.display = 'inline-block';
     if (syncItem) syncItem.style.display = 'block';
     if (vocabSyncItem) vocabSyncItem.style.display = 'block';
+    if (vocabPullItem) vocabPullItem.style.display = 'block';
   } else {
     if (lbl) lbl.textContent = 'GitHub 연동';
     if (disc) disc.style.display = 'none';
     if (syncItem) syncItem.style.display = 'none';
     if (vocabSyncItem) vocabSyncItem.style.display = 'none';
+    if (vocabPullItem) vocabPullItem.style.display = 'none';
   }
 }
 
@@ -1010,7 +1016,7 @@ function buildUpdatedHTML() {
   );
   html = html.replace(
     /\/\*\[SAVEDAT_START\]\*\/[\s\S]*?\/\*\[SAVEDAT_END\]\*\//,
-    '/*[SAVEDAT_START]*/' + Date.now() + '/*[SAVEDAT_END]*/'
+    '/*[SAVEDAT_START]*/0/*[SAVEDAT_END]*/'
   );
   return html;
 }
@@ -1531,6 +1537,32 @@ function resetQuiz() {
 // =============================================
 // vocab.json에서 최신 데이터 가져오기 (페이지 로드시)
 // =============================================
+async function forceLoadFromGitHub() {
+  if (!githubConfig || !githubConfig.token) { alert('GitHub 연동이 필요해요.'); return; }
+  const { token, owner, repo } = githubConfig;
+  try {
+    const res = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/contents/vocab.json?t=` + Date.now(),
+      { headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' } }
+    );
+    if (!res.ok) { alert('vocab.json 불러오기 실패: ' + res.status); return; }
+    const data = await res.json();
+    const binary = atob(data.content.replace(/\n/g, ''));
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    const json = JSON.parse(new TextDecoder('utf-8').decode(bytes));
+    if (!Array.isArray(json.vocab) || json.vocab.length === 0) { alert('vocab.json에 단어가 없어요.'); return; }
+    VOCAB = json.vocab.map(v => Object.assign({}, v));
+    memorized = new Array(VOCAB.length).fill(false);
+    if (Array.isArray(json.memorized)) json.memorized.forEach((v, i) => { if (i < memorized.length) memorized[i] = !!v; });
+    saveData();
+    buildVocabTable();
+    alert('✓ GitHub에서 ' + VOCAB.length + '개 단어를 불러왔어요.');
+  } catch(e) {
+    alert('오류: ' + e.message);
+  }
+}
+
 async function pullFromGitHub() {
   if (!githubConfig || !githubConfig.token) return;
   const { token, owner, repo } = githubConfig;
