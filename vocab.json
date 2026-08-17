@@ -6,7 +6,7 @@
       "r": "막다 방어하다",
       "km": "막을방",
       "ex": "事故を防ぐ、感染を防ぐ、敵の攻撃を防ぐ",
-      "imp": true
+      "imp": false
     },
     {
       "k": "おねだりをする",
@@ -24,27 +24,25 @@
     {
       "k": "でっちあげる",
       "h": "",
-      "r": "날조하다",
-      "imp": true
+      "r": "날조하다"
     },
     {
       "k": "おこがましい",
       "h": "",
       "r": "주제넘다 건방지다",
-      "ex": "おこがましいと思いますが、\n意見を言わせてください。",
+      "ex": "おこがましいと思いますが、意見を言わせてください。",
       "imp": true
     },
     {
       "k": "しどろもどろ",
       "h": "",
       "r": "횡설수설",
-      "imp": true
+      "imp": false
     },
     {
       "k": "どきりとする",
       "h": "",
-      "r": "철렁하다",
-      "imp": true
+      "r": "철렁하다"
     },
     {
       "k": "図星",
@@ -58,22 +56,19 @@
       "k": "情が移る",
       "h": "じょうがうつる",
       "r": "정이들다",
-      "km": "옮길리",
-      "imp": true
+      "km": "옮길리"
     },
     {
       "k": "素面",
       "h": "しらふ",
       "r": "맨정신, 술안취한상태",
-      "ex": "素面では言いにくい",
-      "imp": true
+      "ex": "素面では言いにくい"
     },
     {
       "k": "面汚し",
       "h": "つらよごし",
       "r": "망신",
-      "ex": "そんな行動をしては、会社の面汚しになるよ。",
-      "imp": true
+      "ex": "そんな行動をしては、会社の面汚しになるよ。"
     },
     {
       "k": "塞ぐ",
@@ -98,10 +93,9 @@
     },
     {
       "k": "拗らせる",
-      "h": "こじらせる",
+      "h": "こしらせる",
       "r": "꼬이게 만들다. 악화시키다",
       "km": "누를욱",
-      "ex": "問題をこれ以上こじらせたくない。\n素直に謝らなかったため、話をこじらせてしまった。",
       "imp": true
     },
     {
@@ -155,8 +149,7 @@
     {
       "k": "寄り道",
       "h": "よりみち",
-      "r": "가는길에 들르다",
-      "ex": "コンビニに寄る: 들르다\nコンビニに寄り道する: 목적지에서 벗어나 들르다"
+      "r": "가는길에 들르다"
     },
     {
       "k": "間抜け",
@@ -209,7 +202,7 @@
       "k": "後ろめたい",
       "h": "うしろめたい",
       "r": "떳떳하지못한",
-      "imp": false
+      "imp": true
     },
     {
       "k": "割く",
@@ -328,8 +321,7 @@
     {
       "k": "すっかり",
       "h": "",
-      "r": "죄다,몽땅",
-      "imp": true
+      "r": "죄다,몽땅"
     },
     {
       "k": "見通し、見透し",
@@ -422,7 +414,7 @@
     {
       "k": "稀",
       "h": "まれ",
-      "r": "드물다 좀처럼없다",
+      "r": "드룸다 좀처럼없다",
       "km": "드물희",
       "imp": true
     },
@@ -470,7 +462,7 @@
       "h": "おとる",
       "r": "뒤떨어지다",
       "km": "못할열",
-      "imp": false
+      "imp": true
     },
     {
       "k": "ごねる",
@@ -505,7 +497,7 @@
       "k": "かじる",
       "h": "",
       "r": "갉아먹다 베어먹다 조금알다",
-      "imp": false
+      "imp": true
     },
     {
       "k": "掛け合う",
@@ -533,7 +525,7 @@
       "k": "半ば",
       "h": "なかば",
       "r": "절반",
-      "imp": false
+      "imp": true
     },
     {
       "k": "不相応",
@@ -573,7 +565,7 @@
       "h": "やとう",
       "r": "고용하다",
       "km": "품팔고",
-      "imp": false
+      "imp": true
     },
     {
       "k": "高ずる",
@@ -590,7 +582,7 @@
       "k": "来たす",
       "h": "きたす",
       "r": "초래하다",
-      "imp": false
+      "imp": true
     },
     {
       "k": "ざらにある",
@@ -688,7 +680,7 @@
       "h": "とげる",
       "r": "이루다",
       "km": "드디어수",
-      "imp": true
+      "imp": false
     },
     {
       "k": "哀れ",
@@ -737,8 +729,7 @@
       "k": "贔屓",
       "h": "ひいき",
       "r": "편애 편들어줌",
-      "ex": "先生は成績のいい生徒ばかりひいきする。\n사람을 ひいきする → 편애하다\n가게를 ひいきにする → 단골로 이용하다\n팀·선수를 ひいきにする → 응원하다\nごひいきに！ → 자주 이용해 주세요!",
-      "imp": true
+      "ex": "若い子びいき어린애 좋아함"
     },
     {
       "k": "幻想",
@@ -761,7 +752,6 @@
       "k": "解ける",
       "h": "ほどける",
       "r": "풀리다. 감정이 누그러지다",
-      "ex": "くつひもが ほどけてるよ、結び直して。\n解く　ほどく 풀다",
       "imp": true
     },
     {
@@ -780,7 +770,7 @@
       "k": "いかにもおかしい",
       "h": "",
       "r": "아무래도 이상하다",
-      "imp": false
+      "imp": true
     },
     {
       "k": "断る",
@@ -806,7 +796,7 @@
       "k": "ざっくり",
       "h": "",
       "r": "대략",
-      "imp": true
+      "imp": false
     },
     {
       "k": "訂正",
@@ -842,7 +832,7 @@
       "h": "",
       "r": "막상",
       "ex": "十分に練習したのに、いざ本番になると、、",
-      "imp": false
+      "imp": true
     },
     {
       "k": "いざという時",
@@ -880,7 +870,7 @@
       "k": "どんでん返し",
       "h": "どんでんかえし",
       "r": "반전",
-      "imp": false
+      "imp": true
     },
     {
       "k": "気遣い",
@@ -907,7 +897,7 @@
       "k": "閃く",
       "h": "ひらめく",
       "r": "번뜩이다 문득떠오르다",
-      "imp": false
+      "imp": true
     },
     {
       "k": "疎い",
@@ -952,13 +942,13 @@
       "h": "すがでる",
       "r": "평소모습이나오다",
       "ex": "緊張が解けて素が出た。",
-      "imp": false
+      "imp": true
     },
     {
       "k": "お持て成し",
       "h": "おもてなし",
       "r": "대접 환대",
-      "imp": false
+      "imp": true
     },
     {
       "k": "清浄",
@@ -983,7 +973,7 @@
       "k": "",
       "h": "してしまいがち",
       "r": "~해버리는 경향이있다",
-      "imp": false
+      "imp": true
     },
     {
       "k": "ジャリ銭",
@@ -1009,7 +999,6 @@
       "k": "誇示",
       "h": "こじ",
       "r": "과시",
-      "km": "자랑할과, 보일시",
       "imp": true
     },
     {
@@ -1037,7 +1026,7 @@
       "k": "打ち切れる",
       "h": "ぶちきれる",
       "r": "갑자기 화를 폭발하다",
-      "imp": false
+      "imp": true
     },
     {
       "k": "",
@@ -1069,8 +1058,6 @@
       "k": "擦る",
       "h": "こする",
       "r": "문지르다",
-      "km": "문지를 찰",
-      "ex": "摩擦　まさつ　마찰",
       "imp": true
     },
     {
@@ -1100,7 +1087,6 @@
       "h": "たしなみ",
       "r": "소양 마음가짐",
       "km": "즐길기",
-      "ex": "嗜好　しこう　기호",
       "imp": true
     },
     {
@@ -1119,7 +1105,7 @@
       "k": "身の代金",
       "h": "みのしろきん",
       "r": "몸값",
-      "imp": false
+      "imp": true
     },
     {
       "k": "教わる",
@@ -1177,8 +1163,7 @@
     {
       "k": "挿す",
       "h": "さす",
-      "r": "꽂다, 삽입하다",
-      "km": "꽂을삽"
+      "r": "꽂다, 삽입하다"
     },
     {
       "k": "知る人ぞ知る",
@@ -1200,7 +1185,7 @@
       "k": "弾ける",
       "h": "はじける",
       "r": "터지다 세게튀다",
-      "imp": false
+      "imp": true
     },
     {
       "k": "寸前",
@@ -1367,40 +1352,18 @@
     false,
     false,
     false,
-    true,
-    true,
-    false,
-    false,
-    true,
     false,
     false,
     false,
     false,
     true,
     false,
+    false,
+    false,
+    false,
     true,
+    false,
     true,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
     true,
     false,
     false,
@@ -1414,27 +1377,6 @@
     false,
     false,
     false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    true,
-    true,
-    false,
-    false,
-    false,
-    false,
-    false,
-    true,
-    false,
-    true,
     false,
     false,
     false,
@@ -1475,27 +1417,6 @@
     false,
     false,
     false,
-    true,
-    true,
-    false,
-    false,
-    false,
-    true,
-    true,
-    true,
-    true,
-    true,
-    false,
-    true,
-    true,
-    true,
-    false,
-    true,
-    true,
-    true,
-    false,
-    true,
-    true,
     false,
     false,
     false,
@@ -1503,23 +1424,87 @@
     false,
     false,
     false,
-    true,
-    false,
-    true,
-    false,
-    false,
-    true,
-    true,
-    true,
     false,
     false,
     false,
     false,
     false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
     true,
     true,
     true,
     true,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true,
+    false,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    true,
+    false,
     true,
     true,
     true,
@@ -1528,7 +1513,7 @@
     true,
     false,
     true,
-    true,
+    false,
     true,
     true,
     true,
@@ -1542,5 +1527,5 @@
     true,
     true
   ],
-  "savedAt": 1786948564349
+  "savedAt": 1786953807240
 }
