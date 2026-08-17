@@ -1289,7 +1289,7 @@
       "k": "遊歩道",
       "h": "ゆうほどう",
       "r": "산책로",
-      "imp": true
+      "imp": false
     }
   ],
   "memorized": [
@@ -1509,11 +1509,11 @@
     false,
     true,
     true,
-    false,
+    true,
     true,
     true,
     true,
     true
   ],
-  "savedAt": 1786926151304
+  "savedAt": 1786926155879
 }
