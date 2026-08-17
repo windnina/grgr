@@ -1277,13 +1277,13 @@
       "k": "肩書き",
       "h": "かたがき",
       "r": "직함",
-      "imp": true
+      "imp": false
     },
     {
       "k": "荷が重い",
       "h": "にがおもい",
       "r": "책임이 무겁다",
-      "imp": true
+      "imp": false
     },
     {
       "k": "遊歩道",
@@ -1512,8 +1512,8 @@
     false,
     true,
     true,
-    false,
+    true,
     false
   ],
-  "savedAt": 1786926146502
+  "savedAt": 1786926148385
 }
