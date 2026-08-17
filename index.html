@@ -983,7 +983,10 @@ function buildVocabTable() {
 
   if (pageItems.length === 0) {
     const tr = document.createElement('tr');
-    tr.innerHTML = '<td colspan="5" style="text-align:center;color:#aaa;padding:32px">표시할 단어가 없어요.</td>';
+    const msg = VOCAB.length === 0
+      ? 'GitHub에서 단어 불러오는 중… (안 되면 ⚙ → GitHub에서 강제 불러오기)'
+      : '표시할 단어가 없어요.';
+    tr.innerHTML = '<td colspan="5" style="text-align:center;color:#aaa;padding:32px">' + msg + '</td>';
     tbody.appendChild(tr);
     updateStats();
     return;
@@ -1066,7 +1069,8 @@ function toggleImp(i) {
 
 function updateStats() {
   const cnt = memorized.filter(Boolean).length;
-  document.getElementById('memo-stats').textContent = '알고있음: ' + cnt + ' / ' + VOCAB.length;
+  const el = document.getElementById('memo-stats');
+  if (el) el.textContent = '알고있음: ' + cnt + ' / ' + VOCAB.length;
 }
 
 function setFilter(f) {
@@ -1371,6 +1375,11 @@ async function pullFromGitHub() {
     }
   } catch(e) {
     console.warn('GitHub pull 실패:', e);
+    // 실패 시 화면에 표시
+    const tbody = document.querySelector('.vocab-table tbody');
+    if (tbody && VOCAB.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#e74c3c;padding:32px">불러오기 실패: ' + e.message + '<br><small>⚙ → GitHub에서 강제 불러오기 시도해보세요</small></td></tr>';
+    }
   }
 }
 
