@@ -1387,9 +1387,13 @@ window.addEventListener('pageshow', function(e) {
   if (e.persisted) setFilter('all');
 });
 
-// 서비스 워커 등록 (PWA)
+// 서비스 워커: 기존 캐시 전체 초기화 후 새 버전 등록
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').catch(e => console.warn('SW 등록 실패:', e));
+  navigator.serviceWorker.getRegistrations().then(regs => {
+    regs.forEach(r => r.unregister());
+  });
+  caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
+  navigator.serviceWorker.register('sw.js').catch(() => {});
 }
 </script>
 <div class="save-status" id="save-status"></div>
