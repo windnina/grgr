@@ -1191,7 +1191,7 @@
       "k": "浸す",
       "h": "ひたす",
       "r": "담그다 적시다",
-      "imp": true
+      "imp": false
     },
     {
       "k": "お浸し",
@@ -1496,7 +1496,7 @@
     true,
     true,
     true,
-    false,
+    true,
     false,
     false,
     false,
@@ -1515,5 +1515,5 @@
     false,
     false
   ],
-  "savedAt": 1786926101304
+  "savedAt": 1786926104392
 }
