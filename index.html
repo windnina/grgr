@@ -1326,19 +1326,13 @@ function resetQuiz() {
 // vocab.json에서 최신 데이터 가져오기 (페이지 로드시)
 // =============================================
 async function forceLoadFromGitHub() {
-  if (!githubConfig || !githubConfig.token) { alert('GitHub 연동이 필요해요.'); return; }
-  const { token, owner, repo } = githubConfig;
+  const { owner, repo } = (githubConfig || DEFAULT_GITHUB_CONFIG);
   try {
     const res = await fetch(
-      `https://api.github.com/repos/${owner}/${repo}/contents/vocab.json?t=` + Date.now(),
-      { headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' } }
+      `https://raw.githubusercontent.com/${owner}/${repo}/main/vocab.json?t=` + Date.now()
     );
     if (!res.ok) { alert('vocab.json 불러오기 실패: ' + res.status); return; }
-    const data = await res.json();
-    const binary = atob(data.content.replace(/\n/g, ''));
-    const bytes = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-    const json = JSON.parse(new TextDecoder('utf-8').decode(bytes));
+    const json = await res.json();
     if (!Array.isArray(json.vocab) || json.vocab.length === 0) { alert('vocab.json에 단어가 없어요.'); return; }
     VOCAB = json.vocab.map(v => Object.assign({}, v));
     memorized = new Array(VOCAB.length).fill(false);
@@ -1352,19 +1346,14 @@ async function forceLoadFromGitHub() {
 }
 
 async function pullFromGitHub() {
-  if (!githubConfig || !githubConfig.token) return;
-  const { token, owner, repo } = githubConfig;
+  const { owner, repo } = (githubConfig || DEFAULT_GITHUB_CONFIG);
   try {
+    // 공개 레포는 토큰 없이 raw URL로 직접 읽기 (토큰 만료와 무관하게 항상 동작)
     const res = await fetch(
-      `https://api.github.com/repos/${owner}/${repo}/contents/vocab.json`,
-      { headers: { 'Authorization': `token ${token}`, 'Accept': 'application/vnd.github.v3+json' } }
+      `https://raw.githubusercontent.com/${owner}/${repo}/main/vocab.json?t=` + Date.now()
     );
     if (!res.ok) return; // vocab.json 없으면 무시 (첫 사용)
-    const data = await res.json();
-    const binary = atob(data.content.replace(/\n/g, ''));
-    const bytes = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-    const json = JSON.parse(new TextDecoder('utf-8').decode(bytes));
+    const json = await res.json();
 
     const ghSavedAt = json.savedAt || 0;
     const raw = localStorage.getItem(STORAGE_KEY);
