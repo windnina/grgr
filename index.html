@@ -331,18 +331,14 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
   <button class="tab-btn" onclick="switchTab('quiz',this)">시험</button>
   <div style="flex:1"></div>
   <div style="display:flex;align-items:center;gap:8px;padding:8px 0;">
-  <button class="btn-add" id="btn-add" onclick="requireAuth(openAddModal)" style="display:none">추가</button>
-  <button id="btn-unlock" onclick="openAuthModal(null)"
-    style="padding:6px 12px;background:transparent;color:#7a8fa3;border:1.5px solid #3d5166;border-radius:20px;cursor:pointer;font-size:13px;font-weight:600;transition:all 0.2s"
-    onmouseover="this.style.color='#fff';this.style.borderColor='#7a8fa3'"
-    onmouseout="this.style.color='#7a8fa3';this.style.borderColor='#3d5166'">🔒 편집</button>
-  <button id="btn-lock" onclick="lockEditMode()"
-    style="display:none;padding:6px 12px;background:transparent;color:#7a8fa3;border:1.5px solid #3d5166;border-radius:20px;cursor:pointer;font-size:13px;font-weight:600;transition:all 0.2s"
-    onmouseover="this.style.color='#fff';this.style.borderColor='#7a8fa3'"
-    onmouseout="this.style.color='#7a8fa3';this.style.borderColor='#3d5166'">🔓 잠금</button>
+  <button class="btn-add" id="btn-add" onclick="requireAuth(openAddModal)">추가</button>
   <div class="settings-wrap" style="display:flex;align-items:center;">
     <button class="btn-settings" id="btn-settings" onclick="toggleDropdown()">⚙</button>
     <div class="dropdown" id="settings-dropdown">
+      <button class="dd-item" id="dd-lock" onclick="lockEditMode()" style="display:none">
+        <span class="dd-icon">🔒</span> 편집 잠금
+      </button>
+      <div class="dd-divider" id="dd-lock-divider" style="display:none"></div>
       <button class="dd-item" id="dd-github" onclick="openGithubModal(); closeDropdown()">
         <span class="dd-icon">🔗</span> <span id="dd-github-label">GitHub 연동</span>
       </button>
@@ -496,6 +492,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
     <div class="modal-title" style="text-align:center">편집 모드 잠금 해제</div>
     <div class="form-row">
       <input class="form-input" id="auth-input" type="password" placeholder="비밀번호 입력"
+        inputmode="numeric" pattern="[0-9]*"
         style="text-align:center;font-size:20px;letter-spacing:4px"
         onkeydown="if(event.key==='Enter')submitAuth()">
     </div>
@@ -1150,15 +1147,11 @@ function lockEditMode() {
 }
 
 function applyEditMode() {
-  // 추가 버튼
-  document.getElementById('btn-add').style.display = isEditMode ? '' : 'none';
-  document.getElementById('btn-lock').style.display = isEditMode ? '' : 'none';
-  document.getElementById('btn-unlock').style.display = isEditMode ? 'none' : '';
-  // 설정 드롭다운 잠금 항목
+  // 드롭다운 잠금 항목 (편집 모드일 때만 표시)
   const ddLock = document.getElementById('dd-lock');
-  const ddUnlock = document.getElementById('dd-unlock');
+  const ddLockDivider = document.getElementById('dd-lock-divider');
   if (ddLock) ddLock.style.display = isEditMode ? '' : 'none';
-  if (ddUnlock) ddUnlock.style.display = isEditMode ? 'none' : '';
+  if (ddLockDivider) ddLockDivider.style.display = isEditMode ? '' : 'none';
   // 테이블 재렌더
   buildVocabTable();
 }
