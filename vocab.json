@@ -1271,7 +1271,7 @@
       "k": "長引く",
       "h": "ながびく",
       "r": "오래끌다",
-      "imp": true
+      "imp": false
     },
     {
       "k": "肩書き",
@@ -1511,9 +1511,9 @@
     true,
     false,
     true,
-    false,
+    true,
     false,
     false
   ],
-  "savedAt": 1786926144849
+  "savedAt": 1786926146502
 }
