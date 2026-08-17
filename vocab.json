@@ -1238,7 +1238,7 @@
       "k": "集い",
       "h": "つどい",
       "r": "모임",
-      "imp": true
+      "imp": false
     },
     {
       "k": "上達",
@@ -1504,7 +1504,7 @@
     false,
     true,
     true,
-    false,
+    true,
     false,
     false,
     false,
@@ -1515,5 +1515,5 @@
     false,
     false
   ],
-  "savedAt": 1786926121837
+  "savedAt": 1786926123486
 }
