@@ -241,7 +241,15 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
 .question-card {
   background: #fff; border-radius: 16px; padding: 32px 28px;
   text-align: center; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  position: relative;
 }
+.q-imp-btn {
+  position: absolute; top: 12px; right: 14px;
+  background: none; border: none; cursor: pointer;
+  font-size: 22px; color: #ddd; line-height: 1; padding: 4px;
+  transition: color 0.15s;
+}
+.q-imp-btn.on { color: #27ae60; }
 .q-kanji { font-size: 34px; font-weight: 700; color: #1a2535; margin-bottom: 8px; letter-spacing: 2px; }
 .q-hira { font-size: 17px; color: #999; min-height: 24px; }
 .q-prompt { margin-top: 16px; font-size: 13px; color: #ccc; }
@@ -400,6 +408,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
       </div>
       <div class="qprog-wrap"><div class="qprog-bar" id="qp-bar" style="width:0%"></div></div>
       <div class="question-card">
+        <button class="q-imp-btn" id="q-imp-btn" onclick="toggleQuizImp()">☆</button>
         <div class="q-kanji" id="q-kanji"></div>
         <div class="q-hira" id="q-hira"></div>
         <div class="q-prompt">한국어 뜻은?</div>
@@ -1201,6 +1210,9 @@ function renderQuestion() {
   document.getElementById('qp-bar').style.width  = (quizIdx / total * 100) + '%';
   document.getElementById('q-kanji').textContent = item.k || item.h;
   document.getElementById('q-hira').textContent  = item.k ? (item.h || '') : '';
+  const impBtn = document.getElementById('q-imp-btn');
+  impBtn.textContent = VOCAB[item._i].imp ? '★' : '☆';
+  impBtn.classList.toggle('on', !!VOCAB[item._i].imp);
 
   const correct = item.r;
   const others  = shuffle(quizPool.filter(v => v.r !== correct).map(v => v.r)).slice(0, 3);
@@ -1244,6 +1256,18 @@ function selectAnswer(btn, chosen, correct, grid) {
     nb.style.display = 'block';
     nb.textContent = quizIdx + 1 < quizItems.length ? '다음 문제 →' : '결과 보기 →';
   }
+}
+
+function toggleQuizImp() {
+  const item = quizItems[quizIdx];
+  if (!item) return;
+  VOCAB[item._i].imp = !VOCAB[item._i].imp;
+  item.imp = VOCAB[item._i].imp;
+  saveData();
+  writeToGitHub();
+  const btn = document.getElementById('q-imp-btn');
+  btn.textContent = VOCAB[item._i].imp ? '★' : '☆';
+  btn.classList.toggle('on', VOCAB[item._i].imp);
 }
 
 function nextQuestion() { quizIdx++; renderQuestion(); }
