@@ -1,4 +1,6 @@
-<html lang="ko"><head>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>일본어 단어장</title>
@@ -334,15 +336,15 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
     <button class="btn-settings" id="btn-settings" onclick="toggleDropdown()">⚙</button>
     <div class="dropdown" id="settings-dropdown">
       <button class="dd-item" id="dd-github" onclick="openGithubModal(); closeDropdown()">
-        <span class="dd-icon">🔗</span> <span id="dd-github-label">GitHub 연동됨 ✓</span>
+        <span class="dd-icon">🔗</span> <span id="dd-github-label">GitHub 연동</span>
       </button>
-      <button class="dd-item" id="dd-gh-sync" onclick="closeDropdown(); syncHtmlToGitHub()" style="display: block;">
+      <button class="dd-item" id="dd-gh-sync" onclick="closeDropdown(); syncHtmlToGitHub()" style="display:none">
         <span class="dd-icon">↑</span> UI를 GitHub에 업로드
       </button>
-      <button class="dd-item" id="dd-vocab-sync" onclick="closeDropdown(); writeToGitHub()" style="display: block;">
+      <button class="dd-item" id="dd-vocab-sync" onclick="closeDropdown(); writeToGitHub()" style="display:none">
         <span class="dd-icon">💾</span> 단어 전체 저장 (vocab.json)
       </button>
-      <button class="dd-item" id="dd-vocab-pull" onclick="closeDropdown(); forceLoadFromGitHub()" style="display: block;">
+      <button class="dd-item" id="dd-vocab-pull" onclick="closeDropdown(); forceLoadFromGitHub()" style="display:none">
         <span class="dd-icon">↓</span> GitHub에서 강제 불러오기
       </button>
     </div>
@@ -372,7 +374,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
   </div>
   <table class="vocab-table">
 
-    <tbody id="vocab-tbody"><tr><td colspan="5" style="text-align:center;color:#aaa;padding:32px">표시할 단어가 없어요.</td></tr></tbody>
+    <tbody id="vocab-tbody"></tbody>
   </table>
   <div class="page-tabs-wrap" id="page-tabs-wrap" style="display:none">
     <div class="page-tabs" id="page-tabs"></div>
@@ -505,9 +507,9 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
     <div class="modal-footer">
       <button class="btn-save" onclick="saveGithubConfig()">저장</button>
       <button class="btn-cancel" onclick="closeGithubModal()">취소</button>
-      <button class="btn-cancel" id="gh-disconnect" onclick="disconnectGithub()" style="display: inline-block; color: rgb(231, 76, 60); border-color: rgb(231, 76, 60);">연동 해제</button>
+      <button class="btn-cancel" id="gh-disconnect" onclick="disconnectGithub()" style="display:none;color:#e74c3c;border-color:#e74c3c">연동 해제</button>
     </div>
-    <div id="gh-status" style="margin-top:12px;font-size:13px;color:#888">✓ 저장됐어요. 다음 편집부터 자동 동기화돼요.</div>
+    <div id="gh-status" style="margin-top:12px;font-size:13px;color:#888"></div>
   </div>
 </div>
 
@@ -674,7 +676,14 @@ function afterEdit() {
 // =============================================
 // GitHub API 연동
 // =============================================
-let githubConfig = JSON.parse(localStorage.getItem('github_config') || 'null');
+// 기본 GitHub 설정 (어떤 브라우저에서도 연동 없이 바로 동작)
+const DEFAULT_GITHUB_CONFIG = {
+  token: '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',
+  owner: 'windnina',
+  repo:  'grgr',
+  path:  'index.html'
+};
+let githubConfig = JSON.parse(localStorage.getItem('github_config') || 'null') || DEFAULT_GITHUB_CONFIG;
 
 function updateGithubBtn() {
   const lbl = document.getElementById('dd-github-label');
@@ -1395,6 +1404,5 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 <div class="save-status" id="save-status"></div>
-
-
-</body></html>
+</body>
+</html>
