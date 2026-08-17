@@ -152,7 +152,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
 .hira-cell { display: none; }
 .meaning-cell { display: none; }
 .action-cell { display: none; }
-.example-text { font-size: 13px; color: #999; font-style: italic; line-height: 1.5; }
+.example-text { font-size: 15px; color: #333; line-height: 1.5; white-space: pre-wrap; }
 .combined-hira { font-size: 14px; font-weight: 400; color: #666; margin-left: 6px; }
 .action-cell-main {
   display: table-cell;
@@ -1032,7 +1032,7 @@ function buildVocabTable() {
       er.className = 'meaning-row' + (v.imp ? ' important' : '');
       er.innerHTML =
         '<td class="num-cell" style="border-bottom:1px solid #eee"></td>' +
-        '<td colspan="4" class="meaning-mobile-cell" style="padding-top:2px!important;font-size:13px;color:#aaa;font-style:italic">' + esc(v.ex) + '</td>';
+        '<td colspan="4" class="meaning-mobile-cell" style="padding-top:2px!important;font-size:15px;color:#333;white-space:pre-wrap">' + esc(v.ex) + '</td>';
       er.onclick = () => openEditModal(vocabIdx);
       tbody.appendChild(er);
     }
