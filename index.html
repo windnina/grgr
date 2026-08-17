@@ -331,7 +331,15 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
   <button class="tab-btn" onclick="switchTab('quiz',this)">시험</button>
   <div style="flex:1"></div>
   <div style="display:flex;align-items:center;gap:8px;padding:8px 0;">
-  <button class="btn-add" onclick="openAddModal()">추가</button>
+  <button class="btn-add" id="btn-add" onclick="requireAuth(openAddModal)" style="display:none">추가</button>
+  <button id="btn-unlock" onclick="openAuthModal(null)"
+    style="padding:6px 12px;background:transparent;color:#7a8fa3;border:1.5px solid #3d5166;border-radius:20px;cursor:pointer;font-size:13px;font-weight:600;transition:all 0.2s"
+    onmouseover="this.style.color='#fff';this.style.borderColor='#7a8fa3'"
+    onmouseout="this.style.color='#7a8fa3';this.style.borderColor='#3d5166'">🔒 편집</button>
+  <button id="btn-lock" onclick="lockEditMode()"
+    style="display:none;padding:6px 12px;background:transparent;color:#7a8fa3;border:1.5px solid #3d5166;border-radius:20px;cursor:pointer;font-size:13px;font-weight:600;transition:all 0.2s"
+    onmouseover="this.style.color='#fff';this.style.borderColor='#7a8fa3'"
+    onmouseout="this.style.color='#7a8fa3';this.style.borderColor='#3d5166'">🔓 잠금</button>
   <div class="settings-wrap" style="display:flex;align-items:center;">
     <button class="btn-settings" id="btn-settings" onclick="toggleDropdown()">⚙</button>
     <div class="dropdown" id="settings-dropdown">
@@ -481,6 +489,24 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
   </div>
 </div>
 
+<!-- ===== 비밀번호 모달 ===== -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal-box" style="max-width:320px;text-align:center">
+    <div style="font-size:32px;margin-bottom:8px">🔒</div>
+    <div class="modal-title" style="text-align:center">편집 모드 잠금 해제</div>
+    <div class="form-row">
+      <input class="form-input" id="auth-input" type="password" placeholder="비밀번호 입력"
+        style="text-align:center;font-size:20px;letter-spacing:4px"
+        onkeydown="if(event.key==='Enter')submitAuth()">
+    </div>
+    <div id="auth-error" style="color:#e74c3c;font-size:13px;margin-top:-8px;margin-bottom:10px;display:none">비밀번호가 틀렸어요</div>
+    <div class="modal-footer" style="justify-content:center">
+      <button class="btn-save" onclick="submitAuth()">확인</button>
+      <button class="btn-cancel" onclick="closeAuthModal()">취소</button>
+    </div>
+  </div>
+</div>
+
 <!-- ===== GitHub 설정 모달 ===== -->
 <div class="modal-overlay" id="github-modal">
   <div class="modal-box">
@@ -527,6 +553,10 @@ const DEFAULT_SAVED_AT = /*[SAVEDAT_START]*/0/*[SAVEDAT_END]*/;
 // =============================================
 const STORAGE_KEY = 'jp_vocab_v1';
 const PAGE_SIZE = 50;
+const AUTH_HASH = '797b59d2942a9118ea3d4cb78eae60a64271b609207f99594ee76b9f57b9944a';
+
+let isEditMode = sessionStorage.getItem('jp_edit_mode') === '1';
+let authCallback = null; // 인증 후 실행할 함수
 
 let VOCAB = [];
 let memorized = [];
@@ -1016,7 +1046,9 @@ function buildVocabTable() {
         (v.km ? ' (' + esc(v.km) + ')' : '') + '</span>'
       : '<span style="font-weight:700">' + esc(v.h) + '</span>';
 
-    const impBtn = '<button class="imp-btn' + (v.imp ? ' on' : '') + '" onclick="event.stopPropagation();toggleImp(' + vocabIdx + ')">' + (v.imp ? '★' : '☆') + '</button>';
+    const impBtn = isEditMode
+      ? '<button class="imp-btn' + (v.imp ? ' on' : '') + '" onclick="event.stopPropagation();toggleImp(' + vocabIdx + ')">' + (v.imp ? '★' : '☆') + '</button>'
+      : '<button class="imp-btn' + (v.imp ? ' on' : '') + '" onclick="event.stopPropagation();requireAuth(()=>toggleImp(' + vocabIdx + '))">' + (v.imp ? '★' : '☆') + '</button>';
     const memBtn = '<button class="mem-btn' + (mem ? ' on' : '') + '" onclick="event.stopPropagation();toggleMemo(' + vocabIdx + ')">알아</button>';
     const rowspan = v.ex ? '3' : '2';
     tr.innerHTML =
@@ -1026,7 +1058,7 @@ function buildVocabTable() {
       '<td class="combined-cell">' + combinedDisplay + '</td>' +
       '<td class="meaning-cell">' + meaningDisplay + '</td>' +
       '<td class="action-cell-main" rowspan="' + rowspan + '">' + impBtn + memBtn + '</td>';
-    tr.onclick = () => openEditModal(vocabIdx);
+    tr.onclick = () => requireAuth(() => openEditModal(vocabIdx));
     tbody.appendChild(tr);
 
     // 뜻 행
@@ -1035,7 +1067,7 @@ function buildVocabTable() {
     mr.innerHTML =
       '<td class="num-cell"' + (v.ex ? ' style="border-bottom:none"' : ' style="border-bottom:1px solid #eee"') + '></td>' +
       '<td colspan="4" class="meaning-mobile-cell"' + (v.ex ? ' style="padding-bottom:4px!important;border-bottom:none"' : '') + '>' + esc(v.r) + '</td>';
-    mr.onclick = () => openEditModal(vocabIdx);
+    mr.onclick = () => requireAuth(() => openEditModal(vocabIdx));
     tbody.appendChild(mr);
 
     // 예문 행 (있을 때만)
@@ -1045,7 +1077,7 @@ function buildVocabTable() {
       er.innerHTML =
         '<td class="num-cell" style="border-bottom:1px solid #eee"></td>' +
         '<td colspan="4" class="meaning-mobile-cell" style="padding-top:2px!important;font-size:15px;color:#333;white-space:pre-wrap">' + esc(v.ex) + '</td>';
-      er.onclick = () => openEditModal(vocabIdx);
+      er.onclick = () => requireAuth(() => openEditModal(vocabIdx));
       tbody.appendChild(er);
     }
   });
@@ -1071,6 +1103,69 @@ function updateStats() {
   const cnt = memorized.filter(Boolean).length;
   const el = document.getElementById('memo-stats');
   if (el) el.textContent = '알고있음: ' + cnt + ' / ' + VOCAB.length;
+}
+
+// =============================================
+// 인증 (비밀번호 잠금)
+// =============================================
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+function openAuthModal(callback) {
+  authCallback = callback || null;
+  document.getElementById('auth-input').value = '';
+  document.getElementById('auth-error').style.display = 'none';
+  document.getElementById('auth-modal').classList.add('open');
+  setTimeout(() => document.getElementById('auth-input').focus(), 100);
+}
+
+function closeAuthModal() {
+  document.getElementById('auth-modal').classList.remove('open');
+  authCallback = null;
+}
+
+async function submitAuth() {
+  const pw = document.getElementById('auth-input').value;
+  const hash = await sha256(pw);
+  if (hash === AUTH_HASH) {
+    isEditMode = true;
+    sessionStorage.setItem('jp_edit_mode', '1');
+    closeAuthModal();
+    applyEditMode();
+    if (authCallback) authCallback();
+  } else {
+    document.getElementById('auth-error').style.display = 'block';
+    document.getElementById('auth-input').value = '';
+    document.getElementById('auth-input').focus();
+  }
+}
+
+function lockEditMode() {
+  isEditMode = false;
+  sessionStorage.removeItem('jp_edit_mode');
+  applyEditMode();
+  closeDropdown();
+}
+
+function applyEditMode() {
+  // 추가 버튼
+  document.getElementById('btn-add').style.display = isEditMode ? '' : 'none';
+  document.getElementById('btn-lock').style.display = isEditMode ? '' : 'none';
+  document.getElementById('btn-unlock').style.display = isEditMode ? 'none' : '';
+  // 설정 드롭다운 잠금 항목
+  const ddLock = document.getElementById('dd-lock');
+  const ddUnlock = document.getElementById('dd-unlock');
+  if (ddLock) ddLock.style.display = isEditMode ? '' : 'none';
+  if (ddUnlock) ddUnlock.style.display = isEditMode ? 'none' : '';
+  // 테이블 재렌더
+  buildVocabTable();
+}
+
+function requireAuth(callback) {
+  if (isEditMode) { callback(); return; }
+  openAuthModal(callback);
 }
 
 function setFilter(f) {
@@ -1389,6 +1484,7 @@ async function pullFromGitHub() {
 initData();
 setFilter('all');
 updateGithubBtn();
+applyEditMode();
 pullFromGitHub();
 
 // bfcache(뒤로가기/새로고침 복원) 시에도 필터 초기화
