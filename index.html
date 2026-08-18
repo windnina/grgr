@@ -345,7 +345,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
       <button class="dd-item" id="dd-gh-sync" onclick="closeDropdown(); syncHtmlToGitHub()" style="display:none">
         <span class="dd-icon">↑</span> UI를 GitHub에 업로드
       </button>
-      <button class="dd-item" id="dd-vocab-sync" onclick="closeDropdown(); writeToGitHub()" style="display:none">
+      <button class="dd-item" id="dd-vocab-sync" onclick="closeDropdown(); writeToGitHub(true)" style="display:none">
         <span class="dd-icon">💾</span> 단어 전체 저장 (vocab.json)
       </button>
       <button class="dd-item" id="dd-vocab-pull" onclick="closeDropdown(); forceLoadFromGitHub()" style="display:none">
@@ -825,18 +825,27 @@ async function ghPut(token, owner, repo, filePath, contentStr, message) {
 }
 
 // 단어 데이터 → vocab.json (편집할 때마다 호출)
-async function writeToGitHub() {
-  if (!githubConfig || !githubConfig.token) return;
-  if (_ghSyncing) return;
+async function writeToGitHub(manual) {
+  if (!githubConfig || !githubConfig.token) {
+    if (manual) alert('GitHub 연동이 필요해요. ⚙ → GitHub 연동 설정을 확인해주세요.');
+    return;
+  }
+  if (_ghSyncing) {
+    if (manual) alert('이미 저장 중이에요. 잠시 후 다시 시도해주세요.');
+    return;
+  }
   _ghSyncing = true;
   const { token, owner, repo } = githubConfig;
-  const timeout = setTimeout(() => { _ghSyncing = false; hideStatus(); }, 15000);
+  const timeout = setTimeout(() => { _ghSyncing = false; }, 15000);
   try {
     const payload = JSON.stringify({ vocab: VOCAB, memorized, savedAt: Date.now() }, null, 2);
     await ghPut(token, owner, repo, 'vocab.json', payload, '단어 데이터 업데이트');
-    showStatus('✓ 동기화 완료', '', 2000);
+    if (manual) alert('✓ vocab.json 저장 완료! (' + VOCAB.length + '개 단어)');
+    else showStatus('✓ 동기화 완료', '', 2000);
   } catch(e) {
-    showStatus('동기화 실패: ' + e.message, 'error', 8000);
+    const msg = e.message || String(e);
+    if (manual) alert('저장 실패: ' + msg + '\n\n토큰이 만료됐을 수 있어요. ⚙ → GitHub 연동 설정에서 토큰을 다시 입력해주세요.');
+    else showStatus('동기화 실패: ' + msg, 'error', 8000);
     console.error(e);
   } finally {
     clearTimeout(timeout);
