@@ -487,19 +487,19 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
 
 <!-- ===== 비밀번호 모달 ===== -->
 <div class="modal-overlay" id="auth-modal">
-  <div class="modal-box" style="max-width:320px;text-align:center">
+  <div class="modal-box" style="max-width:300px;text-align:center">
     <div style="font-size:32px;margin-bottom:8px">🔒</div>
-    <div class="modal-title" style="text-align:center">편집 모드 잠금 해제</div>
-    <div class="form-row">
-      <input class="form-input" id="auth-input" type="password" placeholder="비밀번호 입력"
-        inputmode="numeric" pattern="[0-9]*"
-        style="text-align:center;font-size:20px;letter-spacing:4px"
-        onkeydown="if(event.key==='Enter')submitAuth()">
+    <div class="modal-title" style="text-align:center;margin-bottom:16px">편집 모드 잠금 해제</div>
+    <div class="form-row" style="margin-bottom:8px">
+      <input class="form-input" id="auth-input" type="password"
+        inputmode="numeric" pattern="[0-9]*" maxlength="4"
+        placeholder="••••"
+        style="text-align:center;font-size:28px;letter-spacing:10px;padding:12px"
+        oninput="onAuthInput(this.value)">
     </div>
-    <div id="auth-error" style="color:#e74c3c;font-size:13px;margin-top:-8px;margin-bottom:10px;display:none">비밀번호가 틀렸어요</div>
+    <div id="auth-error" style="color:#e74c3c;font-size:13px;min-height:20px;margin-bottom:8px"> </div>
     <div class="modal-footer" style="justify-content:center">
-      <button class="btn-save" onclick="submitAuth()">확인</button>
-      <button class="btn-cancel" onclick="closeAuthModal()">취소</button>
+      <button class="btn-cancel" onclick="closeAuthModal()" style="width:100%;padding:13px 0;font-size:16px;border-radius:12px">취소</button>
     </div>
   </div>
 </div>
@@ -1123,9 +1123,12 @@ function closeAuthModal() {
   authCallback = null;
 }
 
-async function submitAuth() {
-  const pw = document.getElementById('auth-input').value;
-  const hash = await sha256(pw);
+async function onAuthInput(val) {
+  if (val.length < 4) {
+    document.getElementById('auth-error').textContent = ' ';
+    return;
+  }
+  const hash = await sha256(val);
   if (hash === AUTH_HASH) {
     isEditMode = true;
     sessionStorage.setItem('jp_edit_mode', '1');
@@ -1133,9 +1136,8 @@ async function submitAuth() {
     applyEditMode();
     if (authCallback) authCallback();
   } else {
-    document.getElementById('auth-error').style.display = 'block';
+    document.getElementById('auth-error').textContent = '비밀번호가 틀렸어요';
     document.getElementById('auth-input').value = '';
-    document.getElementById('auth-input').focus();
   }
 }
 
