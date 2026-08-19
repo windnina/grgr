@@ -1224,10 +1224,7 @@ function closeModal() {
 function lookupHanja() {
   const kanji = document.getElementById('modal-k').value.trim();
   if (!kanji) { alert('먼저 한자 칸에 단어를 입력해주세요.'); return; }
-  // 한자만 추출 (히라가나·카타카나·기호 제외)
-  const hanjaOnly = [...kanji].filter(c => c.charCodeAt(0) >= 0x4E00).join('');
-  const query = hanjaOnly || kanji;
-  window.open('https://hanja.dict.naver.com/search?query=' + encodeURIComponent(query), '_blank');
+  window.open('https://ja.dict.naver.com/#/search?query=' + encodeURIComponent(kanji), '_blank');
 }
 
 function saveModal() {
