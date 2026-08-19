@@ -466,7 +466,13 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
       <input class="form-input" id="modal-r">
     </div>
     <div class="form-row">
-      <label class="form-label">한자뜻 (각 한자의 음·훈)</label>
+      <label class="form-label" style="display:flex;align-items:center;justify-content:space-between">
+        <span>한자뜻 (각 한자의 음·훈)</span>
+        <button type="button" onclick="lookupHanja()"
+          style="font-size:11px;padding:2px 8px;border:1.5px solid #2980b9;border-radius:20px;background:none;color:#2980b9;cursor:pointer;font-weight:600;white-space:nowrap">
+          🔍 사전 열기
+        </button>
+      </label>
       <input class="form-input" id="modal-km">
     </div>
     <div class="form-row">
@@ -1213,6 +1219,15 @@ function openEditModal(i) {
 function closeModal() {
   document.getElementById('edit-modal').classList.remove('open');
   document.getElementById('modal-confirm-delete').style.display = 'none';
+}
+
+function lookupHanja() {
+  const kanji = document.getElementById('modal-k').value.trim();
+  if (!kanji) { alert('먼저 한자 칸에 단어를 입력해주세요.'); return; }
+  // 한자만 추출 (히라가나·카타카나·기호 제외)
+  const hanjaOnly = [...kanji].filter(c => c.charCodeAt(0) >= 0x4E00).join('');
+  const query = hanjaOnly || kanji;
+  window.open('https://hanja.dict.naver.com/search?query=' + encodeURIComponent(query), '_blank');
 }
 
 function saveModal() {
