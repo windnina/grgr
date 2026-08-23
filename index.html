@@ -337,6 +337,9 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
       <button class="dd-item" id="dd-lock" onclick="lockEditMode()" style="display:none">
         <span class="dd-icon">🔒</span> 편집 잠금
       </button>
+      <button class="dd-item" id="dd-chpw" onclick="closeDropdown(); openChangePwModal()" style="display:none">
+        <span class="dd-icon">🔑</span> 비밀번호 변경
+      </button>
       <div class="dd-divider" id="dd-lock-divider" style="display:none"></div>
       <button class="dd-item" id="dd-github" onclick="openGithubModal(); closeDropdown()">
         <span class="dd-icon">🔗</span> <span id="dd-github-label">GitHub 연동됨 ✓</span>
@@ -509,6 +512,22 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
   </div>
 </div>
 
+<!-- ===== 비밀번호 변경 모달 ===== -->
+<div class="modal-overlay" id="chpw-modal">
+  <div class="modal-box" style="max-width:300px;text-align:center">
+    <div style="font-size:32px;margin-bottom:8px">🔑</div>
+    <div class="modal-title" style="text-align:center;margin-bottom:4px">비밀번호 변경</div>
+    <div style="font-size:12px;color:#999;margin-bottom:16px">새 4자리 숫자를 입력하세요</div>
+    <div class="form-row" style="margin-bottom:8px">
+      <input class="form-input" id="chpw-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" style="text-align:center;font-size:28px;letter-spacing:10px;padding:12px" oninput="onChangePwInput(this.value)">
+    </div>
+    <div id="chpw-msg" style="font-size:13px;min-height:20px;margin-bottom:8px;color:#27ae60"> </div>
+    <div class="modal-footer" style="justify-content:center">
+      <button class="btn-cancel" onclick="closeChangePwModal()" style="width:100%;padding:13px 0;font-size:16px;border-radius:12px">취소</button>
+    </div>
+  </div>
+</div>
+
 <!-- ===== GitHub 설정 모달 ===== -->
 <div class="modal-overlay" id="github-modal">
   <div class="modal-box">
@@ -559,9 +578,11 @@ const VOCAB_NAME = (() => {
   return p ? p.replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 40) : '';
 })();
 const VOCAB_FILE = VOCAB_NAME ? VOCAB_NAME + '.json' : 'vocab.json';
-const STORAGE_KEY = 'jp_vocab_v1' + (VOCAB_NAME ? '_' + VOCAB_NAME : '');
+const STORAGE_KEY   = 'jp_vocab_v1' + (VOCAB_NAME ? '_' + VOCAB_NAME : '');
+const AUTH_HASH_KEY = 'jp_auth'     + (VOCAB_NAME ? '_' + VOCAB_NAME : '');
+const DEFAULT_AUTH_HASH = '797b59d2942a9118ea3d4cb78eae60a64271b609207f99594ee76b9f57b9944a'; // 0880
+let   currentAuthHash   = localStorage.getItem(AUTH_HASH_KEY) || DEFAULT_AUTH_HASH;
 const PAGE_SIZE = 50;
-const AUTH_HASH = '797b59d2942a9118ea3d4cb78eae60a64271b609207f99594ee76b9f57b9944a';
 
 let isEditMode = sessionStorage.getItem('jp_edit_mode') === '1';
 let authCallback = null; // 인증 후 실행할 함수
@@ -1150,7 +1171,7 @@ async function onAuthInput(val) {
     return;
   }
   const hash = await sha256(val);
-  if (hash === AUTH_HASH) {
+  if (hash === currentAuthHash) {
     isEditMode = true;
     sessionStorage.setItem('jp_edit_mode', '1');
     closeAuthModal();
@@ -1169,12 +1190,34 @@ function lockEditMode() {
   closeDropdown();
 }
 
+function openChangePwModal() {
+  document.getElementById('chpw-input').value = '';
+  document.getElementById('chpw-msg').textContent = ' ';
+  document.getElementById('chpw-modal').classList.add('open');
+  setTimeout(() => document.getElementById('chpw-input').focus(), 50);
+}
+
+function closeChangePwModal() {
+  document.getElementById('chpw-modal').classList.remove('open');
+}
+
+async function onChangePwInput(val) {
+  if (val.length < 4) { document.getElementById('chpw-msg').style.color='#27ae60'; document.getElementById('chpw-msg').textContent = ' '; return; }
+  const hash = await sha256(val);
+  currentAuthHash = hash;
+  try { localStorage.setItem(AUTH_HASH_KEY, hash); } catch(e) {}
+  document.getElementById('chpw-msg').style.color = '#27ae60';
+  document.getElementById('chpw-msg').textContent = '✓ 비밀번호가 변경되었어요!';
+  setTimeout(closeChangePwModal, 900);
+}
+
 function applyEditMode() {
-  // 드롭다운 잠금 항목 (편집 모드일 때만 표시)
-  const ddLock = document.getElementById('dd-lock');
-  const ddLockDivider = document.getElementById('dd-lock-divider');
-  if (ddLock) ddLock.style.display = isEditMode ? '' : 'none';
-  if (ddLockDivider) ddLockDivider.style.display = isEditMode ? '' : 'none';
+  // 드롭다운 잠금·비밀번호변경 항목 (편집 모드일 때만 표시)
+  const show = isEditMode ? '' : 'none';
+  ['dd-lock', 'dd-chpw', 'dd-lock-divider'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = show;
+  });
   // 테이블 재렌더
   buildVocabTable();
 }
