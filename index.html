@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
+<html lang="ko"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>일본어 단어장</title>
@@ -340,15 +338,15 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
       </button>
       <div class="dd-divider" id="dd-lock-divider" style="display:none"></div>
       <button class="dd-item" id="dd-github" onclick="openGithubModal(); closeDropdown()">
-        <span class="dd-icon">🔗</span> <span id="dd-github-label">GitHub 연동</span>
+        <span class="dd-icon">🔗</span> <span id="dd-github-label">GitHub 연동됨 ✓</span>
       </button>
-      <button class="dd-item" id="dd-gh-sync" onclick="closeDropdown(); syncHtmlToGitHub()" style="display:none">
+      <button class="dd-item" id="dd-gh-sync" onclick="closeDropdown(); syncHtmlToGitHub()" style="display: block;">
         <span class="dd-icon">↑</span> UI를 GitHub에 업로드
       </button>
-      <button class="dd-item" id="dd-vocab-sync" onclick="closeDropdown(); writeToGitHub(true)" style="display:none">
+      <button class="dd-item" id="dd-vocab-sync" onclick="closeDropdown(); writeToGitHub(true)" style="display: block;">
         <span class="dd-icon">💾</span> 단어 전체 저장 (vocab.json)
       </button>
-      <button class="dd-item" id="dd-vocab-pull" onclick="closeDropdown(); forceLoadFromGitHub()" style="display:none">
+      <button class="dd-item" id="dd-vocab-pull" onclick="closeDropdown(); forceLoadFromGitHub()" style="display: block;">
         <span class="dd-icon">↓</span> GitHub에서 강제 불러오기
       </button>
     </div>
@@ -378,19 +376,28 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
   </div>
   <table class="vocab-table">
 
-    <tbody id="vocab-tbody"></tbody>
+    <tbody id="vocab-tbody"><tr class="important"><td class="num-cell">1</td><td class="kanji-cell">健やかな<div class="kanji-meaning">굳셀건</div></td><td class="hira-cell">すこやかな</td><td class="combined-cell">健やかな<span class="combined-hira">すこやかな (굳셀건)</span></td><td class="meaning-cell">튼튼한 건강한</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(0))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(0)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">튼튼한 건강한</td></tr><tr class="important"><td class="num-cell">2</td><td class="kanji-cell">均等<div class="kanji-meaning">고를균 무리등</div></td><td class="hira-cell">きんとう</td><td class="combined-cell">均等<span class="combined-hira">きんとう (고를균 무리등)</span></td><td class="meaning-cell">균등</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(1))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(1)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">균등</td></tr><tr class="important"><td class="num-cell">3</td><td class="kanji-cell">躊躇う</td><td class="hira-cell">ためらう</td><td class="combined-cell">躊躇う<span class="combined-hira">ためらう</span></td><td class="meaning-cell">주저하다</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(2))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(2)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">주저하다</td></tr><tr class="important"><td class="num-cell">4</td><td class="kanji-cell">阻む<div class="kanji-meaning">막힐조</div></td><td class="hira-cell">はばむ</td><td class="combined-cell">阻む<span class="combined-hira">はばむ (막힐조)</span></td><td class="meaning-cell">저지하다 막다</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(3))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(3)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">저지하다 막다</td></tr><tr class="important"><td class="num-cell">5</td><td class="kanji-cell">記す</td><td class="hira-cell">しるす</td><td class="combined-cell">記す<span class="combined-hira">しるす</span></td><td class="meaning-cell">기록하다</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(4))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(4)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">기록하다</td></tr><tr class="important"><td class="num-cell">6</td><td class="kanji-cell">励む<div class="kanji-meaning">힘쓸려</div></td><td class="hira-cell">はげむ</td><td class="combined-cell">励む<span class="combined-hira">はげむ (힘쓸려)</span></td><td class="meaning-cell">힘쓰다</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(5))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(5)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">힘쓰다</td></tr><tr class="important"><td class="num-cell">7</td><td class="kanji-cell">励ます<div class="kanji-meaning">힘쓸려</div></td><td class="hira-cell">はげます</td><td class="combined-cell">励ます<span class="combined-hira">はげます (힘쓸려)</span></td><td class="meaning-cell">격려하다</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(6))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(6)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">격려하다</td></tr><tr class="important"><td class="num-cell">8</td><td class="kanji-cell">腫れる<div class="kanji-meaning">종기종</div></td><td class="hira-cell">はれる</td><td class="combined-cell">腫れる<span class="combined-hira">はれる (종기종)</span></td><td class="meaning-cell">붓다</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(7))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(7)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">붓다</td></tr><tr class="important"><td class="num-cell">9</td><td class="kanji-cell">零す·溢す</td><td class="hira-cell">こぼす</td><td class="combined-cell">零す·溢す<span class="combined-hira">こぼす</span></td><td class="meaning-cell">쏟다</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(8))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(8)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">쏟다</td></tr><tr class="important"><td class="num-cell">10</td><td class="kanji-cell">零れる·溢れる</td><td class="hira-cell">こぼれる</td><td class="combined-cell">零れる·溢れる<span class="combined-hira">こぼれる</span></td><td class="meaning-cell">넘치다 새어나오다<div class="example-text">떨어질령 넘칠일</div></td><td class="action-cell-main" rowspan="3"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(9))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(9)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:none"></td><td colspan="4" class="meaning-mobile-cell" style="padding-bottom:4px!important;border-bottom:none">넘치다 새어나오다</td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell" style="padding-top:2px!important;font-size:15px;color:#333;white-space:pre-wrap">떨어질령 넘칠일</td></tr><tr class="important"><td class="num-cell">11</td><td class="kanji-cell">誂える<div class="kanji-meaning">꾈조</div></td><td class="hira-cell">あつらえる</td><td class="combined-cell">誂える<span class="combined-hira">あつらえる (꾈조)</span></td><td class="meaning-cell">맞추다 주문하다</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(10))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(10)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">맞추다 주문하다</td></tr><tr class="important"><td class="num-cell">12</td><td class="kanji-cell">朽ちる<div class="kanji-meaning">썩을부</div></td><td class="hira-cell">くちる</td><td class="combined-cell">朽ちる<span class="combined-hira">くちる (썩을부)</span></td><td class="meaning-cell">썩다</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(11))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(11)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">썩다</td></tr><tr class="important"><td class="num-cell">13</td><td class="kanji-cell">捻れる<div class="kanji-meaning">비틀염</div></td><td class="hira-cell">ねじれる</td><td class="combined-cell">捻れる<span class="combined-hira">ねじれる (비틀염)</span></td><td class="meaning-cell">꼬이다</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(12))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(12)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">꼬이다</td></tr><tr class="important"><td class="num-cell">14</td><td class="kanji-cell">覆す<div class="kanji-meaning">덮을복</div></td><td class="hira-cell">くつがえす</td><td class="combined-cell">覆す<span class="combined-hira">くつがえす (덮을복)</span></td><td class="meaning-cell">뒤집다. 위아래를 뒤집다</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(13))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(13)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">뒤집다. 위아래를 뒤집다</td></tr><tr class="important"><td class="num-cell">15</td><td class="kanji-cell">放り出す</td><td class="hira-cell">ほうりだす</td><td class="combined-cell">放り出す<span class="combined-hira">ほうりだす</span></td><td class="meaning-cell">내던지다 내쫓다</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(14))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(14)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">내던지다 내쫓다</td></tr><tr class="important"><td class="num-cell">16</td><td class="kanji-cell">蹴飛ばす<div class="kanji-meaning">찰축</div></td><td class="hira-cell">けとばす</td><td class="combined-cell">蹴飛ばす<span class="combined-hira">けとばす (찰축)</span></td><td class="meaning-cell">걷어차다</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(15))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(15)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">걷어차다</td></tr><tr class="important"><td class="num-cell">17</td><td class="kanji-cell">弄る<div class="kanji-meaning">희롱할롱</div></td><td class="hira-cell">いじる</td><td class="combined-cell">弄る<span class="combined-hira">いじる (희롱할롱)</span></td><td class="meaning-cell">주무르다 만지다 놀리다</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(16))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(16)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">주무르다 만지다 놀리다</td></tr><tr class="important"><td class="num-cell">18</td><td class="kanji-cell">煽てる<div class="kanji-meaning">부채질할선</div></td><td class="hira-cell">おだてる</td><td class="combined-cell">煽てる<span class="combined-hira">おだてる (부채질할선)</span></td><td class="meaning-cell">치켜세우다</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(17))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(17)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">치켜세우다</td></tr><tr class="important"><td class="num-cell">19</td><td class="kanji-cell">遮る<div class="kanji-meaning">가릴차</div></td><td class="hira-cell">さえぎる</td><td class="combined-cell">遮る<span class="combined-hira">さえぎる (가릴차)</span></td><td class="meaning-cell">가리다 막다<div class="example-text">遮断しゃだん차단</div></td><td class="action-cell-main" rowspan="3"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(18))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(18)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:none"></td><td colspan="4" class="meaning-mobile-cell" style="padding-bottom:4px!important;border-bottom:none">가리다 막다</td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell" style="padding-top:2px!important;font-size:15px;color:#333;white-space:pre-wrap">遮断しゃだん차단</td></tr><tr class="important"><td class="num-cell">20</td><td class="kanji-cell">山積</td><td class="hira-cell">さんせき</td><td class="combined-cell">山積<span class="combined-hira">さんせき</span></td><td class="meaning-cell">산적</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(19))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(19)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">산적</td></tr><tr class="important"><td class="num-cell">21</td><td class="kanji-cell">兆し<div class="kanji-meaning">억조조</div></td><td class="hira-cell">きざし</td><td class="combined-cell">兆し<span class="combined-hira">きざし (억조조)</span></td><td class="meaning-cell">징조 조짐</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(20))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(20)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">징조 조짐</td></tr><tr class="important"><td class="num-cell">22</td><td class="kanji-cell">赴く<div class="kanji-meaning">다다를 부</div></td><td class="hira-cell">おもむく</td><td class="combined-cell">赴く<span class="combined-hira">おもむく (다다를 부)</span></td><td class="meaning-cell">향하여 가다</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(21))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(21)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">향하여 가다</td></tr><tr class="important"><td class="num-cell">23</td><td class="kanji-cell">兎角<div class="kanji-meaning">토끼토 뿔각</div></td><td class="hira-cell">とかく</td><td class="combined-cell">兎角<span class="combined-hira">とかく (토끼토 뿔각)</span></td><td class="meaning-cell">이럭저럭</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(22))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(22)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">이럭저럭</td></tr><tr class="important"><td class="num-cell">24</td><td class="kanji-cell">封鎖<div class="kanji-meaning">봉할봉 쇠사슬쇄</div></td><td class="hira-cell">ふうさ</td><td class="combined-cell">封鎖<span class="combined-hira">ふうさ (봉할봉 쇠사슬쇄)</span></td><td class="meaning-cell">봉쇄</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(23))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(23)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">봉쇄</td></tr><tr class="important"><td class="num-cell">25</td><td class="kanji-cell">取次</td><td class="hira-cell">とりつぎ</td><td class="combined-cell">取次<span class="combined-hira">とりつぎ</span></td><td class="meaning-cell">중개</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(24))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(24)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">중개</td></tr><tr class="important"><td class="num-cell">26</td><td class="kanji-cell">鈍る<div class="kanji-meaning">둔할둔</div></td><td class="hira-cell">なまる</td><td class="combined-cell">鈍る<span class="combined-hira">なまる (둔할둔)</span></td><td class="meaning-cell">둔하다 무뎌지다<div class="example-text">刀の切れ味が鈍る</div></td><td class="action-cell-main" rowspan="3"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(25))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(25)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:none"></td><td colspan="4" class="meaning-mobile-cell" style="padding-bottom:4px!important;border-bottom:none">둔하다 무뎌지다</td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell" style="padding-top:2px!important;font-size:15px;color:#333;white-space:pre-wrap">刀の切れ味が鈍る</td></tr><tr class="important"><td class="num-cell">27</td><td class="kanji-cell">銘柄<div class="kanji-meaning">새길명 자루병</div></td><td class="hira-cell">めいがら</td><td class="combined-cell">銘柄<span class="combined-hira">めいがら (새길명 자루병)</span></td><td class="meaning-cell">상표</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(26))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(26)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">상표</td></tr><tr class="important"><td class="num-cell">28</td><td class="kanji-cell">歪曲<div class="kanji-meaning">기울왜 굽을곡</div></td><td class="hira-cell">わいきょく</td><td class="combined-cell">歪曲<span class="combined-hira">わいきょく (기울왜 굽을곡)</span></td><td class="meaning-cell">왜곡</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(27))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(27)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">왜곡</td></tr><tr><td class="num-cell">29</td><td class="kanji-cell">籠る、篭る<div class="kanji-meaning">대바구니롱</div></td><td class="hira-cell">こもる</td><td class="combined-cell">籠る、篭る<span class="combined-hira">こもる (대바구니롱)</span></td><td class="meaning-cell">자욱하다</td><td class="action-cell-main" rowspan="2"><button class="imp-btn" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(28))">☆</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(28)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">자욱하다</td></tr><tr class="important"><td class="num-cell">30</td><td class="kanji-cell">痺れる<div class="kanji-meaning">저릴비</div></td><td class="hira-cell">しびれる</td><td class="combined-cell">痺れる<span class="combined-hira">しびれる (저릴비)</span></td><td class="meaning-cell">저리다 마비되다</td><td class="action-cell-main" rowspan="2"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(29))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(29)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">저리다 마비되다</td></tr><tr class="important"><td class="num-cell">31</td><td class="kanji-cell">見栄え</td><td class="hira-cell">みばえ</td><td class="combined-cell">見栄え<span class="combined-hira">みばえ</span></td><td class="meaning-cell">볼품<div class="example-text">味はおいしいけど、見栄えがいまいちだ。</div></td><td class="action-cell-main" rowspan="3"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(30))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(30)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:none"></td><td colspan="4" class="meaning-mobile-cell" style="padding-bottom:4px!important;border-bottom:none">볼품</td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell" style="padding-top:2px!important;font-size:15px;color:#333;white-space:pre-wrap">味はおいしいけど、見栄えがいまいちだ。</td></tr><tr><td class="num-cell">32</td><td class="kanji-cell">肉汁</td><td class="hira-cell">にくじゅう</td><td class="combined-cell">肉汁<span class="combined-hira">にくじゅう</span></td><td class="meaning-cell">육즙</td><td class="action-cell-main" rowspan="2"><button class="imp-btn" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(31))">☆</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(31)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">육즙</td></tr><tr><td class="num-cell">33</td><td class="kanji-cell">防ぐ<div class="kanji-meaning">막을방</div></td><td class="hira-cell">ふせぐ</td><td class="combined-cell">防ぐ<span class="combined-hira">ふせぐ (막을방)</span></td><td class="meaning-cell">막다 방어하다<div class="example-text">事故を防ぐ、感染を防ぐ、敵の攻撃を防ぐ</div></td><td class="action-cell-main" rowspan="3"><button class="imp-btn" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(32))">☆</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(32)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:none"></td><td colspan="4" class="meaning-mobile-cell" style="padding-bottom:4px!important;border-bottom:none">막다 방어하다</td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell" style="padding-top:2px!important;font-size:15px;color:#333;white-space:pre-wrap">事故を防ぐ、感染を防ぐ、敵の攻撃を防ぐ</td></tr><tr class="important"><td class="num-cell">34</td><td class="kanji-cell">おねだりをする</td><td class="hira-cell"><span style="color:#ddd">—</span></td><td class="combined-cell">おねだりをする<span class="combined-hira"></span></td><td class="meaning-cell">조르다<div class="example-text">かわいくおねだりする</div></td><td class="action-cell-main" rowspan="3"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(33))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(33)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:none"></td><td colspan="4" class="meaning-mobile-cell" style="padding-bottom:4px!important;border-bottom:none">조르다</td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell" style="padding-top:2px!important;font-size:15px;color:#333;white-space:pre-wrap">かわいくおねだりする</td></tr><tr><td class="num-cell">35</td><td class="kanji-cell">膿を出す<div class="kanji-meaning">고름농</div></td><td class="hira-cell">うみをだす</td><td class="combined-cell">膿を出す<span class="combined-hira">うみをだす (고름농)</span></td><td class="meaning-cell">고름을 짜내다</td><td class="action-cell-main" rowspan="2"><button class="imp-btn" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(34))">☆</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(34)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">고름을 짜내다</td></tr><tr><td class="num-cell">36</td><td class="kanji-cell">でっちあげる</td><td class="hira-cell"><span style="color:#ddd">—</span></td><td class="combined-cell">でっちあげる<span class="combined-hira"></span></td><td class="meaning-cell">날조하다</td><td class="action-cell-main" rowspan="2"><button class="imp-btn" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(35))">☆</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(35)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">날조하다</td></tr><tr class="important"><td class="num-cell">37</td><td class="kanji-cell">おこがましい</td><td class="hira-cell"><span style="color:#ddd">—</span></td><td class="combined-cell">おこがましい<span class="combined-hira"></span></td><td class="meaning-cell">주제넘다 건방지다<div class="example-text">おこがましいと思いますが、意見を言わせてください。</div></td><td class="action-cell-main" rowspan="3"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(36))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(36)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:none"></td><td colspan="4" class="meaning-mobile-cell" style="padding-bottom:4px!important;border-bottom:none">주제넘다 건방지다</td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell" style="padding-top:2px!important;font-size:15px;color:#333;white-space:pre-wrap">おこがましいと思いますが、意見を言わせてください。</td></tr><tr><td class="num-cell">38</td><td class="kanji-cell">しどろもどろ</td><td class="hira-cell"><span style="color:#ddd">—</span></td><td class="combined-cell">しどろもどろ<span class="combined-hira"></span></td><td class="meaning-cell">횡설수설</td><td class="action-cell-main" rowspan="2"><button class="imp-btn" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(37))">☆</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(37)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">횡설수설</td></tr><tr><td class="num-cell">39</td><td class="kanji-cell">どきりとする</td><td class="hira-cell"><span style="color:#ddd">—</span></td><td class="combined-cell">どきりとする<span class="combined-hira"></span></td><td class="meaning-cell">철렁하다</td><td class="action-cell-main" rowspan="2"><button class="imp-btn" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(38))">☆</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(38)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">철렁하다</td></tr><tr class="important"><td class="num-cell">40</td><td class="kanji-cell">図星<div class="kanji-meaning">그림도. 별성</div></td><td class="hira-cell">ずぼし</td><td class="combined-cell">図星<span class="combined-hira">ずぼし (그림도. 별성)</span></td><td class="meaning-cell">정곡<div class="example-text">図星を指されて、どきりとしました。</div></td><td class="action-cell-main" rowspan="3"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(39))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(39)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:none"></td><td colspan="4" class="meaning-mobile-cell" style="padding-bottom:4px!important;border-bottom:none">정곡</td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell" style="padding-top:2px!important;font-size:15px;color:#333;white-space:pre-wrap">図星を指されて、どきりとしました。</td></tr><tr><td class="num-cell">41</td><td class="kanji-cell">情が移る<div class="kanji-meaning">옮길리</div></td><td class="hira-cell">じょうがうつる</td><td class="combined-cell">情が移る<span class="combined-hira">じょうがうつる (옮길리)</span></td><td class="meaning-cell">정이들다</td><td class="action-cell-main" rowspan="2"><button class="imp-btn" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(40))">☆</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(40)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">정이들다</td></tr><tr><td class="num-cell">42</td><td class="kanji-cell">素面</td><td class="hira-cell">しらふ</td><td class="combined-cell">素面<span class="combined-hira">しらふ</span></td><td class="meaning-cell">맨정신, 술안취한상태<div class="example-text">素面では言いにくい</div></td><td class="action-cell-main" rowspan="3"><button class="imp-btn" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(41))">☆</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(41)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:none"></td><td colspan="4" class="meaning-mobile-cell" style="padding-bottom:4px!important;border-bottom:none">맨정신, 술안취한상태</td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell" style="padding-top:2px!important;font-size:15px;color:#333;white-space:pre-wrap">素面では言いにくい</td></tr><tr><td class="num-cell">43</td><td class="kanji-cell">面汚し</td><td class="hira-cell">つらよごし</td><td class="combined-cell">面汚し<span class="combined-hira">つらよごし</span></td><td class="meaning-cell">망신<div class="example-text">そんな行動をしては、会社の面汚しになるよ。</div></td><td class="action-cell-main" rowspan="3"><button class="imp-btn" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(42))">☆</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(42)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:none"></td><td colspan="4" class="meaning-mobile-cell" style="padding-bottom:4px!important;border-bottom:none">망신</td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell" style="padding-top:2px!important;font-size:15px;color:#333;white-space:pre-wrap">そんな行動をしては、会社の面汚しになるよ。</td></tr><tr><td class="num-cell">44</td><td class="kanji-cell">塞ぐ<div class="kanji-meaning">막힐색</div></td><td class="hira-cell">ふさぐ</td><td class="combined-cell">塞ぐ<span class="combined-hira">ふさぐ (막힐색)</span></td><td class="meaning-cell">(물리적) 틀어막다 가리다<div class="example-text">穴を塞ぐ、道を塞ぐ</div></td><td class="action-cell-main" rowspan="3"><button class="imp-btn" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(43))">☆</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(43)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:none"></td><td colspan="4" class="meaning-mobile-cell" style="padding-bottom:4px!important;border-bottom:none">(물리적) 틀어막다 가리다</td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell" style="padding-top:2px!important;font-size:15px;color:#333;white-space:pre-wrap">穴を塞ぐ、道を塞ぐ</td></tr><tr><td class="num-cell">45</td><td class="kanji-cell">尊い<div class="kanji-meaning">높을존</div></td><td class="hira-cell">とうとい</td><td class="combined-cell">尊い<span class="combined-hira">とうとい (높을존)</span></td><td class="meaning-cell">고귀한</td><td class="action-cell-main" rowspan="2"><button class="imp-btn" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(44))">☆</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(44)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">고귀한</td></tr><tr><td class="num-cell">46</td><td class="kanji-cell">賄賂<div class="kanji-meaning">재물회, 뇌물뇌</div></td><td class="hira-cell">わいろ</td><td class="combined-cell">賄賂<span class="combined-hira">わいろ (재물회, 뇌물뇌)</span></td><td class="meaning-cell">뇌물</td><td class="action-cell-main" rowspan="2"><button class="imp-btn" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(45))">☆</button><button class="mem-btn on" onclick="event.stopPropagation();toggleMemo(45)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">뇌물</td></tr><tr class="important"><td class="num-cell">47</td><td class="kanji-cell">拗らせる<div class="kanji-meaning">누를욱</div></td><td class="hira-cell">こしらせる</td><td class="combined-cell">拗らせる<span class="combined-hira">こしらせる (누를욱)</span></td><td class="meaning-cell">꼬이게 만들다. 악화시키다<div class="example-text">風邪をこじらせる: 감기를 악화시키다
+問題をこじらせる: 문제를 복잡하게 만들다
+関係をこじらせる: 관계를 꼬이게 만들다</div></td><td class="action-cell-main" rowspan="3"><button class="imp-btn on" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(46))">★</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(46)">알아</button></td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:none"></td><td colspan="4" class="meaning-mobile-cell" style="padding-bottom:4px!important;border-bottom:none">꼬이게 만들다. 악화시키다</td></tr><tr class="meaning-row important"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell" style="padding-top:2px!important;font-size:15px;color:#333;white-space:pre-wrap">風邪をこじらせる: 감기를 악화시키다
+問題をこじらせる: 문제를 복잡하게 만들다
+関係をこじらせる: 관계를 꼬이게 만들다</td></tr><tr><td class="num-cell">48</td><td class="kanji-cell">耳栓<div class="kanji-meaning">마개전</div></td><td class="hira-cell">みみせん</td><td class="combined-cell">耳栓<span class="combined-hira">みみせん (마개전)</span></td><td class="meaning-cell">귀마개</td><td class="action-cell-main" rowspan="2"><button class="imp-btn" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(47))">☆</button><button class="mem-btn on" onclick="event.stopPropagation();toggleMemo(47)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">귀마개</td></tr><tr><td class="num-cell">49</td><td class="kanji-cell">耳かき</td><td class="hira-cell">みみかき</td><td class="combined-cell">耳かき<span class="combined-hira">みみかき</span></td><td class="meaning-cell">귀이개</td><td class="action-cell-main" rowspan="2"><button class="imp-btn" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(48))">☆</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(48)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">귀이개</td></tr><tr><td class="num-cell">50</td><td class="kanji-cell">爽やか<div class="kanji-meaning">시원할상</div></td><td class="hira-cell">さわやか</td><td class="combined-cell">爽やか<span class="combined-hira">さわやか (시원할상)</span></td><td class="meaning-cell">상쾌한</td><td class="action-cell-main" rowspan="2"><button class="imp-btn" onclick="event.stopPropagation();requireAuth(()=&gt;toggleImp(49))">☆</button><button class="mem-btn" onclick="event.stopPropagation();toggleMemo(49)">알아</button></td></tr><tr class="meaning-row"><td class="num-cell" style="border-bottom:1px solid #eee"></td><td colspan="4" class="meaning-mobile-cell">상쾌한</td></tr></tbody>
   </table>
-  <div class="page-tabs-wrap" id="page-tabs-wrap" style="display:none">
-    <div class="page-tabs" id="page-tabs"></div>
+  <div class="page-tabs-wrap" id="page-tabs-wrap" style="display: block;">
+    <div class="page-tabs" id="page-tabs"><button class="page-tab active">1</button><button class="page-tab">2</button><button class="page-tab">3</button><button class="page-tab">4</button><button class="page-tab">5</button><button class="page-tab">6</button></div>
   </div>
 </div>
 
 <!-- ===== 시험 탭 ===== -->
 <div id="tab-quiz" class="tab-panel">
   <div class="quiz-container">
+    <!-- 시험 모드 선택 -->
+    <div id="quiz-mode-sel" style="display:flex;gap:8px;justify-content:center;padding:16px 16px 0">
+      <button id="qmode-word" class="option-chip selected" onclick="selectQuizMode('word')" style="flex:1;padding:10px;font-size:14px">✏️ 단어 시험</button>
+      <button id="qmode-kanji" class="option-chip" onclick="selectQuizMode('kanji')" style="flex:1;padding:10px;font-size:14px">🈳 한자 시험</button>
+    </div>
     <div id="quiz-start" class="quiz-start">
-      <h2>✏️ 단어 시험</h2>
-      <p>일본어를 보고 맞는 한국어 뜻을 고르세요.</p>
+      <h2 id="quiz-start-title">✏️ 단어 시험</h2>
+      <p id="quiz-start-desc">일본어를 보고 맞는 한국어 뜻을 고르세요.</p>
       <div class="opt-label">문제 수</div>
       <div class="start-options" id="count-options">
         <div class="option-chip" data-val="10" onclick="selectCount(this)">10문제</div>
@@ -404,7 +411,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
         <div class="option-chip" data-val="important" onclick="selectScope(this)">중요 단어만</div>
         <div class="option-chip" data-val="not" onclick="selectScope(this)">모르는 단어만</div>
       </div>
-      <button class="btn-primary" onclick="startQuiz()">시작하기</button>
+      <button class="btn-primary" onclick="currentQuizMode==='kanji'?startKanjiQuiz():startQuiz()">시작하기</button>
     </div>
 
     <div id="quiz-question" class="quiz-question">
@@ -440,7 +447,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
       </div>
       <div class="retry-btns">
         <button class="btn-secondary" onclick="resetQuiz()">처음으로</button>
-        <button class="btn-primary" onclick="startQuiz()">다시 시험보기</button>
+        <button class="btn-primary" onclick="currentQuizMode==='kanji'?startKanjiQuiz():startQuiz()">다시 시험보기</button>
       </div>
     </div>
   </div>
@@ -468,8 +475,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
     <div class="form-row">
       <label class="form-label" style="display:flex;align-items:center;justify-content:space-between">
         <span>한자뜻 (각 한자의 음·훈)</span>
-        <button type="button" onclick="lookupHanja()"
-          style="font-size:11px;padding:2px 8px;border:1.5px solid #2980b9;border-radius:20px;background:none;color:#2980b9;cursor:pointer;font-weight:600;white-space:nowrap">
+        <button type="button" onclick="lookupHanja()" style="font-size:11px;padding:2px 8px;border:1.5px solid #2980b9;border-radius:20px;background:none;color:#2980b9;cursor:pointer;font-weight:600;white-space:nowrap">
           🔍 사전 열기
         </button>
       </label>
@@ -497,11 +503,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
     <div style="font-size:32px;margin-bottom:8px">🔒</div>
     <div class="modal-title" style="text-align:center;margin-bottom:16px">편집 모드 잠금 해제</div>
     <div class="form-row" style="margin-bottom:8px">
-      <input class="form-input" id="auth-input" type="password"
-        inputmode="numeric" pattern="[0-9]*" maxlength="4"
-        placeholder="••••"
-        style="text-align:center;font-size:28px;letter-spacing:10px;padding:12px"
-        oninput="onAuthInput(this.value)">
+      <input class="form-input" id="auth-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" style="text-align:center;font-size:28px;letter-spacing:10px;padding:12px" oninput="onAuthInput(this.value)">
     </div>
     <div id="auth-error" style="color:#e74c3c;font-size:13px;min-height:20px;margin-bottom:8px"> </div>
     <div class="modal-footer" style="justify-content:center">
@@ -536,9 +538,9 @@ body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; mi
     <div class="modal-footer">
       <button class="btn-save" onclick="saveGithubConfig()">저장</button>
       <button class="btn-cancel" onclick="closeGithubModal()">취소</button>
-      <button class="btn-cancel" id="gh-disconnect" onclick="disconnectGithub()" style="display:none;color:#e74c3c;border-color:#e74c3c">연동 해제</button>
+      <button class="btn-cancel" id="gh-disconnect" onclick="disconnectGithub()" style="display: inline-block; color: rgb(231, 76, 60); border-color: rgb(231, 76, 60);">연동 해제</button>
     </div>
-    <div id="gh-status" style="margin-top:12px;font-size:13px;color:#888"></div>
+    <div id="gh-status" style="margin-top:12px;font-size:13px;color:#888">✓ 저장됐어요. 다음 편집부터 자동 동기화돼요.</div>
   </div>
 </div>
 
@@ -571,6 +573,7 @@ let editIndex = -1;
 // 시험
 let quizCount = 20, quizScope = 'all';
 let quizItems = [], quizPool = [], quizIdx = 0, quizScore = 0, quizWrong = [], answered = false;
+let currentQuizMode = 'word'; // 'word' | 'kanji'
 
 // =============================================
 // 저장 / 불러오기
@@ -1394,7 +1397,7 @@ function toggleQuizImp() {
   btn.classList.toggle('on', VOCAB[item._i].imp);
 }
 
-function nextQuestion() { quizIdx++; renderQuestion(); }
+function nextQuestion() { quizIdx++; currentQuizMode === 'kanji' ? renderKanjiQuestion() : renderQuestion(); }
 
 function showResults() {
   document.getElementById('quiz-question').style.display = 'none';
@@ -1420,10 +1423,18 @@ function showResults() {
     quizWrong.forEach(v => {
       const d = document.createElement('div');
       d.className = 'wrong-item';
-      d.innerHTML =
-        '<span class="wrong-jp">'   + esc(v.k || v.h)         + '</span>' +
-        '<span class="wrong-hira">' + esc(v.k ? (v.h||'') : '') + '</span>' +
-        '<span class="wrong-kr">→ ' + esc(v.r)                + '</span>';
+      if (v.kanji) {
+        // 한자 시험 아이템
+        d.innerHTML =
+          '<span class="wrong-jp">'   + esc(v.kanji)   + '</span>' +
+          '<span class="wrong-hira"></span>' +
+          '<span class="wrong-kr">→ ' + esc(v.meaning) + '</span>';
+      } else {
+        d.innerHTML =
+          '<span class="wrong-jp">'   + esc(v.k || v.h)           + '</span>' +
+          '<span class="wrong-hira">' + esc(v.k ? (v.h||'') : '') + '</span>' +
+          '<span class="wrong-kr">→ ' + esc(v.r)                  + '</span>';
+      }
       body.appendChild(d);
     });
   } else {
@@ -1435,6 +1446,138 @@ function resetQuiz() {
   document.getElementById('quiz-results').style.display  = 'none';
   document.getElementById('quiz-question').style.display = 'none';
   document.getElementById('quiz-start').style.display    = 'block';
+  document.getElementById('quiz-mode-sel').style.display = 'flex';
+}
+
+// =============================================
+// 퀴즈 모드 전환
+// =============================================
+function selectQuizMode(mode) {
+  currentQuizMode = mode;
+  document.getElementById('qmode-word').classList.toggle('selected', mode === 'word');
+  document.getElementById('qmode-kanji').classList.toggle('selected', mode === 'kanji');
+  document.getElementById('quiz-start-title').textContent  = mode === 'kanji' ? '🈳 한자 시험' : '✏️ 단어 시험';
+  document.getElementById('quiz-start-desc').textContent   = mode === 'kanji'
+    ? '한자를 보고 맞는 훈음(한자뜻)을 고르세요.' : '일본어를 보고 맞는 한국어 뜻을 고르세요.';
+}
+
+// =============================================
+// 한자 시험
+// =============================================
+function extractKanji(str) {
+  // CJK 통합 한자 범위만 추출 (문자열 반환)
+  return [...(str || '')].filter(c => {
+    const cp = c.codePointAt(0);
+    return (cp >= 0x4E00 && cp <= 0x9FFF) || (cp >= 0x3400 && cp <= 0x4DBF);
+  }).join('');
+}
+
+function extractKanjiList(str) {
+  // CJK 한자 낱자 배열 반환
+  return [...(str || '')].filter(c => {
+    const cp = c.codePointAt(0);
+    return (cp >= 0x4E00 && cp <= 0x9FFF) || (cp >= 0x3400 && cp <= 0x4DBF);
+  });
+}
+
+function splitKmMeanings(km, count) {
+  // 쉼표·슬래시·줄바꿈 으로 분리
+  const parts = km.split(/[,，\/\n]/).map(s => s.trim()).filter(Boolean);
+  if (parts.length >= count) return parts;
+  if (parts.length === 1) return Array(count).fill(parts[0]);
+  return parts;
+}
+
+function startKanjiQuiz() {
+  // 단어를 낱 한자 단위로 분해 → {kanji, meaning, _i}
+  const flatItems = [];
+  VOCAB.forEach((v, i) => {
+    if (!v.km || !v.km.trim()) return;
+    const kanjis = extractKanjiList(v.k);
+    if (!kanjis.length) return;
+    const meanings = splitKmMeanings(v.km.trim(), kanjis.length);
+    kanjis.forEach((kanji, j) => {
+      const meaning = meanings[j] || meanings[0];
+      if (meaning) flatItems.push({ kanji, meaning, _i: i });
+    });
+  });
+
+  if (flatItems.length < 4) {
+    alert('한자뜻(훈음)이 입력된 단어가 너무 적어요 (최소 4개).\n단어 수정 화면에서 한자뜻을 더 입력해주세요.');
+    return;
+  }
+  const n = Math.min(quizCount, flatItems.length);
+  quizPool  = flatItems;
+  quizItems = shuffle(flatItems).slice(0, n);
+  quizIdx = 0; quizScore = 0; quizWrong = []; answered = false;
+
+  document.getElementById('quiz-start').style.display    = 'none';
+  document.getElementById('quiz-results').style.display  = 'none';
+  document.getElementById('quiz-question').style.display = 'block';
+  document.getElementById('quiz-mode-sel').style.display = 'none';
+  renderKanjiQuestion();
+}
+
+function renderKanjiQuestion() {
+  if (quizIdx >= quizItems.length) { showResults(); return; }
+  answered = false;
+  const item  = quizItems[quizIdx];
+  const total = quizItems.length;
+
+  document.getElementById('qp-text').textContent = (quizIdx + 1) + ' / ' + total;
+  document.getElementById('qs-text').textContent = '맞힌 수: ' + quizScore;
+  document.getElementById('qp-bar').style.width  = (quizIdx / total * 100) + '%';
+
+  document.getElementById('q-kanji').textContent = item.kanji;
+  document.getElementById('q-hira').textContent  = ''; // 히라가나 표시 안함
+  document.getElementById('q-prompt') && (document.getElementById('q-prompt').textContent = '이 한자의 뜻은?');
+
+  const impBtn = document.getElementById('q-imp-btn');
+  impBtn.textContent = VOCAB[item._i].imp ? '★' : '☆';
+  impBtn.classList.toggle('on', !!VOCAB[item._i].imp);
+
+  const correct = item.meaning;
+  const others  = shuffle(quizPool.filter(v => v.meaning !== correct).map(v => v.meaning)).slice(0, 3);
+  const choices = shuffle([correct, ...others]);
+
+  const fb = document.getElementById('q-feedback');
+  fb.textContent = ''; fb.className = 'q-feedback';
+  const grid = document.getElementById('q-choices');
+  grid.innerHTML = '';
+  choices.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = c;
+    btn.onclick = () => selectKanjiAnswer(btn, c, correct, grid);
+    grid.appendChild(btn);
+  });
+  document.getElementById('btn-next').style.display = 'none';
+}
+
+function selectKanjiAnswer(btn, chosen, correct, grid) {
+  if (answered) return;
+  answered = true;
+  grid.querySelectorAll('.choice-btn').forEach(b => {
+    b.disabled = true;
+    if (b.textContent === correct)
+      b.classList.add(chosen === correct ? 'correct' : 'reveal');
+  });
+  const fb = document.getElementById('q-feedback');
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    fb.textContent = '✓ 정답!'; fb.className = 'q-feedback ok';
+    quizScore++;
+    document.getElementById('qs-text').textContent = '맞힌 수: ' + quizScore;
+    setTimeout(() => { quizIdx++; renderKanjiQuestion(); }, 600);
+  } else {
+    btn.classList.add('wrong');
+    fb.textContent = '✗ 오답! 정답: ' + correct; fb.className = 'q-feedback ng';
+    quizWrong.push(quizItems[quizIdx]);
+    document.getElementById('qs-text').textContent = '맞힌 수: ' + quizScore;
+    const nb = document.getElementById('btn-next');
+    nb.style.display = 'block';
+    nb.textContent = quizIdx + 1 < quizItems.length ? '다음 문제 →' : '결과 보기 →';
+  }
 }
 
 // =============================================
@@ -1518,5 +1661,6 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 <div class="save-status" id="save-status"></div>
-</body>
-</html>
+
+
+</body></html>
