@@ -23,10 +23,14 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
   cursor: pointer; font-size: 22px; font-weight: 400;
   background: transparent; color: #bbb; transition: color 0.15s;
 }
-.tab-btn.active { color: #111; font-weight: 700; }
+.tab-btn.active { color: #111; font-weight: 700; position: relative; }
+.tab-btn.active::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 3px; background: #111;
+}
 .tab-btn:hover:not(.active) { color: #888; }
 
-.tab-panel { display: none; padding: 0; padding-bottom: 60px; }
+.tab-panel { display: none; padding: 8px 0; padding-bottom: 60px; }
 .tab-panel.active { display: block; }
 
 /* ---- Vocab header ---- */
