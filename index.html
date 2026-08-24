@@ -568,7 +568,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     <div class="form-row" style="margin-bottom:8px">
       <input class="form-input" id="auth-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" style="text-align:center;font-size:28px;letter-spacing:10px;padding:12px" oninput="onAuthInput(this.value)">
     </div>
-    <div id="auth-error" style="color: rgb(231, 76, 60); font-size: 13px; min-height: 20px; margin-bottom: 8px; display: none;"> </div>
+    <div id="auth-error" style="color:#e74c3c;font-size:13px;min-height:20px;margin-bottom:8px"> </div>
     <div class="modal-footer" style="justify-content:center">
       <button class="btn-cancel" onclick="closeAuthModal()" style="width:100%;padding:13px 0;font-size:16px;border-radius:12px">취소</button>
     </div>
@@ -619,7 +619,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
       <button class="btn-cancel" onclick="closeGithubModal()">취소</button>
       <button class="btn-cancel" id="gh-disconnect" onclick="disconnectGithub()" style="display: inline-block; color: rgb(231, 76, 60); border-color: rgb(231, 76, 60);">연동 해제</button>
     </div>
-    <div id="gh-status" style="margin-top:12px;font-size:13px;color:#888">✓ 저장됐어요. 다음 편집부터 자동 동기화돼요.</div>
+    <div id="gh-status" style="margin-top:12px;font-size:13px;color:#888"></div>
   </div>
 </div>
 
