@@ -510,7 +510,8 @@
       "k": "嘲る",
       "h": "あざける",
       "r": "비웃다",
-      "km": "비웃을조"
+      "km": "비웃을조",
+      "imp": true
     },
     {
       "k": "-がてら",
@@ -1688,8 +1689,8 @@
     false,
     false,
     false,
-    true,
-    true,
+    false,
+    false,
     false,
     false,
     false,
@@ -1907,5 +1908,5 @@
     true,
     true
   ],
-  "savedAt": 1787557197806
+  "savedAt": 1787557220196
 }
