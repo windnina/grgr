@@ -58,7 +58,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
 
 .search-wrap {
   display: none; align-items: center; gap: 6px;
-  background: #fff; border: 1.5px solid #27ae60; border-radius: 999px;
+  background: #fff; border: 1.5px solid #4a9eff; border-radius: 999px;
   padding: 4px 12px; flex: 1; min-width: 180px; max-width: 300px;
 }
 .search-wrap.open { display: flex; }
@@ -291,12 +291,12 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
   transition: all 0.15s; color: #333; line-height: 1.4;
 }
 .choice-btn:hover:not(:disabled) { }
-.choice-btn.correct { background: #27ae60; border-color: #27ae60; color: #fff; }
+.choice-btn.correct { background: #4a9eff; border-color: #4a9eff; color: #fff; }
 .choice-btn.wrong { background: #e74c3c; border-color: #e74c3c; color: #fff; }
 .choice-btn.reveal { background: #ebf4ff; border-color: #4a9eff; color: #4a9eff; }
 .choice-btn:disabled { cursor: default; }
 .q-feedback { text-align: center; font-size: 14px; min-height: 22px; font-weight: 600; color: transparent; margin-bottom: 8px; }
-.q-feedback.ok { color: #27ae60; }
+.q-feedback.ok { color: #4a9eff; }
 .q-feedback.ng { color: #e74c3c; }
 .btn-next {
   width: 100%; padding: 13px; background: #1a2535; color: #fff; border: none;
@@ -313,7 +313,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
 .result-stat { background: #f5f5f5; border-radius: 12px; padding: 12px 22px; text-align: center; }
 .result-stat .num { font-size: 26px; font-weight: 700; }
 .result-stat .lbl { font-size: 11px; color: #999; margin-top: 2px; }
-.result-stat.green .num { color: #27ae60; }
+.result-stat.green .num { color: #4a9eff; }
 .result-stat.red .num { color: #e74c3c; }
 .wrong-list { background: #fff; border-radius: 16px; padding: 20px 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 16px; text-align: left; }
 .wrong-list h3 { font-size: 14px; color: #e74c3c; margin-bottom: 14px; }
@@ -321,7 +321,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
 .wrong-item:last-child { border-bottom: none; }
 .wrong-jp { font-size: 15px; font-weight: 600; color: #1a2535; min-width: 120px; }
 .wrong-hira { font-size: 12px; color: #bbb; min-width: 90px; }
-.wrong-kr { color: #27ae60; font-size: 13px; }
+.wrong-kr { color: #4a9eff; font-size: 13px; }
 .retry-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 .btn-secondary { padding: 12px 26px; background: #fff; color: #1a2535; border: 2px solid #1a2535; border-radius: 28px; font-size: 15px; font-weight: 600; cursor: pointer; }
 .retry-btns .btn-primary { margin-top: 0; }
@@ -367,8 +367,8 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
 <body>
 
 <nav class="tab-nav">
-  <button class="tab-btn active" onclick="switchTab('vocab',this)">단어장</button>
-  <button class="tab-btn" onclick="switchTab('quiz',this)">시험</button>
+  <button class="tab-btn" onclick="switchTab('vocab',this)">단어장</button>
+  <button class="tab-btn active" onclick="switchTab('quiz',this)">시험</button>
   <div id="vocab-name-badge" style="display:none;align-items:center;padding:0 8px;font-size:12px;color:#999;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px"></div>
   <div style="flex:1"></div>
   <div style="display:flex;align-items:center;gap:8px;padding:8px 0;">
@@ -407,7 +407,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
 </nav>
 
 <!-- ===== 단어장 탭 ===== -->
-<div id="tab-vocab" class="tab-panel active">
+<div id="tab-vocab" class="tab-panel">
   <div class="vocab-header">
     <div class="header-left">
       <div class="filter-btns" id="filter-btns">
@@ -418,7 +418,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
         <button class="search-btn" id="search-toggle-btn" onclick="toggleSearch()">🔍</button>
       </div>
       <div class="search-wrap" id="search-wrap">
-        <span style="color:#27ae60;font-size:14px">🔍</span>
+        <span style="color:#4a9eff;font-size:14px">🔍</span>
         <input class="search-input" id="search-input" type="text" placeholder="일본어 또는 한국어 검색…" oninput="onSearchInput()" autocomplete="off" autocorrect="off" autocapitalize="off">
         <button class="search-clear" onclick="clearSearch()">✕</button>
       </div>
@@ -436,14 +436,14 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
 </div>
 
 <!-- ===== 시험 탭 ===== -->
-<div id="tab-quiz" class="tab-panel">
+<div id="tab-quiz" class="tab-panel active">
   <div class="quiz-container">
     <!-- 시험 모드 선택 -->
-    <div id="quiz-mode-sel" style="display:flex;gap:8px;justify-content:center;padding:16px 16px 20px">
+    <div id="quiz-mode-sel" style="display: none; gap: 8px; justify-content: center; padding: 16px 16px 20px;">
       <button id="qmode-word" class="option-chip selected" onclick="selectQuizMode('word')" style="flex:1;padding:10px;font-size:14px">✏️ 단어 시험</button>
       <button id="qmode-kanji" class="option-chip" onclick="selectQuizMode('kanji')" style="flex:1;padding:10px;font-size:14px">🈳 한자 시험</button>
     </div>
-    <div id="quiz-start" class="quiz-start">
+    <div id="quiz-start" class="quiz-start" style="display: none;">
       <h2 id="quiz-start-title">✏️ 단어 시험</h2>
       <p id="quiz-start-desc">일본어를 보고 맞는 한국어 뜻을 고르세요.</p>
       <div class="opt-label">문제 수</div>
@@ -462,28 +462,32 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
       <button class="btn-primary" onclick="currentQuizMode==='kanji'?startKanjiQuiz():startQuiz()">시작하기</button>
     </div>
 
-    <div id="quiz-question" class="quiz-question">
+    <div id="quiz-question" class="quiz-question" style="display: block;">
       <div class="qprog-text">
-        <span id="qp-text">1 / 20</span>
-        <span id="qs-text">맞힌 수: 0</span>
+        <span id="qp-text">2 / 20</span>
+        <span id="qs-text">맞힌 수: 1</span>
       </div>
-      <div class="qprog-wrap"><div class="qprog-bar" id="qp-bar" style="width:0%"></div></div>
+      <div class="qprog-wrap"><div class="qprog-bar" id="qp-bar" style="width: 5%;"></div></div>
       <div class="question-card">
         <button class="q-imp-btn" id="q-imp-btn" onclick="toggleQuizImp()">☆</button>
-        <div class="q-kanji" id="q-kanji"></div>
-        <div class="q-hira" id="q-hira"></div>
+        <div class="q-kanji word-mode" id="q-kanji">清浄</div>
+        <div class="q-hira" id="q-hira">しょうじょう</div>
         <div class="q-prompt" id="q-prompt">한국어 뜻은?</div>
+        <div id="q-km-wrap" style="display: none;">
+          <button class="q-examples-btn" id="q-km-btn" onclick="toggleWordKanjiMeaning()">한자뜻 보기 ▾</button>
+          <div class="q-examples-panel" id="q-km-panel" style="display: none;"></div>
+        </div>
         <div id="q-examples-wrap" style="display:none">
           <button class="q-examples-btn" id="q-examples-btn" onclick="toggleKanjiExamples()">예시단어 보기 ▾</button>
           <div class="q-examples-panel" id="q-examples-panel"></div>
         </div>
       </div>
       <div class="q-feedback" id="q-feedback"></div>
-      <div class="choices-grid" id="q-choices"></div>
-      <button class="btn-next" id="btn-next" onclick="nextQuestion()">다음 문제 →</button>
+      <div class="choices-grid" id="q-choices"><button class="choice-btn">청정 맑고깨끗</button><button class="choice-btn">원칙</button><button class="choice-btn">이해했어. 전부말하지않아도돼</button><button class="choice-btn">이럭저럭</button></div>
+      <button class="btn-next" id="btn-next" onclick="nextQuestion()" style="display: none;">다음 문제 →</button>
     </div>
 
-    <div id="quiz-results" class="quiz-results">
+    <div id="quiz-results" class="quiz-results" style="display: none;">
       <div class="result-card">
         <div class="result-score"><span id="r-score">0</span><small> / <span id="r-total">20</span></small></div>
         <div class="result-msg" id="r-msg"></div>
@@ -573,7 +577,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     <div class="form-row" style="margin-bottom:8px">
       <input class="form-input" id="chpw-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" style="text-align:center;font-size:28px;letter-spacing:10px;padding:12px" oninput="onChangePwInput(this.value)">
     </div>
-    <div id="chpw-msg" style="font-size:13px;min-height:20px;margin-bottom:8px;color:#27ae60"> </div>
+    <div id="chpw-msg" style="font-size:13px;min-height:20px;margin-bottom:8px;color:#4a9eff"> </div>
     <div class="modal-footer" style="justify-content:center">
       <button class="btn-cancel" onclick="closeChangePwModal()" style="width:100%;padding:13px 0;font-size:16px;border-radius:12px">취소</button>
     </div>
@@ -1255,11 +1259,11 @@ function closeChangePwModal() {
 }
 
 async function onChangePwInput(val) {
-  if (val.length < 4) { document.getElementById('chpw-msg').style.color='#27ae60'; document.getElementById('chpw-msg').textContent = ' '; return; }
+  if (val.length < 4) { document.getElementById('chpw-msg').style.color='#4a9eff'; document.getElementById('chpw-msg').textContent = ' '; return; }
   const hash = await sha256(val);
   currentAuthHash = hash;
   try { localStorage.setItem(AUTH_HASH_KEY, hash); } catch(e) {}
-  document.getElementById('chpw-msg').style.color = '#27ae60';
+  document.getElementById('chpw-msg').style.color = '#4a9eff';
   document.getElementById('chpw-msg').textContent = '✓ 비밀번호가 변경되었어요!';
   setTimeout(closeChangePwModal, 900);
 }
@@ -1486,6 +1490,21 @@ function renderQuestion() {
   kanjiEl.className = 'q-kanji word-mode';
   document.getElementById('q-hira').textContent  = item.k ? (item.h || '') : '';
   document.getElementById('q-examples-wrap').style.display = 'none';
+  // 한자뜻 보기 버튼 — km 데이터가 있는 단어만 표시
+  const kmWrap  = document.getElementById('q-km-wrap');
+  const kmPanel = document.getElementById('q-km-panel');
+  const kmBtn   = document.getElementById('q-km-btn');
+  const vocab   = VOCAB[item._i];
+  const kmClean = (vocab.km || '').split(',').map(s => s.trim()).filter(Boolean);
+  const kanjis  = extractKanjiList(vocab.k || '');
+  if (kmClean.length && kanjis.length) {
+    kmWrap.style.display  = '';
+    kmPanel.style.display = 'none';
+    kmPanel.innerHTML     = '';
+    kmBtn.textContent     = '한자뜻 보기 ▾';
+  } else {
+    kmWrap.style.display = 'none';
+  }
   const impBtn = document.getElementById('q-imp-btn');
   impBtn.textContent = VOCAB[item._i].imp ? '★' : '☆';
   impBtn.classList.toggle('on', !!VOCAB[item._i].imp);
@@ -1547,6 +1566,32 @@ function toggleQuizImp() {
 }
 
 function nextQuestion() { quizIdx++; currentQuizMode === 'kanji' ? renderKanjiQuestion() : renderQuestion(); }
+
+function toggleWordKanjiMeaning() {
+  const panel = document.getElementById('q-km-panel');
+  const btn   = document.getElementById('q-km-btn');
+  if (panel.style.display !== 'none') {
+    panel.style.display = 'none';
+    btn.textContent = '한자뜻 보기 ▾';
+    return;
+  }
+  const item  = quizItems[quizIdx];
+  const vocab = VOCAB[item._i];
+  const kanjis  = extractKanjiList(vocab.k || '');
+  const meanings = splitKmMeanings(vocab.km || '', kanjis.length);
+  panel.innerHTML = '';
+  kanjis.forEach((kanji, j) => {
+    if (!meanings[j]) return;
+    const row = document.createElement('div');
+    row.className = 'q-example-item';
+    row.innerHTML =
+      '<span class="q-example-word" style="font-size:20px">' + esc(kanji) + '</span>' +
+      '<span class="q-example-hira" style="font-size:14px;color:#555">' + esc(meanings[j]) + '</span>';
+    panel.appendChild(row);
+  });
+  panel.style.display = 'block';
+  btn.textContent = '한자뜻 접기 ▴';
+}
 
 function toggleKanjiExamples() {
   const panel = document.getElementById('q-examples-panel');
