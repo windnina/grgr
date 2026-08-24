@@ -1090,6 +1090,11 @@ function clearSearch() {
   document.getElementById('search-input').value = '';
   currentPage = 0;
   buildVocabTable();
+  // 검색창 닫기
+  const wrap = document.getElementById('search-wrap');
+  const btn  = document.getElementById('search-toggle-btn');
+  wrap.classList.remove('open');
+  btn.classList.remove('active');
 }
 
 function buildPageTabs(filteredIndices) {
