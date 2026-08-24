@@ -323,14 +323,14 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
 .wrong-hira { font-size: 12px; color: #bbb; min-width: 90px; }
 .wrong-kr { color: #4a9eff; font-size: 13px; }
 .retry-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-.quiz-nav-btns { display: flex; gap: 8px; justify-content: center; margin-top: 12px; }
+.quiz-nav-btns { display: flex; gap: 16px; justify-content: center; margin-top: 22px; }
 .btn-quiz-nav {
-  padding: 8px 18px; background: #fff; color: #888;
-  border: 1.5px solid #ddd; border-radius: 20px;
-  font-size: 13px; cursor: pointer; font-family: inherit; transition: all 0.2s;
+  padding: 4px 8px; background: transparent; color: #aaa;
+  border: none; border-radius: 0;
+  font-size: 13px; cursor: pointer; font-family: inherit; transition: color 0.2s;
 }
-.btn-quiz-nav:hover { border-color: #aaa; color: #555; }
-.btn-quiz-nav:disabled { color: #ccc; border-color: #eee; cursor: default; }
+.btn-quiz-nav:hover { color: #555; }
+.btn-quiz-nav:disabled { color: #ddd; cursor: default; }
 .btn-secondary { padding: 12px 26px; background: #fff; color: #1a2535; border: 2px solid #1a2535; border-radius: 28px; font-size: 15px; font-weight: 600; cursor: pointer; }
 .retry-btns .btn-primary { margin-top: 0; }
 
@@ -447,11 +447,11 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
 <div id="tab-quiz" class="tab-panel">
   <div class="quiz-container">
     <!-- 시험 모드 선택 -->
-    <div id="quiz-mode-sel" style="display: none; gap: 8px; justify-content: center; padding: 16px 16px 20px;">
+    <div id="quiz-mode-sel" style="display:flex;gap:8px;justify-content:center;padding:16px 16px 20px">
       <button id="qmode-word" class="option-chip selected" onclick="selectQuizMode('word')" style="flex:1;padding:10px;font-size:14px">✏️ 단어 시험</button>
       <button id="qmode-kanji" class="option-chip" onclick="selectQuizMode('kanji')" style="flex:1;padding:10px;font-size:14px">🈳 한자 시험</button>
     </div>
-    <div id="quiz-start" class="quiz-start" style="display: none;">
+    <div id="quiz-start" class="quiz-start" style="display: block;">
       <h2 id="quiz-start-title">✏️ 단어 시험</h2>
       <p id="quiz-start-desc">일본어를 보고 맞는 한국어 뜻을 고르세요.</p>
       <div class="opt-label">문제 수</div>
@@ -470,7 +470,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
       <button class="btn-primary" onclick="currentQuizMode==='kanji'?startKanjiQuiz():startQuiz()">시작하기</button>
     </div>
 
-    <div id="quiz-question" class="quiz-question" style="display: block;">
+    <div id="quiz-question" class="quiz-question" style="display: none;">
       <div class="qprog-text">
         <span id="qp-text">1 / 20</span>
         <span id="qs-text">맞힌 수: 0</span>
@@ -478,23 +478,19 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
       <div class="qprog-wrap"><div class="qprog-bar" id="qp-bar" style="width:0%"></div></div>
       <div class="question-card">
         <button class="q-imp-btn" id="q-imp-btn" onclick="toggleQuizImp()">☆</button>
-        <div class="q-kanji word-mode" id="q-kanji">劣る</div>
-        <div class="q-hira" id="q-hira">おとる</div>
+        <div class="q-kanji" id="q-kanji"></div>
+        <div class="q-hira" id="q-hira"></div>
         <div class="q-prompt" id="q-prompt">한국어 뜻은?</div>
-        <div id="q-km-wrap" style="display: block;">
-          <button class="q-examples-btn" id="q-km-btn" onclick="toggleWordKanjiMeaning()">한자뜻 보기 ▾</button>
-          <div class="q-examples-panel" id="q-km-panel" style="display: none;"><div class="q-example-item"><span class="q-example-word" style="font-size:20px">劣</span><span class="q-example-hira" style="font-size:14px;color:#555">못할열</span></div></div>
-        </div>
         <div id="q-examples-wrap" style="display:none">
           <button class="q-examples-btn" id="q-examples-btn" onclick="toggleKanjiExamples()">예시단어 보기 ▾</button>
           <div class="q-examples-panel" id="q-examples-panel"></div>
         </div>
       </div>
       <div class="q-feedback" id="q-feedback"></div>
-      <div class="choices-grid" id="q-choices"><button class="choice-btn">꽂다, 삽입하다</button><button class="choice-btn">기대세우다</button><button class="choice-btn">뒤떨어지다</button><button class="choice-btn">망신</button></div>
-      <button class="btn-next" id="btn-next" onclick="nextQuestion()" style="display: none;">다음 문제 →</button>
+      <div class="choices-grid" id="q-choices"></div>
+      <button class="btn-next" id="btn-next" onclick="nextQuestion()">다음 문제 →</button>
       <div class="quiz-nav-btns">
-        <button class="btn-quiz-nav" id="btn-back" onclick="goBackQuestion()" disabled="">← 이전문제</button>
+        <button class="btn-quiz-nav" id="btn-back" onclick="goBackQuestion()">이전문제</button>
         <button class="btn-quiz-nav" onclick="restartQuiz()">다시하기</button>
       </div>
     </div>
@@ -1505,19 +1501,6 @@ function renderQuestion() {
   kanjiEl.className = 'q-kanji word-mode';
   document.getElementById('q-hira').textContent  = item.k ? (item.h || '') : '';
   document.getElementById('q-examples-wrap').style.display = 'none';
-  // 한자뜻 보기 버튼 — km 데이터가 있는 단어만 표시
-  const kmWrap  = document.getElementById('q-km-wrap');
-  const kmPanel = document.getElementById('q-km-panel');
-  const kmBtn   = document.getElementById('q-km-btn');
-  const kanjis  = extractKanjiList(item.k || '');
-  if (kanjis.length) {
-    kmWrap.style.display  = 'block';
-    kmPanel.style.display = 'none';
-    kmPanel.innerHTML     = '';
-    kmBtn.textContent     = '한자뜻 보기 ▾';
-  } else {
-    kmWrap.style.display = 'none';
-  }
   const impBtn = document.getElementById('q-imp-btn');
   impBtn.textContent = VOCAB[item._i].imp ? '★' : '☆';
   impBtn.classList.toggle('on', !!VOCAB[item._i].imp);
@@ -1603,32 +1586,6 @@ function restartQuiz() {
   selectQuizMode(currentQuizMode);
 }
 
-function toggleWordKanjiMeaning() {
-  const panel = document.getElementById('q-km-panel');
-  const btn   = document.getElementById('q-km-btn');
-  if (panel.style.display !== 'none') {
-    panel.style.display = 'none';
-    btn.textContent = '한자뜻 보기 ▾';
-    return;
-  }
-  const item    = quizItems[quizIdx];
-  const kanjis  = extractKanjiList(item.k || '');
-  const meanings = splitKmMeanings(item.km || '', kanjis.length);
-  panel.innerHTML = '';
-  let hasAny = false;
-  kanjis.forEach((kanji, j) => {
-    const row = document.createElement('div');
-    row.className = 'q-example-item';
-    row.innerHTML =
-      '<span class="q-example-word" style="font-size:20px">' + esc(kanji) + '</span>' +
-      '<span class="q-example-hira" style="font-size:14px;color:' + (meanings[j] ? '#555' : '#ccc') + '">' +
-      esc(meanings[j] || '미등록') + '</span>';
-    panel.appendChild(row);
-    if (meanings[j]) hasAny = true;
-  });
-  panel.style.display = 'block';
-  btn.textContent = '한자뜻 접기 ▴';
-}
 
 function toggleKanjiExamples() {
   const panel = document.getElementById('q-examples-panel');
