@@ -5,7 +5,7 @@
       "h": "たっとい",
       "r": "귀중한",
       "km": "귀할귀",
-      "imp": true
+      "imp": false
     },
     {
       "k": "小児科",
@@ -1637,7 +1637,7 @@
     }
   ],
   "memorized": [
-    true,
+    false,
     false,
     false,
     false,
@@ -1906,5 +1906,5 @@
     true,
     true
   ],
-  "savedAt": 1787551947735
+  "savedAt": 1787552690958
 }
