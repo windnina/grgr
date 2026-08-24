@@ -257,9 +257,27 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
   transition: color 0.15s;
 }
 .q-imp-btn.on { color: #27ae60; }
-.q-kanji { font-size: 34px; font-weight: 700; color: #1a2535; margin-bottom: 8px; letter-spacing: 2px; }
-.q-hira { font-size: 17px; color: #999; min-height: 24px; }
-.q-prompt { margin-top: 16px; font-size: 13px; color: #ccc; }
+.q-kanji { font-size: 52px; font-weight: 700; color: #1a2535; margin-bottom: 8px; letter-spacing: 2px; }
+.q-kanji.word-mode { font-size: 40px; }
+.q-hira { font-size: 18px; color: #999; min-height: 26px; }
+.q-prompt { margin-top: 16px; font-size: 14px; color: #bbb; }
+.q-examples-btn {
+  margin-top: 14px; padding: 5px 14px; background: none;
+  border: 1.5px solid #ddd; border-radius: 20px; font-size: 12px;
+  color: #999; cursor: pointer; font-family: inherit; transition: all 0.2s;
+}
+.q-examples-btn:hover { border-color: #aaa; color: #555; }
+.q-examples-panel {
+  display: none; margin-top: 10px; padding: 12px 14px;
+  background: #f8f8f8; border-radius: 10px; text-align: left;
+}
+.q-example-item {
+  display: flex; align-items: baseline; gap: 8px;
+  padding: 5px 0; border-bottom: 1px solid #eee; font-size: 14px;
+}
+.q-example-item:last-child { border-bottom: none; }
+.q-example-word { font-weight: 700; color: #1a2535; font-size: 16px; }
+.q-example-hira { color: #888; font-size: 13px; }
 .choices-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
 .choice-btn {
   padding: 14px 10px; background: #fff; border: 2px solid #e5e7eb;
@@ -436,7 +454,11 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
         <button class="q-imp-btn" id="q-imp-btn" onclick="toggleQuizImp()">☆</button>
         <div class="q-kanji" id="q-kanji"></div>
         <div class="q-hira" id="q-hira"></div>
-        <div class="q-prompt">한국어 뜻은?</div>
+        <div class="q-prompt" id="q-prompt">한국어 뜻은?</div>
+        <div id="q-examples-wrap" style="display:none">
+          <button class="q-examples-btn" id="q-examples-btn" onclick="toggleKanjiExamples()">예시단어 보기 ▾</button>
+          <div class="q-examples-panel" id="q-examples-panel"></div>
+        </div>
       </div>
       <div class="q-feedback" id="q-feedback"></div>
       <div class="choices-grid" id="q-choices"></div>
@@ -1439,8 +1461,11 @@ function renderQuestion() {
   document.getElementById('qp-text').textContent = (quizIdx + 1) + ' / ' + total;
   document.getElementById('qs-text').textContent = '맞힌 수: ' + quizScore;
   document.getElementById('qp-bar').style.width  = (quizIdx / total * 100) + '%';
-  document.getElementById('q-kanji').textContent = item.k || item.h;
+  const kanjiEl = document.getElementById('q-kanji');
+  kanjiEl.textContent = item.k || item.h;
+  kanjiEl.className = 'q-kanji word-mode';
   document.getElementById('q-hira').textContent  = item.k ? (item.h || '') : '';
+  document.getElementById('q-examples-wrap').style.display = 'none';
   const impBtn = document.getElementById('q-imp-btn');
   impBtn.textContent = VOCAB[item._i].imp ? '★' : '☆';
   impBtn.classList.toggle('on', !!VOCAB[item._i].imp);
@@ -1502,6 +1527,35 @@ function toggleQuizImp() {
 }
 
 function nextQuestion() { quizIdx++; currentQuizMode === 'kanji' ? renderKanjiQuestion() : renderQuestion(); }
+
+function toggleKanjiExamples() {
+  const panel = document.getElementById('q-examples-panel');
+  const btn   = document.getElementById('q-examples-btn');
+  if (panel.style.display !== 'none') {
+    panel.style.display = 'none';
+    btn.textContent = '예시단어 보기 ▾';
+    return;
+  }
+  // 현재 한자가 포함된 단어 찾기
+  const kanji = quizItems[quizIdx] ? quizItems[quizIdx].kanji : '';
+  const found = VOCAB.filter(v => v.k && v.k.includes(kanji));
+  panel.innerHTML = '';
+  if (!found.length) {
+    panel.innerHTML = '<div style="color:#bbb;font-size:13px;text-align:center;padding:4px">단어장에 예시가 없어요</div>';
+  } else {
+    found.forEach(v => {
+      const row = document.createElement('div');
+      row.className = 'q-example-item';
+      row.innerHTML =
+        '<span class="q-example-word">' + esc(v.k) + '</span>' +
+        (v.h ? '<span class="q-example-hira">(' + esc(v.h) + ')</span>' : '') +
+        (v.r ? '<span style="color:#bbb;font-size:12px;margin-left:auto">' + esc(v.r) + '</span>' : '');
+      panel.appendChild(row);
+    });
+  }
+  panel.style.display = 'block';
+  btn.textContent = '예시단어 접기 ▴';
+}
 
 function showResults() {
   document.getElementById('quiz-question').style.display = 'none';
@@ -1631,9 +1685,21 @@ function renderKanjiQuestion() {
   document.getElementById('qs-text').textContent = '맞힌 수: ' + quizScore;
   document.getElementById('qp-bar').style.width  = (quizIdx / total * 100) + '%';
 
-  document.getElementById('q-kanji').textContent = item.kanji;
-  document.getElementById('q-hira').textContent  = ''; // 히라가나 표시 안함
-  document.getElementById('q-prompt') && (document.getElementById('q-prompt').textContent = '이 한자의 뜻은?');
+  const kanjiEl2 = document.getElementById('q-kanji');
+  kanjiEl2.textContent = item.kanji;
+  kanjiEl2.className = 'q-kanji'; // 큰 사이즈 (word-mode 클래스 없음)
+  document.getElementById('q-hira').textContent = '';
+  const promptEl = document.getElementById('q-prompt');
+  if (promptEl) promptEl.textContent = '이 한자의 뜻은?';
+
+  // 예시단어 버튼 초기화
+  const exWrap = document.getElementById('q-examples-wrap');
+  const exPanel = document.getElementById('q-examples-panel');
+  const exBtn   = document.getElementById('q-examples-btn');
+  exWrap.style.display  = '';
+  exPanel.style.display = 'none';
+  exPanel.innerHTML     = '';
+  if (exBtn) exBtn.textContent = '예시단어 보기 ▾';
 
   const impBtn = document.getElementById('q-imp-btn');
   impBtn.textContent = VOCAB[item._i].imp ? '★' : '☆';
