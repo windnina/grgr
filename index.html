@@ -481,6 +481,10 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
         <div class="q-kanji" id="q-kanji"></div>
         <div class="q-hira" id="q-hira"></div>
         <div class="q-prompt" id="q-prompt">한국어 뜻은?</div>
+        <div id="q-km-wrap" style="display:none">
+          <button class="q-examples-btn" id="q-km-btn" onclick="toggleWordKanjiMeaning()">한자뜻 보기 ▾</button>
+          <div class="q-examples-panel" id="q-km-panel"></div>
+        </div>
         <div id="q-examples-wrap" style="display:none">
           <button class="q-examples-btn" id="q-examples-btn" onclick="toggleKanjiExamples()">예시단어 보기 ▾</button>
           <div class="q-examples-panel" id="q-examples-panel"></div>
@@ -1099,7 +1103,7 @@ function buildPageTabs(filteredIndices) {
     const btn = document.createElement('button');
     btn.className = 'page-tab' + (p === currentPage ? ' active' : '');
     btn.textContent = p + 1;
-    btn.onclick = (pg => () => { currentPage = pg; buildVocabTable(); })(p);
+    btn.onclick = (pg => () => { currentPage = pg; buildVocabTable(); window.scrollTo(0, 0); })(p);
     container.appendChild(btn);
   }
 }
@@ -1501,7 +1505,23 @@ function renderQuestion() {
   kanjiEl.className = 'q-kanji word-mode';
   document.getElementById('q-hira').textContent  = item.k ? (item.h || '') : '';
   document.getElementById('q-examples-wrap').style.display = 'none';
+
+  // 한자뜻 보기 버튼
+  const kmWrap  = document.getElementById('q-km-wrap');
+  const kmPanel = document.getElementById('q-km-panel');
+  const kmBtn   = document.getElementById('q-km-btn');
+  const kanjis  = extractKanjiList(item.k || '');
+  if (kanjis.length) {
+    kmWrap.style.display  = 'block';
+    kmPanel.style.display = 'none';
+    kmPanel.innerHTML     = '';
+    kmBtn.textContent     = '한자뜻 보기 ▾';
+  } else {
+    kmWrap.style.display = 'none';
+  }
+
   const impBtn = document.getElementById('q-imp-btn');
+  impBtn.style.display = '';
   impBtn.textContent = VOCAB[item._i].imp ? '★' : '☆';
   impBtn.classList.toggle('on', !!VOCAB[item._i].imp);
 
@@ -1586,6 +1606,31 @@ function restartQuiz() {
   selectQuizMode(currentQuizMode);
 }
 
+
+function toggleWordKanjiMeaning() {
+  const panel = document.getElementById('q-km-panel');
+  const btn   = document.getElementById('q-km-btn');
+  if (panel.style.display !== 'none') {
+    panel.style.display = 'none';
+    btn.textContent = '한자뜻 보기 ▾';
+    return;
+  }
+  const item    = quizItems[quizIdx];
+  const kanjis  = extractKanjiList(item.k || '');
+  const meanings = splitKmMeanings(item.km || '', kanjis.length);
+  panel.innerHTML = '';
+  kanjis.forEach((kanji, j) => {
+    const row = document.createElement('div');
+    row.className = 'q-example-item';
+    row.innerHTML =
+      '<span class="q-example-word" style="font-size:20px">' + esc(kanji) + '</span>' +
+      '<span class="q-example-hira" style="font-size:14px;color:' + (meanings[j] ? '#555' : '#ccc') + '">' +
+      esc(meanings[j] || '미등록') + '</span>';
+    panel.appendChild(row);
+  });
+  panel.style.display = 'block';
+  btn.textContent = '한자뜻 접기 ▴';
+}
 
 function toggleKanjiExamples() {
   const panel = document.getElementById('q-examples-panel');
@@ -1762,9 +1807,7 @@ function renderKanjiQuestion() {
   exPanel.innerHTML     = '';
   if (exBtn) exBtn.textContent = '예시단어 보기 ▾';
 
-  const impBtn = document.getElementById('q-imp-btn');
-  impBtn.textContent = VOCAB[item._i].imp ? '★' : '☆';
-  impBtn.classList.toggle('on', !!VOCAB[item._i].imp);
+  document.getElementById('q-imp-btn').style.display = 'none';
 
   const correct = item.meaning;
   const others  = shuffle(quizPool.filter(v => v.meaning !== correct).map(v => v.meaning)).slice(0, 3);
