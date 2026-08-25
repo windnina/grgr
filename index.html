@@ -240,17 +240,18 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
 /* ---- Quiz ---- */
 .quiz-container { max-width: 680px; margin: 0 auto; padding: 0 16px; }
 .quiz-start {
-  text-align: center; padding: 52px 24px; background: #fff;
+  text-align: center; padding: 40px 16px; background: #fff;
   border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 .quiz-start h2 { font-size: 24px; color: #1a2535; margin-bottom: 10px; }
 .quiz-start p { color: #777; font-size: 14px; margin-bottom: 26px; line-height: 1.6; }
 .opt-label { font-size: 13px; color: #999; margin: 16px 0 8px; }
-.start-options { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.start-options { display: flex; gap: 6px; justify-content: center; flex-wrap: nowrap; }
 .option-chip {
-  padding: 8px 18px; border: 2px solid #ddd; border-radius: 20px;
+  padding: 7px 14px; border: 2px solid #ddd; border-radius: 20px;
   cursor: pointer; font-size: 13px; background: #fff; color: #555;
   transition: all 0.2s; font-family: inherit; display: inline-flex; align-items: center; gap: 4px;
+  white-space: nowrap;
 }
 .option-chip.selected {
   border-color: #1a2535; border-width: 2.5px;
