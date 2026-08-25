@@ -524,7 +524,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
         <span id="qs-text">맞힌 수: 0</span>
       </div>
       <div class="qprog-wrap"><div class="qprog-bar" id="qp-bar" style="width:0%"></div></div>
-      <div class="question-card" id="question-card" onclick="if(!event.target.closest('button'))speakQuizWord()">
+      <div class="question-card" id="question-card" onclick="if(currentQuizMode!=='kanji'&amp;&amp;!event.target.closest('button'))speakQuizWord()">
         <div class="q-card-actions">
           <button class="q-speak-btn" id="q-speak-btn" style="display:none"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg></button>
           <button class="q-imp-btn" id="q-imp-btn" onclick="toggleQuizImp()">☆</button>
@@ -1953,10 +1953,15 @@ function toggleKanjiExamples() {
     found.forEach(v => {
       const row = document.createElement('div');
       row.className = 'q-example-item';
+      row.style.cursor = 'pointer';
       row.innerHTML =
         '<span class="q-example-word">' + esc(v.k) + '</span>' +
         (v.h ? '<span class="q-example-hira">(' + esc(v.h) + ')</span>' : '') +
         (v.r ? '<span style="color:#bbb;font-size:12px;margin-left:auto">' + esc(v.r) + '</span>' : '');
+      const word = v.k || v.h || '';
+      if (word) {
+        row.onclick = () => speakText(word, document.getElementById('q-speak-btn'));
+      }
       panel.appendChild(row);
     });
   }
@@ -2114,6 +2119,10 @@ function renderKanjiQuestion() {
   document.getElementById('q-hira').textContent = '';
   const promptEl = document.getElementById('q-prompt');
   if (promptEl) promptEl.textContent = '이 한자의 뜻은?';
+
+  // 한자뜻 보기 버튼 숨기기 (단어시험 전용)
+  document.getElementById('q-km-wrap').style.display = 'none';
+  document.getElementById('q-km-panel').style.display = 'none';
 
   // 예시단어 버튼 초기화
   const exWrap = document.getElementById('q-examples-wrap');
