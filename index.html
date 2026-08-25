@@ -204,6 +204,12 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
   z-index: 1000; justify-content: center; align-items: center; padding: 20px;
 }
 .modal-overlay.open { display: flex; }
+
+/* auth-modal은 항상 렌더 트리에 유지 — iOS 키보드 자동 노출 위해 */
+#auth-modal {
+  display: flex; visibility: hidden; pointer-events: none;
+}
+#auth-modal.open { visibility: visible; pointer-events: auto; }
 .modal-box {
   background: #fff; border-radius: 16px; padding: 28px 28px 24px;
   width: 100%; max-width: 480px; box-shadow: 0 8px 40px rgba(0,0,0,0.2);
@@ -1343,10 +1349,11 @@ async function sha256(str) {
 
 function openAuthModal(callback) {
   authCallback = callback || null;
-  document.getElementById('auth-input').value = '';
+  const input = document.getElementById('auth-input');
+  input.value = '';
   document.getElementById('auth-error').style.display = 'none';
   document.getElementById('auth-modal').classList.add('open');
-  setTimeout(() => { const el = document.getElementById('auth-input'); el.focus(); el.click(); }, 50);
+  input.focus(); // 동기 호출 — iOS 키보드 자동 노출
 }
 
 function closeAuthModal() {
