@@ -1968,7 +1968,7 @@
   "memorized": [
     false,
     false,
-    false,
+    true,
     false,
     false,
     false,
@@ -2269,5 +2269,5 @@
     true,
     true
   ],
-  "savedAt": 1787634001265
+  "savedAt": 1787637378518
 }
