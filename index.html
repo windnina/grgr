@@ -178,6 +178,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
   background: none; border: none; cursor: pointer;
   font-size: 18px; padding: 4px 6px; line-height: 1;
   color: #ddd; transition: color 0.15s; margin-right: 6px;
+  vertical-align: middle;
 }
 .imp-btn.on { color: #4a9eff; }
 .speak-btn {
@@ -192,6 +193,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
 .mem-btn {
   padding: 4px 10px; border: 1.5px solid #ccc; border-radius: 16px;
   cursor: pointer; font-size: 12px; background: #fff; color: #888; transition: all 0.2s;
+  vertical-align: middle;
 }
 .mem-btn.on { background: #fff; border-color: #4a9eff; color: #4a9eff; }
 
@@ -264,13 +266,22 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
   border: 1.5px solid #d0d0d0; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
   position: relative;
 }
+.q-card-actions {
+  position: absolute; top: 10px; right: 10px;
+  display: flex; align-items: center; gap: 2px;
+}
 .q-imp-btn {
-  position: absolute; top: 12px; right: 14px;
   background: none; border: none; cursor: pointer;
   font-size: 22px; color: #ddd; line-height: 1; padding: 4px;
   transition: color 0.15s;
 }
 .q-imp-btn.on { color: #4a9eff; }
+.q-speak-btn {
+  background: none; border: none; cursor: pointer;
+  padding: 4px; line-height: 1; color: #ccc; transition: color 0.15s;
+}
+.q-speak-btn:hover { color: #4a9eff; }
+.q-speak-btn.playing { color: #4a9eff; }
 .q-kanji { font-size: 52px; font-weight: 700; color: #1a2535; margin-bottom: 8px; letter-spacing: 2px; }
 .q-kanji.word-mode { font-size: 40px; }
 .q-hira { font-size: 18px; color: #999; min-height: 26px; }
@@ -505,7 +516,10 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
       </div>
       <div class="qprog-wrap"><div class="qprog-bar" id="qp-bar" style="width:0%"></div></div>
       <div class="question-card">
-        <button class="q-imp-btn" id="q-imp-btn" onclick="toggleQuizImp()">☆</button>
+        <div class="q-card-actions">
+          <button class="q-speak-btn" id="q-speak-btn" onclick="speakQuizWord(this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg></button>
+          <button class="q-imp-btn" id="q-imp-btn" onclick="toggleQuizImp()">☆</button>
+        </div>
         <div class="q-kanji" id="q-kanji"></div>
         <div class="q-hira" id="q-hira"></div>
         <div class="q-prompt" id="q-prompt">한국어 뜻은?</div>
@@ -1705,6 +1719,9 @@ function startQuiz() {
 
 function renderQuestion() {
   if (quizIdx >= quizItems.length) { showResults(); return; }
+  // 스피커 중단
+  window.speechSynthesis && window.speechSynthesis.cancel();
+  if (_speakBtn) { _speakBtn.classList.remove('playing'); _speakBtn = null; }
   answered = false;
   quizHistory[quizIdx] = { score: quizScore, wrongCount: quizWrong.length };
   document.getElementById('btn-back').disabled = quizIdx === 0;
@@ -1782,6 +1799,31 @@ function selectAnswer(btn, chosen, correct, grid) {
     nb.style.display = 'block';
     nb.textContent = quizIdx + 1 < quizItems.length ? '다음 문제 →' : '결과 보기 →';
   }
+}
+
+function speakQuizWord(btn) {
+  if (!window.speechSynthesis) return;
+  const item = quizItems[quizIdx];
+  if (!item) return;
+  if (_speakBtn && _speakBtn === btn) {
+    window.speechSynthesis.cancel();
+    btn.classList.remove('playing');
+    _speakBtn = null;
+    return;
+  }
+  window.speechSynthesis.cancel();
+  if (_speakBtn) _speakBtn.classList.remove('playing');
+  const v = VOCAB[item._i];
+  const word = v ? (v.k || v.h || '') : (item.kanji || '');
+  const ex   = v ? (v.ex || '') : '';
+  const text = [word, ex].filter(Boolean).join('。');
+  if (!text) return;
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = 'ja-JP'; utt.rate = 0.9;
+  _speakBtn = btn;
+  btn.classList.add('playing');
+  utt.onend = utt.onerror = () => { btn.classList.remove('playing'); if (_speakBtn === btn) _speakBtn = null; };
+  window.speechSynthesis.speak(utt);
 }
 
 function toggleKanjiQuizImp() {
@@ -2031,6 +2073,8 @@ function startKanjiQuiz() {
 
 function renderKanjiQuestion() {
   if (quizIdx >= quizItems.length) { showResults(); return; }
+  window.speechSynthesis && window.speechSynthesis.cancel();
+  if (_speakBtn) { _speakBtn.classList.remove('playing'); _speakBtn = null; }
   answered = false;
   quizHistory[quizIdx] = { score: quizScore, wrongCount: quizWrong.length };
   document.getElementById('btn-back').disabled = quizIdx === 0;
