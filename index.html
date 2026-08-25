@@ -1,4 +1,4 @@
-<html lang="ko" __gcrremoteframetoken="044cd7aff69f5ef70d2ef6e982f0d91c"><head>
+<html lang="ko"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>일본어 단어장</title>
@@ -69,7 +69,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
 .search-clear:hover { color: #888; }
 .filter-btn {
   height: 36px; padding: 0 14px; border: none; border-radius: 8px;
-  background: #f4f4f4; font-size: 13px; color: #555; cursor: pointer;
+  background: #f4f4f4; font-size: 14px; color: #555; cursor: pointer;
   font-family: inherit; transition: all 0.2s; white-space: nowrap;
   display: flex; align-items: center; font-weight: 500;
 }
@@ -178,6 +178,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
   background: none; border: none; cursor: pointer;
   font-size: 18px; padding: 4px 6px; line-height: 1;
   color: #ddd; transition: color 0.15s; margin-right: 6px;
+  vertical-align: middle;
 }
 .imp-btn.on { color: #4a9eff; }
 .speak-btn {
@@ -192,6 +193,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
 .mem-btn {
   padding: 4px 10px; border: 1.5px solid #ccc; border-radius: 16px;
   cursor: pointer; font-size: 12px; background: #fff; color: #888; transition: all 0.2s;
+  vertical-align: middle;
 }
 .mem-btn.on { background: #fff; border-color: #4a9eff; color: #4a9eff; }
 
@@ -264,13 +266,22 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
   border: 1.5px solid #d0d0d0; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
   position: relative;
 }
+.q-card-actions {
+  position: absolute; top: 10px; right: 10px;
+  display: flex; align-items: center; gap: 2px;
+}
 .q-imp-btn {
-  position: absolute; top: 12px; right: 14px;
   background: none; border: none; cursor: pointer;
   font-size: 22px; color: #ddd; line-height: 1; padding: 4px;
   transition: color 0.15s;
 }
 .q-imp-btn.on { color: #4a9eff; }
+.q-speak-btn {
+  background: none; border: none; cursor: pointer;
+  padding: 4px; line-height: 1; color: #ccc; transition: color 0.15s;
+}
+.q-speak-btn:hover { color: #4a9eff; }
+.q-speak-btn.playing { color: #4a9eff; }
 .q-kanji { font-size: 52px; font-weight: 700; color: #1a2535; margin-bottom: 8px; letter-spacing: 2px; }
 .q-kanji.word-mode { font-size: 40px; }
 .q-hira { font-size: 18px; color: #999; min-height: 26px; }
@@ -375,7 +386,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
 
 
 .mem-btn { font-size: 13px; padding: 5px 12px; }
-.filter-btn { font-size: 13px; padding: 0 14px; }
+.filter-btn { font-size: 14px; padding: 0 14px; }
 .btn-add { font-size: 14px; }
 .page-tab { font-size: 14px; }
 </style>
@@ -435,7 +446,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
       </div>
       <div class="search-wrap" id="search-wrap">
         <span style="color:#4a9eff;font-size:14px">🔍</span>
-        <input class="search-input" id="search-input" type="text" placeholder="일본어 또는 한국어 검색…" oninput="onSearchInput()" autocomplete="off" autocorrect="off" autocapitalize="off" __gcruniqueid="1">
+        <input class="search-input" id="search-input" type="text" placeholder="일본어 또는 한국어 검색…" oninput="onSearchInput()" autocomplete="off" autocorrect="off" autocapitalize="off">
         <button class="search-clear" onclick="clearSearch()">✕</button>
       </div>
     </div>
@@ -505,7 +516,10 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
       </div>
       <div class="qprog-wrap"><div class="qprog-bar" id="qp-bar" style="width:0%"></div></div>
       <div class="question-card">
-        <button class="q-imp-btn" id="q-imp-btn" onclick="toggleQuizImp()">☆</button>
+        <div class="q-card-actions">
+          <button class="q-speak-btn" id="q-speak-btn" onclick="speakQuizWord(this)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg></button>
+          <button class="q-imp-btn" id="q-imp-btn" onclick="toggleQuizImp()">☆</button>
+        </div>
         <div class="q-kanji" id="q-kanji"></div>
         <div class="q-hira" id="q-hira"></div>
         <div class="q-prompt" id="q-prompt">한국어 뜻은?</div>
@@ -557,16 +571,16 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     <div class="form-grid">
       <div class="form-row">
         <label class="form-label">한자표기</label>
-        <input class="form-input" id="modal-k" style="font-size:17px" oninput="onKanjiFieldInput(this.value)" __gcruniqueid="2">
+        <input class="form-input" id="modal-k" style="font-size:17px" oninput="onKanjiFieldInput(this.value)">
       </div>
       <div class="form-row">
         <label class="form-label">히라가나</label>
-        <input class="form-input" id="modal-h" __gcruniqueid="3">
+        <input class="form-input" id="modal-h">
       </div>
     </div>
     <div class="form-row">
       <label class="form-label">한국어 뜻 <span style="color:#e74c3c">*</span></label>
-      <input class="form-input" id="modal-r" __gcruniqueid="4">
+      <input class="form-input" id="modal-r">
     </div>
     <div class="form-row" id="kanji-meanings-section" style="display:none">
       <label class="form-label" style="display:flex;align-items:center;justify-content:space-between">
@@ -579,7 +593,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     </div>
     <div class="form-row">
       <label class="form-label">예문</label>
-      <textarea class="form-textarea" id="modal-ex" __gcruniqueid="5"></textarea>
+      <textarea class="form-textarea" id="modal-ex"></textarea>
     </div>
     <div class="modal-footer" style="justify-content:center;gap:16px;margin-top:24px">
       <button class="btn-cancel" onclick="closeModal()" style="width:120px;padding:13px 0;font-size:16px;border-radius:12px">취소</button>
@@ -599,7 +613,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     <div style="font-size:32px;margin-bottom:8px">🔒</div>
     <div class="modal-title" style="text-align:center;margin-bottom:16px">편집 모드 잠금 해제</div>
     <div class="form-row" style="margin-bottom:8px">
-      <input class="form-input" id="auth-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" style="text-align:center;font-size:28px;letter-spacing:10px;padding:12px" oninput="onAuthInput(this.value)" __gcruniqueid="6">
+      <input class="form-input" id="auth-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" style="text-align:center;font-size:28px;letter-spacing:10px;padding:12px" oninput="onAuthInput(this.value)">
     </div>
     <div id="auth-error" style="color: rgb(231, 76, 60); font-size: 13px; min-height: 20px; margin-bottom: 8px; display: none;"> </div>
     <div class="modal-footer" style="justify-content:center">
@@ -615,7 +629,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     <div class="modal-title" style="text-align:center;margin-bottom:4px">비밀번호 변경</div>
     <div style="font-size:12px;color:#999;margin-bottom:16px">새 4자리 숫자를 입력하세요</div>
     <div class="form-row" style="margin-bottom:8px">
-      <input class="form-input" id="chpw-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" style="text-align:center;font-size:28px;letter-spacing:10px;padding:12px" oninput="onChangePwInput(this.value)" __gcruniqueid="7">
+      <input class="form-input" id="chpw-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" style="text-align:center;font-size:28px;letter-spacing:10px;padding:12px" oninput="onChangePwInput(this.value)">
     </div>
     <div id="chpw-msg" style="font-size:13px;min-height:20px;margin-bottom:8px;color:#4a9eff"> </div>
     <div class="modal-footer" style="justify-content:center">
@@ -630,22 +644,22 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     <div class="modal-title">GitHub 연동 설정</div>
     <div class="form-row">
       <label class="form-label">Personal Access Token</label>
-      <input class="form-input" id="gh-token" type="password" placeholder="ghp_xxxxxxxxxxxx" __gcruniqueid="8">
+      <input class="form-input" id="gh-token" type="password" placeholder="ghp_xxxxxxxxxxxx">
       <div style="font-size:11px;color:#aaa;margin-top:4px">GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → public_repo 권한 체크</div>
     </div>
     <div class="form-grid">
       <div class="form-row">
         <label class="form-label">사용자명</label>
-        <input class="form-input" id="gh-owner" placeholder="windnina" __gcruniqueid="9">
+        <input class="form-input" id="gh-owner" placeholder="windnina">
       </div>
       <div class="form-row">
         <label class="form-label">Repository</label>
-        <input class="form-input" id="gh-repo" placeholder="grgr" __gcruniqueid="10">
+        <input class="form-input" id="gh-repo" placeholder="grgr">
       </div>
     </div>
     <div class="form-row">
       <label class="form-label">파일 경로</label>
-      <input class="form-input" id="gh-path" placeholder="index.html" __gcruniqueid="11">
+      <input class="form-input" id="gh-path" placeholder="index.html">
     </div>
     <div class="modal-footer">
       <button class="btn-save" onclick="saveGithubConfig()">저장</button>
@@ -1705,6 +1719,9 @@ function startQuiz() {
 
 function renderQuestion() {
   if (quizIdx >= quizItems.length) { showResults(); return; }
+  // 스피커 중단
+  window.speechSynthesis && window.speechSynthesis.cancel();
+  if (_speakBtn) { _speakBtn.classList.remove('playing'); _speakBtn = null; }
   answered = false;
   quizHistory[quizIdx] = { score: quizScore, wrongCount: quizWrong.length };
   document.getElementById('btn-back').disabled = quizIdx === 0;
@@ -1782,6 +1799,31 @@ function selectAnswer(btn, chosen, correct, grid) {
     nb.style.display = 'block';
     nb.textContent = quizIdx + 1 < quizItems.length ? '다음 문제 →' : '결과 보기 →';
   }
+}
+
+function speakQuizWord(btn) {
+  if (!window.speechSynthesis) return;
+  const item = quizItems[quizIdx];
+  if (!item) return;
+  if (_speakBtn && _speakBtn === btn) {
+    window.speechSynthesis.cancel();
+    btn.classList.remove('playing');
+    _speakBtn = null;
+    return;
+  }
+  window.speechSynthesis.cancel();
+  if (_speakBtn) _speakBtn.classList.remove('playing');
+  const v = VOCAB[item._i];
+  const word = v ? (v.k || v.h || '') : (item.kanji || '');
+  const ex   = v ? (v.ex || '') : '';
+  const text = [word, ex].filter(Boolean).join('。');
+  if (!text) return;
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = 'ja-JP'; utt.rate = 0.9;
+  _speakBtn = btn;
+  btn.classList.add('playing');
+  utt.onend = utt.onerror = () => { btn.classList.remove('playing'); if (_speakBtn === btn) _speakBtn = null; };
+  window.speechSynthesis.speak(utt);
 }
 
 function toggleKanjiQuizImp() {
@@ -2031,6 +2073,8 @@ function startKanjiQuiz() {
 
 function renderKanjiQuestion() {
   if (quizIdx >= quizItems.length) { showResults(); return; }
+  window.speechSynthesis && window.speechSynthesis.cancel();
+  if (_speakBtn) { _speakBtn.classList.remove('playing'); _speakBtn = null; }
   answered = false;
   quizHistory[quizIdx] = { score: quizScore, wrongCount: quizWrong.length };
   document.getElementById('btn-back').disabled = quizIdx === 0;
