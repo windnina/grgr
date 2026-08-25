@@ -256,9 +256,8 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
   border-color: #1a2535; border-width: 2.5px;
   color: #1a2535; font-weight: 700; background: #fff;
 }
-.option-chip.selected::before { content: '✓'; font-size: 12px; }
+.option-chip.mode-chip { border-radius: 999px; }
 .option-chip.mode-chip.selected { background: #1a2535; color: #fff; border-color: #1a2535; font-weight: 600; }
-.option-chip.mode-chip.selected::before { content: ''; display: none; }
 .btn-primary {
   margin-top: 36px; padding: 16px 52px; background: #1a2535; color: #fff;
   border: none; border-radius: 32px; font-size: 17px; font-weight: 700; cursor: pointer;
@@ -499,10 +498,10 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
       <p id="quiz-start-desc">일본어를 보고 맞는 한국어 뜻을 고르세요.</p>
       <div class="opt-label">문제 수</div>
       <div class="start-options" id="count-options">
+        <div class="option-chip" data-val="9999" onclick="selectCount(this)">전체</div>
         <div class="option-chip" data-val="10" onclick="selectCount(this)">10문제</div>
         <div class="option-chip selected" data-val="20" onclick="selectCount(this)">20문제</div>
         <div class="option-chip" data-val="30" onclick="selectCount(this)">30문제</div>
-        <div class="option-chip" data-val="9999" onclick="selectCount(this)">전체</div>
       </div>
       <div class="opt-label" id="scope-label">범위</div>
       <div class="start-options" id="scope-options">
