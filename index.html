@@ -1,4 +1,4 @@
-<html lang="ko" __gcrremoteframetoken="0c846e60931793f2b005862db40fe735"><head>
+<html lang="ko"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>일본어 단어장</title>
@@ -172,6 +172,12 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
   white-space: nowrap;
   border-bottom: none !important;
 }
+.kimp-star-btn {
+  background: none; border: none; cursor: pointer;
+  font-size: 18px; padding: 4px 6px; line-height: 1;
+  color: #ddd; transition: color 0.15s; flex-shrink: 0;
+}
+.kimp-star-btn.on { color: #4a9eff; }
 .imp-btn {
   background: none; border: none; cursor: pointer;
   font-size: 18px; padding: 4px 6px; line-height: 1;
@@ -374,7 +380,8 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
 <body>
 
 <nav class="tab-nav">
-  <button class="tab-btn active" onclick="switchTab('vocab',this)">단어장</button>
+  <button class="tab-btn active" onclick="switchTab('vocab',this)">단어</button>
+  <button class="tab-btn" onclick="switchTab('kanji',this)">한자</button>
   <button class="tab-btn" onclick="switchTab('quiz',this)">시험</button>
   <div id="vocab-name-badge" style="display:none;align-items:center;padding:0 8px;font-size:12px;color:#999;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px"></div>
   <div style="flex:1"></div>
@@ -419,14 +426,13 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     <div class="header-left">
       <div class="filter-btns" id="filter-btns">
         <button class="filter-btn active" onclick="setFilter('all')">전체</button>
-        <button class="filter-btn" onclick="setFilter('important')">📌 중요</button>
+        <button class="filter-btn" onclick="setFilter('important')">★ 중요</button>
         <button class="filter-btn" onclick="setFilter('not')">몰라</button>
-        <button class="filter-btn" onclick="setFilter('memorized')">알아</button>
         <button class="search-btn" id="search-toggle-btn" onclick="toggleSearch()">🔍</button>
       </div>
       <div class="search-wrap" id="search-wrap">
         <span style="color:#4a9eff;font-size:14px">🔍</span>
-        <input class="search-input" id="search-input" type="text" placeholder="일본어 또는 한국어 검색…" oninput="onSearchInput()" autocomplete="off" autocorrect="off" autocapitalize="off" __gcruniqueid="1">
+        <input class="search-input" id="search-input" type="text" placeholder="일본어 또는 한국어 검색…" oninput="onSearchInput()" autocomplete="off" autocorrect="off" autocapitalize="off">
         <button class="search-clear" onclick="clearSearch()">✕</button>
       </div>
     </div>
@@ -440,6 +446,21 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
   <div class="page-tabs-wrap" id="page-tabs-wrap" style="display: block;">
     <div class="page-tabs" id="page-tabs"><button class="page-tab active">1</button><button class="page-tab">2</button><button class="page-tab">3</button><button class="page-tab">4</button><button class="page-tab">5</button><button class="page-tab">6</button></div>
   </div>
+</div>
+
+<!-- ===== 한자 탭 ===== -->
+<div id="tab-kanji" class="tab-panel">
+  <div class="vocab-header">
+    <div class="header-left">
+      <div class="filter-btns" id="kanji-filter-btns">
+        <button class="filter-btn active" onclick="setKanjiFilter('all')">전체</button>
+        <button class="filter-btn" onclick="setKanjiFilter('important')">★ 중요</button>
+      </div>
+    </div>
+  </div>
+  <table class="vocab-table">
+    <tbody id="kanji-tbody"></tbody>
+  </table>
 </div>
 
 <!-- ===== 시험 탭 ===== -->
@@ -465,6 +486,11 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
         <div class="option-chip selected" data-val="all" onclick="selectScope(this)">전체</div>
         <div class="option-chip" data-val="important" onclick="selectScope(this)">중요 단어만</div>
         <div class="option-chip" data-val="not" onclick="selectScope(this)">모르는 단어만</div>
+      </div>
+      <div class="opt-label" id="kanji-scope-label" style="display:none">범위</div>
+      <div class="start-options" id="kanji-scope-options" style="display:none">
+        <div class="option-chip selected" data-val="all" onclick="selectKanjiScope(this)">전체</div>
+        <div class="option-chip" data-val="kimp" onclick="selectKanjiScope(this)">중요한자만</div>
       </div>
       <button class="btn-primary" onclick="currentQuizMode==='kanji'?startKanjiQuiz():startQuiz()">시작하기</button>
     </div>
@@ -528,16 +554,16 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     <div class="form-grid">
       <div class="form-row">
         <label class="form-label">한자표기</label>
-        <input class="form-input" id="modal-k" style="font-size:17px" oninput="onKanjiFieldInput(this.value)" __gcruniqueid="2">
+        <input class="form-input" id="modal-k" style="font-size:17px" oninput="onKanjiFieldInput(this.value)">
       </div>
       <div class="form-row">
         <label class="form-label">히라가나</label>
-        <input class="form-input" id="modal-h" __gcruniqueid="3">
+        <input class="form-input" id="modal-h">
       </div>
     </div>
     <div class="form-row">
       <label class="form-label">한국어 뜻 <span style="color:#e74c3c">*</span></label>
-      <input class="form-input" id="modal-r" __gcruniqueid="4">
+      <input class="form-input" id="modal-r">
     </div>
     <div class="form-row" id="kanji-meanings-section" style="display:none">
       <label class="form-label" style="display:flex;align-items:center;justify-content:space-between">
@@ -550,7 +576,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     </div>
     <div class="form-row">
       <label class="form-label">예문</label>
-      <textarea class="form-textarea" id="modal-ex" __gcruniqueid="5"></textarea>
+      <textarea class="form-textarea" id="modal-ex"></textarea>
     </div>
     <div class="modal-footer" style="justify-content:center;gap:16px;margin-top:24px">
       <button class="btn-cancel" onclick="closeModal()" style="width:120px;padding:13px 0;font-size:16px;border-radius:12px">취소</button>
@@ -570,7 +596,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     <div style="font-size:32px;margin-bottom:8px">🔒</div>
     <div class="modal-title" style="text-align:center;margin-bottom:16px">편집 모드 잠금 해제</div>
     <div class="form-row" style="margin-bottom:8px">
-      <input class="form-input" id="auth-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" style="text-align:center;font-size:28px;letter-spacing:10px;padding:12px" oninput="onAuthInput(this.value)" __gcruniqueid="6">
+      <input class="form-input" id="auth-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" style="text-align:center;font-size:28px;letter-spacing:10px;padding:12px" oninput="onAuthInput(this.value)">
     </div>
     <div id="auth-error" style="color: rgb(231, 76, 60); font-size: 13px; min-height: 20px; margin-bottom: 8px; display: none;"> </div>
     <div class="modal-footer" style="justify-content:center">
@@ -586,7 +612,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     <div class="modal-title" style="text-align:center;margin-bottom:4px">비밀번호 변경</div>
     <div style="font-size:12px;color:#999;margin-bottom:16px">새 4자리 숫자를 입력하세요</div>
     <div class="form-row" style="margin-bottom:8px">
-      <input class="form-input" id="chpw-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" style="text-align:center;font-size:28px;letter-spacing:10px;padding:12px" oninput="onChangePwInput(this.value)" __gcruniqueid="7">
+      <input class="form-input" id="chpw-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" style="text-align:center;font-size:28px;letter-spacing:10px;padding:12px" oninput="onChangePwInput(this.value)">
     </div>
     <div id="chpw-msg" style="font-size:13px;min-height:20px;margin-bottom:8px;color:#4a9eff"> </div>
     <div class="modal-footer" style="justify-content:center">
@@ -601,22 +627,22 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     <div class="modal-title">GitHub 연동 설정</div>
     <div class="form-row">
       <label class="form-label">Personal Access Token</label>
-      <input class="form-input" id="gh-token" type="password" placeholder="ghp_xxxxxxxxxxxx" __gcruniqueid="8">
+      <input class="form-input" id="gh-token" type="password" placeholder="ghp_xxxxxxxxxxxx">
       <div style="font-size:11px;color:#aaa;margin-top:4px">GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → public_repo 권한 체크</div>
     </div>
     <div class="form-grid">
       <div class="form-row">
         <label class="form-label">사용자명</label>
-        <input class="form-input" id="gh-owner" placeholder="windnina" __gcruniqueid="9">
+        <input class="form-input" id="gh-owner" placeholder="windnina">
       </div>
       <div class="form-row">
         <label class="form-label">Repository</label>
-        <input class="form-input" id="gh-repo" placeholder="grgr" __gcruniqueid="10">
+        <input class="form-input" id="gh-repo" placeholder="grgr">
       </div>
     </div>
     <div class="form-row">
       <label class="form-label">파일 경로</label>
-      <input class="form-input" id="gh-path" placeholder="index.html" __gcruniqueid="11">
+      <input class="form-input" id="gh-path" placeholder="index.html">
     </div>
     <div class="modal-footer">
       <button class="btn-save" onclick="saveGithubConfig()">저장</button>
@@ -660,9 +686,11 @@ let currentFilter = 'all';
 let currentSearch = '';
 let currentPage = 0;
 let editIndex = -1;
+let kanjiTabFilter = 'all'; // 'all' | 'important'
+let currentTab = 'vocab';   // 'vocab' | 'kanji' | 'quiz'
 
 // 시험
-let quizCount = 20, quizScope = 'all';
+let quizCount = 20, quizScope = 'all', kanjiScope = 'all';
 let quizItems = [], quizPool = [], quizIdx = 0, quizScore = 0, quizWrong = [], answered = false;
 let quizHistory = []; // 문제별 상태 스냅샷 [{score, wrongCount}]
 let currentQuizMode = 'word'; // 'word' | 'kanji'
@@ -1035,10 +1063,12 @@ function importData(e) {
 // 탭 전환
 // =============================================
 function switchTab(tab, btn) {
+  currentTab = tab;
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
   btn.classList.add('active');
+  if (tab === 'kanji') buildKanjiTable();
 }
 
 // =============================================
@@ -1230,7 +1260,7 @@ function openAuthModal(callback) {
   document.getElementById('auth-input').value = '';
   document.getElementById('auth-error').style.display = 'none';
   document.getElementById('auth-modal').classList.add('open');
-  setTimeout(() => document.getElementById('auth-input').focus(), 100);
+  setTimeout(() => { const el = document.getElementById('auth-input'); el.focus(); el.click(); }, 50);
 }
 
 function closeAuthModal() {
@@ -1305,10 +1335,84 @@ function requireAuth(callback) {
 function setFilter(f) {
   currentFilter = f;
   currentPage = 0;
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.textContent === {all:'전체', memorized:'알아', not:'몰라', important:'📌 중요'}[f]);
+  const labelMap = {all:'전체', not:'몰라', important:'★ 중요'};
+  document.querySelectorAll('#filter-btns .filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.trim() === (labelMap[f] || ''));
   });
   buildVocabTable();
+}
+
+function setKanjiFilter(f) {
+  kanjiTabFilter = f;
+  const labelMap = {all:'전체', important:'★ 중요'};
+  document.querySelectorAll('#kanji-filter-btns .filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.trim() === (labelMap[f] || ''));
+  });
+  buildKanjiTable();
+}
+
+function buildKanjiTable() {
+  const tbody = document.getElementById('kanji-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+
+  const pairs = [];
+  const seen = new Set();
+  VOCAB.forEach((v) => {
+    if (!v.k || !v.km) return;
+    const kanjis   = extractKanjiList(v.k || '');
+    if (!kanjis.length) return;
+    const meanings = splitKmMeanings(v.km || '', kanjis.length);
+    const impSet   = new Set((v.kimp || '').split(',').map(s => s.trim()).filter(Boolean));
+    kanjis.forEach((kanji, j) => {
+      if (kanjiTabFilter === 'important' && !impSet.has(kanji)) return;
+      if (!seen.has(kanji)) {
+        seen.add(kanji);
+        const isImp = impSet.has(kanji);
+        pairs.push({ kanji, meaning: meanings[j] || '', isImp });
+      }
+    });
+  });
+
+  if (pairs.length === 0) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td colspan="5" style="text-align:center;color:#aaa;padding:32px">표시할 한자가 없어요.</td>';
+    tbody.appendChild(tr);
+    return;
+  }
+
+  pairs.forEach(({ kanji, meaning, isImp }) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td style="padding:12px 16px;border-bottom:1px solid #f0f0f0;width:100%">' +
+        '<span style="font-size:28px;font-weight:700;color:#1a2535">' + esc(kanji) + '</span>' +
+        '<span style="font-size:16px;color:#555;margin-left:12px">' + esc(meaning) + '</span>' +
+      '</td>' +
+      '<td style="padding:12px 12px 12px 0;border-bottom:1px solid #f0f0f0;text-align:right;white-space:nowrap">' +
+        '<button class="imp-btn' + (isImp ? ' on' : '') + '" onclick="event.stopPropagation();requireAuth(()=>toggleKanjiImp(\'' + kanji.replace(/'/g, "\\'") + '\',this))">' + (isImp ? '★' : '☆') + '</button>' +
+      '</td>';
+    tbody.appendChild(tr);
+  });
+}
+
+function toggleKanjiImp(kanji, btn) {
+  // 이 한자를 포함하는 모든 단어의 kimp 필드 토글
+  const nowOn = btn.classList.contains('on');
+  VOCAB.forEach(v => {
+    if (!v.k) return;
+    const kanjis = extractKanjiList(v.k);
+    if (!kanjis.includes(kanji)) return;
+    const impSet = new Set((v.kimp || '').split(',').map(s => s.trim()).filter(Boolean));
+    if (nowOn) impSet.delete(kanji);
+    else impSet.add(kanji);
+    v.kimp = [...impSet].join(',');
+  });
+  btn.classList.toggle('on', !nowOn);
+  btn.textContent = !nowOn ? '★' : '☆';
+  saveData();
+  writeToGitHub();
+  // 중요 필터 중이면 목록 재빌드
+  if (kanjiTabFilter === 'important') buildKanjiTable();
 }
 
 // =============================================
@@ -1329,13 +1433,14 @@ function lookupKanjiMeaning(kanji) {
 // 한자 입력칸이 변경될 때 한자뜻 폼 재생성 + 기존 훈음 자동 입력
 function onKanjiFieldInput(val) {
   const kanjis = extractKanjiList(val);
-  // 각 한자에 대해 기존 단어장에서 훈음 조회
   const autoKm = kanjis.map(k => lookupKanjiMeaning(k)).join(',');
-  rebuildKanjiMeaningsForm(val, autoKm);
+  // 현재 체크된 kimp 별표 상태 유지
+  const currentKimp = getKimpValue();
+  rebuildKanjiMeaningsForm(val, autoKm, currentKimp);
 }
 
 // 한자 낱자별 훈음 입력 폼 생성
-function rebuildKanjiMeaningsForm(kValue, existingKm) {
+function rebuildKanjiMeaningsForm(kValue, existingKm, existingKimp) {
   const section   = document.getElementById('kanji-meanings-section');
   const container = document.getElementById('kanji-meanings-container');
   const kanjis    = extractKanjiList(kValue);
@@ -1348,21 +1453,37 @@ function rebuildKanjiMeaningsForm(kValue, existingKm) {
 
   section.style.display = '';
   const meanings = existingKm ? splitKmMeanings(existingKm, kanjis.length) : [];
+  const impSet   = new Set((existingKimp || '').split(',').map(s => s.trim()).filter(Boolean));
   container.innerHTML   = '';
 
   kanjis.forEach((kanji, j) => {
     const row = document.createElement('div');
     row.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:6px';
+
     const label = document.createElement('span');
     label.textContent = kanji;
     label.style.cssText = 'font-size:22px;font-weight:700;color:#1a2535;min-width:30px;text-align:center;flex-shrink:0';
+
     const inp = document.createElement('input');
     inp.className = 'form-input kanji-meaning-input';
     inp.style.flex = '1';
     inp.placeholder = '훈음 입력';
     inp.value = meanings[j] || '';
+
+    const star = document.createElement('button');
+    const isImp = impSet.has(kanji);
+    star.type = 'button';
+    star.className = 'kimp-star-btn' + (isImp ? ' on' : '');
+    star.textContent = isImp ? '★' : '☆';
+    star.dataset.kanji = kanji;
+    star.onclick = () => {
+      const on = star.classList.toggle('on');
+      star.textContent = on ? '★' : '☆';
+    };
+
     row.appendChild(label);
     row.appendChild(inp);
+    row.appendChild(star);
     container.appendChild(row);
   });
 }
@@ -1372,6 +1493,12 @@ function getKmValue() {
   const inputs = document.querySelectorAll('#kanji-meanings-container .kanji-meaning-input');
   if (!inputs.length) return '';
   return [...inputs].map(inp => inp.value.trim()).join(',');
+}
+
+// saveModal에서 kimp 값 읽기 (중요 한자 문자 목록)
+function getKimpValue() {
+  const stars = document.querySelectorAll('#kanji-meanings-container .kimp-star-btn.on');
+  return [...stars].map(s => s.dataset.kanji).join(',');
 }
 
 function openAddModal() {
@@ -1394,7 +1521,7 @@ function openEditModal(i) {
   document.getElementById('modal-h').value   = v.h   || '';
   document.getElementById('modal-r').value   = v.r   || '';
   document.getElementById('modal-ex').value  = v.ex  || '';
-  rebuildKanjiMeaningsForm(v.k || '', v.km || '');
+  rebuildKanjiMeaningsForm(v.k || '', v.km || '', v.kimp || '');
   // imp is toggled via star button in list, not the modal
   document.getElementById('modal-delete-btn').style.display = 'inline-block';
   document.getElementById('edit-modal').classList.add('open');
@@ -1416,17 +1543,19 @@ function saveModal() {
   const k  = document.getElementById('modal-k').value.trim();
   const h  = document.getElementById('modal-h').value.trim();
   const r  = document.getElementById('modal-r').value.trim();
-  const km  = getKmValue();
-  const ex  = document.getElementById('modal-ex').value.trim();
-  const imp = editIndex >= 0 ? (VOCAB[editIndex].imp || false) : false;
+  const km   = getKmValue();
+  const kimp = getKimpValue();
+  const ex   = document.getElementById('modal-ex').value.trim();
+  const imp  = editIndex >= 0 ? (VOCAB[editIndex].imp || false) : false;
 
   if (!k && !h) { alert('한자 또는 히라가나 중 하나는 필수입니다.'); return; }
   if (!r)       { alert('한국어 뜻은 필수입니다.'); return; }
 
   const word = { k, h, r };
-  if (km)  word.km  = km;
-  if (ex)  word.ex  = ex;
-  if (imp) word.imp = true;
+  if (km)   word.km   = km;
+  if (kimp) word.kimp = kimp;
+  if (ex)   word.ex   = ex;
+  if (imp)  word.imp  = true;
 
   if (editIndex === -1) {
     VOCAB.unshift(word);
@@ -1478,6 +1607,12 @@ function selectScope(el) {
   document.querySelectorAll('#scope-options .option-chip').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
   quizScope = el.dataset.val;
+}
+
+function selectKanjiScope(el) {
+  document.querySelectorAll('#kanji-scope-options .option-chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  kanjiScope = el.dataset.val;
 }
 
 function startQuiz() {
@@ -1542,6 +1677,7 @@ function renderQuestion() {
 
   const impBtn = document.getElementById('q-imp-btn');
   impBtn.style.display = '';
+  impBtn.onclick = toggleQuizImp;
   impBtn.textContent = VOCAB[item._i].imp ? '★' : '☆';
   impBtn.classList.toggle('on', !!VOCAB[item._i].imp);
 
@@ -1587,6 +1723,29 @@ function selectAnswer(btn, chosen, correct, grid) {
     nb.style.display = 'block';
     nb.textContent = quizIdx + 1 < quizItems.length ? '다음 문제 →' : '결과 보기 →';
   }
+}
+
+function toggleKanjiQuizImp() {
+  const item = quizItems[quizIdx];
+  if (!item) return;
+  const kanji = item.kanji;
+  const firstV = VOCAB[item._i];
+  const impSet = new Set((firstV.kimp || '').split(',').map(s => s.trim()).filter(Boolean));
+  const nowOn  = impSet.has(kanji);
+  VOCAB.forEach(v => {
+    if (!v.k) return;
+    const kanjis = extractKanjiList(v.k);
+    if (!kanjis.includes(kanji)) return;
+    const set = new Set((v.kimp || '').split(',').map(s => s.trim()).filter(Boolean));
+    if (nowOn) set.delete(kanji);
+    else set.add(kanji);
+    v.kimp = [...set].join(',');
+  });
+  saveData();
+  writeToGitHub();
+  const btn = document.getElementById('q-imp-btn');
+  btn.textContent = !nowOn ? '★' : '☆';
+  btn.classList.toggle('on', !nowOn);
 }
 
 function toggleQuizImp() {
@@ -1742,8 +1901,10 @@ function selectQuizMode(mode) {
   document.getElementById('quiz-start-desc').textContent   = mode === 'kanji'
     ? '한자를 보고 맞는 훈음(한자뜻)을 고르세요.' : '일본어를 보고 맞는 한국어 뜻을 고르세요.';
   const isKanji = mode === 'kanji';
-  document.getElementById('scope-label').style.display   = isKanji ? 'none' : '';
-  document.getElementById('scope-options').style.display = isKanji ? 'none' : '';
+  document.getElementById('scope-label').style.display        = isKanji ? 'none' : '';
+  document.getElementById('scope-options').style.display      = isKanji ? 'none' : '';
+  document.getElementById('kanji-scope-label').style.display  = isKanji ? '' : 'none';
+  document.getElementById('kanji-scope-options').style.display = isKanji ? '' : 'none';
 }
 
 // =============================================
@@ -1773,16 +1934,23 @@ function splitKmMeanings(km, count) {
 }
 
 function startKanjiQuiz() {
-  // 단어를 낱 한자 단위로 분해 → {kanji, meaning, _i}
+  // 단어를 낱 한자 단위로 분해 → {kanji, meaning, _i} (같은 한자 중복 제거)
   const flatItems = [];
+  const seenKanji = new Set();
   VOCAB.forEach((v, i) => {
     if (!v.km || !v.km.trim()) return;
     const kanjis = extractKanjiList(v.k);
     if (!kanjis.length) return;
     const meanings = splitKmMeanings(v.km.trim(), kanjis.length);
+    const impSet = new Set((v.kimp || '').split(',').map(s => s.trim()).filter(Boolean));
     kanjis.forEach((kanji, j) => {
       const meaning = meanings[j];
-      if (meaning) flatItems.push({ kanji, meaning, _i: i });
+      if (!meaning) return;
+      if (kanjiScope === 'kimp' && !impSet.has(kanji)) return; // 중요한자만 필터
+      if (!seenKanji.has(kanji)) {
+        seenKanji.add(kanji);
+        flatItems.push({ kanji, meaning, _i: i });
+      }
     });
   });
 
@@ -1830,7 +1998,14 @@ function renderKanjiQuestion() {
   exPanel.innerHTML     = '';
   if (exBtn) exBtn.textContent = '예시단어 보기 ▾';
 
-  document.getElementById('q-imp-btn').style.display = 'none';
+  const impBtn2 = document.getElementById('q-imp-btn');
+  impBtn2.style.display = '';
+  impBtn2.onclick = toggleKanjiQuizImp;
+  const firstV2 = VOCAB[item._i];
+  const impSet2 = new Set((firstV2.kimp || '').split(',').map(s => s.trim()).filter(Boolean));
+  const isImp2  = impSet2.has(item.kanji);
+  impBtn2.textContent = isImp2 ? '★' : '☆';
+  impBtn2.classList.toggle('on', isImp2);
 
   const correct = item.meaning;
   const others  = shuffle(quizPool.filter(v => v.meaning !== correct).map(v => v.meaning)).slice(0, 3);
