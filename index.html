@@ -133,11 +133,11 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
 }
 .page-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
 .page-tab {
-  width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid #ddd;
-  background: #fff; cursor: pointer; font-size: 13px; transition: all 0.2s;
-  display: flex; align-items: center; justify-content: center; padding: 0;
+  width: 34px; height: 34px; border-radius: 50%; border: none;
+  background: #f4f4f4; color: #333; cursor: pointer; font-size: 13px; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; padding: 0; font-weight: 500;
 }
-.page-tab.active { background: #1a2535; color: #fff; border-color: #1a2535; }
+.page-tab.active { background: #222; color: #fff; }
 
 /* ---- Vocab table ---- */
 .vocab-table {
@@ -687,6 +687,7 @@ let currentSearch = '';
 let currentPage = 0;
 let editIndex = -1;
 let kanjiTabFilter = 'all'; // 'all' | 'important'
+let kanjiPage = 0;
 let currentTab = 'vocab';   // 'vocab' | 'kanji' | 'quiz'
 
 // 시험
@@ -1068,6 +1069,9 @@ function switchTab(tab, btn) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
   btn.classList.add('active');
+  // 페이지 탭 초기화 (공유 엘리먼트이므로 탭 전환 시 숨김)
+  document.getElementById('page-tabs-wrap').style.display = 'none';
+  document.getElementById('page-tabs').innerHTML = '';
   if (tab === 'kanji') buildKanjiTable();
 }
 
@@ -1344,6 +1348,7 @@ function setFilter(f) {
 
 function setKanjiFilter(f) {
   kanjiTabFilter = f;
+  kanjiPage = 0;
   const labelMap = {all:'전체', important:'★ 중요'};
   document.querySelectorAll('#kanji-filter-btns .filter-btn').forEach(btn => {
     btn.classList.toggle('active', btn.textContent.trim() === (labelMap[f] || ''));
@@ -1378,17 +1383,39 @@ function buildKanjiTable() {
     const tr = document.createElement('tr');
     tr.innerHTML = '<td colspan="5" style="text-align:center;color:#aaa;padding:32px">표시할 한자가 없어요.</td>';
     tbody.appendChild(tr);
+    document.getElementById('page-tabs-wrap').style.display = 'none';
     return;
   }
 
-  pairs.forEach(({ kanji, meaning, isImp }) => {
+  // 페이징
+  const totalPages = Math.max(1, Math.ceil(pairs.length / PAGE_SIZE));
+  if (kanjiPage >= totalPages) kanjiPage = 0;
+  const wrap = document.getElementById('page-tabs-wrap');
+  const container = document.getElementById('page-tabs');
+  container.innerHTML = '';
+  if (totalPages > 1) {
+    wrap.style.display = 'block';
+    for (let p = 0; p < totalPages; p++) {
+      const btn = document.createElement('button');
+      btn.className = 'page-tab' + (p === kanjiPage ? ' active' : '');
+      btn.textContent = p + 1;
+      btn.onclick = (pg => () => { kanjiPage = pg; buildKanjiTable(); window.scrollTo(0, 0); })(p);
+      container.appendChild(btn);
+    }
+  } else {
+    wrap.style.display = 'none';
+  }
+
+  const pagePairs = pairs.slice(kanjiPage * PAGE_SIZE, (kanjiPage + 1) * PAGE_SIZE);
+  pagePairs.forEach(({ kanji, meaning, isImp }) => {
     const tr = document.createElement('tr');
+    tr.style.cssText = 'background-image:linear-gradient(#f0f0f0,#f0f0f0);background-repeat:no-repeat;background-position:16px 100%;background-size:calc(100% - 32px) 1px';
     tr.innerHTML =
-      '<td style="padding:12px 16px;border-bottom:1px solid #f0f0f0;width:100%">' +
+      '<td style="padding:12px 16px;border-bottom:none;background:transparent;width:100%">' +
         '<span style="font-size:28px;font-weight:700;color:#1a2535">' + esc(kanji) + '</span>' +
         '<span style="font-size:16px;color:#555;margin-left:12px">' + esc(meaning) + '</span>' +
       '</td>' +
-      '<td style="padding:12px 12px 12px 0;border-bottom:1px solid #f0f0f0;text-align:right;white-space:nowrap">' +
+      '<td style="padding:12px 12px 12px 0;border-bottom:none;background:transparent;text-align:right;white-space:nowrap">' +
         '<button class="imp-btn' + (isImp ? ' on' : '') + '" onclick="event.stopPropagation();requireAuth(()=>toggleKanjiImp(\'' + kanji.replace(/'/g, "\\'") + '\',this))">' + (isImp ? '★' : '☆') + '</button>' +
       '</td>';
     tbody.appendChild(tr);
