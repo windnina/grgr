@@ -740,7 +740,7 @@
       "h": "おびえる",
       "r": "겁먹다 벌벌떨다 가위눌리다",
       "km": "겁낼겁",
-      "imp": true,
+      "imp": false,
       "kimp": "怯"
     },
     {
@@ -2043,7 +2043,7 @@
     true,
     true,
     true,
-    false,
+    true,
     false,
     false,
     false,
@@ -2241,5 +2241,5 @@
     true,
     true
   ],
-  "savedAt": 1787624259460
+  "savedAt": 1787624265297
 }
