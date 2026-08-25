@@ -471,7 +471,7 @@
       "k": "山積",
       "h": "さんせき",
       "r": "산적",
-      "imp": false
+      "km": ",쌓을적"
     },
     {
       "k": "兆し",
@@ -1997,7 +1997,7 @@
     false,
     false,
     false,
-    false,
+    true,
     false,
     false,
     false,
@@ -2237,5 +2237,5 @@
     true,
     true
   ],
-  "savedAt": 1787624108704
+  "savedAt": 1787624141721
 }
