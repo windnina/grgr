@@ -1322,6 +1322,21 @@ function _stopAll() {
   }
 }
 
+// iOS는 비동기 콜백에서 speechSynthesis.speak() 호출 시 유저 제스처 컨텍스트가
+// 끊겨 재생이 막힘 → iOS는 동기 Web Speech 직접 호출, 非iOS만 Google TTS 시도
+const _isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+function _webSpeechPlay(text, onDone) {
+  if (!window.speechSynthesis) { onDone(); return; }
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = 'ja-JP';
+  utt.rate = 0.9;
+  const voice = _jaVoice || pickJapaneseVoice();
+  if (voice) utt.voice = voice;
+  utt.onend = utt.onerror = onDone;
+  window.speechSynthesis.speak(utt);
+}
+
 function speakText(text, indicatorBtn) {
   if (!text) return;
   text = normalizeKanaForTTS(text);
@@ -1347,19 +1362,13 @@ function speakText(text, indicatorBtn) {
     if (_speakBtn === indicatorBtn) _speakBtn = null;
   };
 
-  // Web Speech API 폴백
-  const webSpeechPlay = () => {
-    if (!window.speechSynthesis) { hideDone(); return; }
-    const utt = new SpeechSynthesisUtterance(text);
-    utt.lang = 'ja-JP';
-    utt.rate = 0.9;
-    const voice = _jaVoice || pickJapaneseVoice();
-    if (voice) utt.voice = voice;
-    utt.onend = utt.onerror = hideDone;
-    window.speechSynthesis.speak(utt);
-  };
+  if (_isIOS) {
+    // iOS: 유저 제스처 컨텍스트 유지를 위해 동기 호출
+    _webSpeechPlay(text, hideDone);
+    return;
+  }
 
-  // Google Translate TTS 시도 — onerror / play().catch 중 먼저 발화한 쪽만 처리
+  // 非iOS: Google TTS 시도 → 실패 시 Web Speech 폴백
   const gtUrl = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q=' + encodeURIComponent(text);
   const audio = new Audio(gtUrl);
   _currentAudio = audio;
@@ -1373,7 +1382,7 @@ function speakText(text, indicatorBtn) {
   const onFail = () => {
     if (settled) return; settled = true;
     if (_currentAudio === audio) _currentAudio = null;
-    webSpeechPlay();
+    _webSpeechPlay(text, hideDone);
   };
 
   audio.onended = onSuccess;
