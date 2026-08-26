@@ -1,4 +1,4 @@
-<html lang="ko"><head>
+<html lang="ko" __gcrremoteframetoken="7a391fafe78737059cd6a43fccdde5d0"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>일본어 단어장</title>
@@ -461,7 +461,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
       </div>
       <div class="search-wrap" id="search-wrap">
         <span style="color:#4a9eff;font-size:14px">🔍</span>
-        <input class="search-input" id="search-input" type="text" placeholder="일본어 또는 한국어 검색…" oninput="onSearchInput()" autocomplete="off" autocorrect="off" autocapitalize="off">
+        <input class="search-input" id="search-input" type="text" placeholder="일본어 또는 한국어 검색…" oninput="onSearchInput()" autocomplete="off" autocorrect="off" autocapitalize="off" __gcruniqueid="1">
         <button class="search-clear" onclick="clearSearch()">✕</button>
       </div>
     </div>
@@ -594,16 +594,16 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     <div class="form-grid">
       <div class="form-row">
         <label class="form-label">한자표기</label>
-        <input class="form-input" id="modal-k" style="font-size:17px" oninput="onKanjiFieldInput(this.value)">
+        <input class="form-input" id="modal-k" style="font-size:17px" oninput="onKanjiFieldInput(this.value)" __gcruniqueid="2">
       </div>
       <div class="form-row">
         <label class="form-label">히라가나</label>
-        <input class="form-input" id="modal-h">
+        <input class="form-input" id="modal-h" __gcruniqueid="3">
       </div>
     </div>
     <div class="form-row">
       <label class="form-label">한국어 뜻 <span style="color:#e74c3c">*</span></label>
-      <input class="form-input" id="modal-r">
+      <input class="form-input" id="modal-r" __gcruniqueid="4">
     </div>
     <div class="form-row" id="kanji-meanings-section" style="display:none">
       <label class="form-label" style="display:flex;align-items:center;justify-content:space-between">
@@ -616,7 +616,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     </div>
     <div class="form-row">
       <label class="form-label">예문</label>
-      <textarea class="form-textarea" id="modal-ex"></textarea>
+      <textarea class="form-textarea" id="modal-ex" __gcruniqueid="5"></textarea>
     </div>
     <div class="modal-footer" style="justify-content:center;gap:16px;margin-top:24px">
       <button class="btn-cancel" onclick="closeModal()" style="width:120px;padding:13px 0;font-size:16px;border-radius:12px">취소</button>
@@ -636,7 +636,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     <div style="font-size:32px;margin-bottom:8px">🔒</div>
     <div class="modal-title" style="text-align:center;margin-bottom:16px">편집 모드 잠금 해제</div>
     <div class="form-row" style="margin-bottom:8px">
-      <input class="form-input" id="auth-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" style="text-align:center;font-size:28px;letter-spacing:10px;padding:12px" oninput="onAuthInput(this.value)">
+      <input class="form-input" id="auth-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" style="text-align:center;font-size:28px;letter-spacing:10px;padding:12px" oninput="onAuthInput(this.value)" __gcruniqueid="6">
     </div>
     <div id="auth-error" style="color: rgb(231, 76, 60); font-size: 13px; min-height: 20px; margin-bottom: 8px; display: none;"> </div>
     <div class="modal-footer" style="justify-content:center">
@@ -652,7 +652,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     <div class="modal-title" style="text-align:center;margin-bottom:4px">비밀번호 변경</div>
     <div style="font-size:12px;color:#999;margin-bottom:16px">새 4자리 숫자를 입력하세요</div>
     <div class="form-row" style="margin-bottom:8px">
-      <input class="form-input" id="chpw-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" style="text-align:center;font-size:28px;letter-spacing:10px;padding:12px" oninput="onChangePwInput(this.value)">
+      <input class="form-input" id="chpw-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" style="text-align:center;font-size:28px;letter-spacing:10px;padding:12px" oninput="onChangePwInput(this.value)" __gcruniqueid="7">
     </div>
     <div id="chpw-msg" style="font-size:13px;min-height:20px;margin-bottom:8px;color:#4a9eff"> </div>
     <div class="modal-footer" style="justify-content:center">
@@ -667,22 +667,22 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     <div class="modal-title">GitHub 연동 설정</div>
     <div class="form-row">
       <label class="form-label">Personal Access Token</label>
-      <input class="form-input" id="gh-token" type="password" placeholder="ghp_xxxxxxxxxxxx">
+      <input class="form-input" id="gh-token" type="password" placeholder="ghp_xxxxxxxxxxxx" __gcruniqueid="8">
       <div style="font-size:11px;color:#aaa;margin-top:4px">GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → public_repo 권한 체크</div>
     </div>
     <div class="form-grid">
       <div class="form-row">
         <label class="form-label">사용자명</label>
-        <input class="form-input" id="gh-owner" placeholder="windnina">
+        <input class="form-input" id="gh-owner" placeholder="windnina" __gcruniqueid="9">
       </div>
       <div class="form-row">
         <label class="form-label">Repository</label>
-        <input class="form-input" id="gh-repo" placeholder="grgr">
+        <input class="form-input" id="gh-repo" placeholder="grgr" __gcruniqueid="10">
       </div>
     </div>
     <div class="form-row">
       <label class="form-label">파일 경로</label>
-      <input class="form-input" id="gh-path" placeholder="index.html">
+      <input class="form-input" id="gh-path" placeholder="index.html" __gcruniqueid="11">
     </div>
     <div class="modal-footer">
       <button class="btn-save" onclick="saveGithubConfig()">저장</button>
