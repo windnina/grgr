@@ -1298,9 +1298,19 @@ if (window.speechSynthesis) {
   cacheVoice();
 }
 
+function normalizeKanaForTTS(text) {
+  // iOS TTS는 拗音(요음) 정규화를 안 함 — し+や(대문자)를 しゃ(소문자)로 변환
+  // Mac Chrome Google TTS는 자동 처리하지만 iOS Apple TTS는 두 음절로 읽음
+  return text
+    .replace(/([きぎしじちぢにひびぴみり])や/g, '$1ゃ')
+    .replace(/([きぎしじちぢにひびぴみり])ゆ/g, '$1ゅ')
+    .replace(/([きぎしじちぢにひびぴみり])よ/g, '$1ょ');
+}
+
 function speakText(text, indicatorBtn) {
   if (!window.speechSynthesis) return;
   if (!text) return;
+  text = normalizeKanaForTTS(text);
   // 같은 버튼이면 중지
   if (_speakBtn && _speakBtn === indicatorBtn) {
     window.speechSynthesis.cancel();
