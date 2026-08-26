@@ -152,6 +152,23 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
 }
 .vocab-table tr.important td { background-color: #fff; }
 .vocab-table tr.important.meaning-row td { background-color: #fff; }
+/* 한자탭 확장 행 — vocab-table td 스타일 오버라이드 */
+.vocab-table tr.kanji-expand-row td {
+  background-color: transparent !important;
+  border-bottom: none !important;
+  padding: 0 12px 12px !important;
+}
+.kanji-expand-card {
+  background: #f8f8f8; border-radius: 10px; padding: 6px 14px; overflow: hidden;
+}
+.kanji-expand-item {
+  display: flex; align-items: baseline; gap: 8px;
+  padding: 7px 0; border-bottom: 1px solid #efefef; font-size: 16px;
+}
+.kanji-expand-item:last-child { border-bottom: none; }
+.kanji-expand-word { font-weight: 700; color: #1a2535; font-size: 20px; min-width: 80px; }
+.kanji-expand-hira { color: #888; font-size: 14px; }
+.kanji-expand-meaning { color: #555; font-size: 14px; margin-left: auto; text-align: right; }
 
 .num-cell { display: none; }
 .kanji-cell { display: none; }
@@ -1587,17 +1604,87 @@ function buildKanjiTable() {
   const pagePairs = pairs.slice(kanjiPage * PAGE_SIZE, (kanjiPage + 1) * PAGE_SIZE);
   pagePairs.forEach(({ kanji, meaning, isImp }) => {
     const tr = document.createElement('tr');
-    tr.style.cssText = 'background-image:linear-gradient(#f0f0f0,#f0f0f0);background-repeat:no-repeat;background-position:16px 100%;background-size:calc(100% - 32px) 1px';
+    tr.className = 'kanji-main-row';
+    tr.style.cssText = 'cursor:pointer;background-image:linear-gradient(#f0f0f0,#f0f0f0);background-repeat:no-repeat;background-position:16px 100%;background-size:calc(100% - 32px) 1px';
+    const safeKanji = kanji.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
     tr.innerHTML =
       '<td style="padding:12px 16px;border-bottom:none;background:transparent;width:100%">' +
         '<span style="font-size:28px;font-weight:700;color:#1a2535">' + esc(kanji) + '</span>' +
         '<span style="font-size:16px;color:#555;margin-left:12px">' + esc(meaning) + '</span>' +
       '</td>' +
-      '<td style="padding:12px 12px 12px 0;border-bottom:none;background:transparent;text-align:right;white-space:nowrap">' +
-        '<button class="imp-btn' + (isImp ? ' on' : '') + '" onclick="event.stopPropagation();requireAuth(()=>toggleKanjiImp(\'' + kanji.replace(/'/g, "\\'") + '\',this))">' + (isImp ? '★' : '☆') + '</button>' +
+      '<td style="padding:12px 12px 12px 0;border-bottom:none;background:transparent;text-align:right;white-space:nowrap;vertical-align:middle">' +
+        '<button class="imp-btn' + (isImp ? ' on' : '') + '" onclick="event.stopPropagation();requireAuth(()=>toggleKanjiImp(\'' + safeKanji + '\',this))">' + (isImp ? '★' : '☆') + '</button>' +
       '</td>';
+    tr.onclick = () => toggleKanjiExpand(kanji, tr);
     tbody.appendChild(tr);
+
+    // 확장 행 (초기 숨김)
+    const expandTr = document.createElement('tr');
+    expandTr.className = 'kanji-expand-row';
+    expandTr.style.display = 'none';
+    expandTr.dataset.kanji = kanji;
+    expandTr.innerHTML = '<td colspan="2"><div class="kanji-expand-card"></div></td>';
+    tbody.appendChild(expandTr);
   });
+}
+
+let _openKanji = null;
+
+function toggleKanjiExpand(kanji, mainRow) {
+  const tbody = document.getElementById('kanji-tbody');
+  const expandRow = [...tbody.querySelectorAll('.kanji-expand-row')].find(r => r.dataset.kanji === kanji);
+  if (!expandRow) return;
+
+  const isOpen = expandRow.style.display !== 'none';
+
+  // 이전에 열린 행 닫기
+  tbody.querySelectorAll('.kanji-expand-row').forEach(r => {
+    if (r.style.display !== 'none') {
+      r.style.display = 'none';
+      const prevMain = r.previousElementSibling;
+      if (prevMain) {
+        // 언더라인 복원
+        prevMain.style.backgroundImage = 'linear-gradient(#f0f0f0,#f0f0f0)';
+      }
+    }
+  });
+
+  if (isOpen) {
+    _openKanji = null;
+    return;
+  }
+
+  // 새로 열기
+  _openKanji = kanji;
+
+  // 해당 한자가 포함된 단어 수집
+  const words = VOCAB.filter(v => {
+    if (!v.k) return false;
+    return extractKanjiList(v.k).includes(kanji);
+  });
+
+  const card = expandRow.querySelector('.kanji-expand-card');
+  if (words.length === 0) {
+    card.innerHTML = '<div class="kanji-expand-item" style="color:#bbb;font-size:13px;justify-content:center">관련 단어가 없어요</div>';
+  } else {
+    card.innerHTML = '';
+    words.forEach(v => {
+      const word = v.k || v.h || '';
+      const item = document.createElement('div');
+      item.className = 'kanji-expand-item';
+      item.style.cursor = 'pointer';
+      item.innerHTML =
+        '<span class="kanji-expand-word">' + esc(word) + '</span>' +
+        (v.h && v.k ? '<span class="kanji-expand-hira">' + esc(v.h) + '</span>' : '') +
+        '<span class="kanji-expand-meaning">' + esc(v.r || '') + '</span>';
+      item.onclick = () => speakText(v.h || v.k || '', null);
+      card.appendChild(item);
+    });
+  }
+
+  // 메인 행 언더라인 숨기기
+  mainRow.style.backgroundImage = 'none';
+  expandRow.style.display = '';
 }
 
 function toggleKanjiImp(kanji, btn) {
