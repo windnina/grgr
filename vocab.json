@@ -2463,7 +2463,7 @@
       "k": "補い合う",
       "h": "おぎないあう",
       "r": "서로 보완하다",
-      "imp": false
+      "km": "도울보,"
     },
     {
       "k": "畳む",
@@ -2913,7 +2913,7 @@
     true,
     false,
     true,
-    false,
+    true,
     true,
     true,
     true,
@@ -2927,5 +2927,5 @@
     true,
     true
   ],
-  "savedAt": 1788097709388
+  "savedAt": 1788097738654
 }
