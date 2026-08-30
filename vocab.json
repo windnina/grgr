@@ -2223,7 +2223,7 @@
       "k": "誇示",
       "h": "こじ",
       "r": "과시",
-      "imp": false
+      "km": "자랑할과,보일시"
     },
     {
       "k": "粗大",
@@ -2857,7 +2857,7 @@
     true,
     true,
     true,
-    false,
+    true,
     true,
     true,
     true,
@@ -2928,5 +2928,5 @@
     true,
     true
   ],
-  "savedAt": 1788097848073
+  "savedAt": 1788097875307
 }
