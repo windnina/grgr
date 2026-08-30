@@ -391,14 +391,6 @@
       "imp": true
     },
     {
-      "k": "欺く",
-      "h": "あざむく",
-      "r": "속이다",
-      "km": "속일기",
-      "kimp": "欺",
-      "imp": true
-    },
-    {
       "k": "辺り",
       "h": "ほとり",
       "r": "부근",
@@ -2617,7 +2609,6 @@
     false,
     false,
     false,
-    false,
     true,
     false,
     false,
@@ -2940,5 +2931,5 @@
     true,
     true
   ],
-  "savedAt": 1788074331307
+  "savedAt": 1788076810743
 }
