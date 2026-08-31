@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "踏切",
+      "h": "ふみきり",
+      "r": "건널목",
+      "km": ",끊을절",
+      "ex": "railroad crossing"
+    },
+    {
       "k": "炒めます",
       "h": "いためます",
       "r": "볶다",
@@ -737,6 +744,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -835,5 +843,5 @@
     false,
     false
   ],
-  "savedAt": 1788183605413
+  "savedAt": 1788184287019
 }
