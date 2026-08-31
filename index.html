@@ -1372,13 +1372,8 @@ function speakText(text, indicatorBtn) {
     if (_speakBtn === indicatorBtn) _speakBtn = null;
   };
 
-  if (_isIOS) {
-    // iOS: 유저 제스처 컨텍스트 유지를 위해 동기 호출
-    _webSpeechPlay(text, hideDone);
-    return;
-  }
-
-  // 非iOS: Google TTS 시도 → 실패 시 Web Speech 폴백
+  // Google TTS 시도 (iOS 포함) → 실패 시 Web Speech 폴백
+  // Audio 엘리먼트 방식은 iOS 유저 제스처 안에서도 동작함
   const gtUrl = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q=' + encodeURIComponent(text);
   const audio = new Audio(gtUrl);
   _currentAudio = audio;
@@ -1403,7 +1398,7 @@ function speakText(text, indicatorBtn) {
 function speakVocabWord(i) {
   const v = VOCAB[i];
   if (!v) return;
-  const text = v.k || v.h || '';  // 한자 우선 → TTS 엔진이 직접 읽어서 오독 방지
+  const text = v.h || v.k || '';  // 히라가나 우선 → 정확한 발음 보장
   if (!text) return;
   const btn = document.getElementById('speak-' + i);
   speakText(text, btn);
@@ -2045,7 +2040,7 @@ function speakQuizWord() {
   const item = quizItems[quizIdx];
   if (!item) return;
   const v = VOCAB[item._i];
-  const word = v ? (v.k || v.h || '') : (item.kanji || '');
+  const word = v ? (v.h || v.k || '') : (item.kanji || '');
   if (!word) return;
   const btn = document.getElementById('q-speak-btn');
   speakText(word, btn);
@@ -2160,7 +2155,7 @@ function toggleKanjiExamples() {
         '<span class="q-example-word">' + esc(v.k) + '</span>' +
         (v.h ? '<span class="q-example-hira">(' + esc(v.h) + ')</span>' : '') +
         (v.r ? '<span style="color:#bbb;font-size:16px;margin-left:auto">' + esc(v.r) + '</span>' : '');
-      const word = v.k || v.h || '';
+      const word = v.h || v.k || '';
       if (word) {
         row.onclick = () => speakText(word, document.getElementById('q-speak-btn'));
       }
