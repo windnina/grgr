@@ -619,11 +619,8 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
         <input class="form-input" id="modal-k" style="font-size:17px" oninput="onKanjiFieldInput(this.value)">
       </div>
       <div class="form-row">
-        <label class="form-label" style="display:flex;align-items:center;gap:6px">
-          히라가나
-          <span id="hira-auto-status" style="font-size:11px;color:#aaa;font-weight:400;letter-spacing:0"></span>
-        </label>
-        <input class="form-input" id="modal-h" placeholder="자동입력 또는 직접 입력" oninput="this.dataset.userEdited='1'">
+        <label class="form-label">히라가나</label>
+        <input class="form-input" id="modal-h">
       </div>
     </div>
     <div class="form-row">
@@ -1720,112 +1717,11 @@ function lookupKanjiMeaning(kanji) {
 
 // 한자 입력칸이 변경될 때 한자뜻 폼 재생성 + 기존 훈음 자동 입력
 /* ---- 자동 히라가나 (kanjiapi.dev — CORS 공식 지원) ---- */
-let _hiraAutoTimer = null;
-const _kanjiCache = {};
-
-function toHiragana(str) {
-  return (str || '').replace(/[ァ-ヶ]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0x60));
-}
-
-function isKanji(ch) { return /[一-鿿㐀-䶿]/.test(ch); }
-function isKana(ch)  { return /[ぁ-ゟァ-ヿ々ー]/.test(ch); }
-
-async function getKanjiData(kanji) {
-  if (_kanjiCache[kanji]) return _kanjiCache[kanji];
-  const res = await fetch('https://kanjiapi.dev/v1/kanji/' + encodeURIComponent(kanji));
-  if (!res.ok) return null;
-  const data = await res.json();
-  _kanjiCache[kanji] = data;
-  return data;
-}
-
-async function buildReading(word) {
-  // 단어를 [한자블록+히라가나블록] 세그먼트로 분리
-  const segs = [];
-  let i = 0;
-  while (i < word.length) {
-    if (isKanji(word[i])) {
-      let k = '';
-      while (i < word.length && isKanji(word[i])) k += word[i++];
-      let h = '';
-      while (i < word.length && isKana(word[i])) h += word[i++];
-      segs.push({ k, h });
-    } else {
-      let h = '';
-      while (i < word.length && !isKanji(word[i])) h += word[i++];
-      segs.push({ k: '', h });
-    }
-  }
-
-  // 각 세그먼트 읽기 변환
-  let result = '';
-  for (const seg of segs) {
-    if (!seg.k) { result += seg.h; continue; }
-
-    if (seg.k.length === 1) {
-      // 단일 한자: okurigana(활용어미) 매칭으로 읽기 결정
-      const data = await getKanjiData(seg.k);
-      if (data) {
-        let found = false;
-        for (const kun of (data.kun_readings || [])) {
-          const [stem, oku = ''] = kun.split('.');
-          const hOku = toHiragana(oku);
-          if (seg.h.startsWith(hOku)) {
-            result += toHiragana(stem) + seg.h;
-            found = true; break;
-          }
-        }
-        if (!found) {
-          // okurigana 매칭 실패 시 첫 번째 읽기 사용
-          const r = (data.kun_readings || [])[0] || (data.on_readings || [])[0] || seg.k;
-          result += toHiragana(r.split('.')[0]) + seg.h;
-        }
-      } else {
-        result += seg.k + seg.h;
-      }
-    } else {
-      // 복수 한자: 음독(on_reading) 이어 붙이기
-      const readings = await Promise.all([...seg.k].map(getKanjiData));
-      for (const data of readings) {
-        const r = (data && data.on_readings && data.on_readings[0])
-          || (data && data.kun_readings && data.kun_readings[0] && data.kun_readings[0].split('.')[0])
-          || '';
-        result += toHiragana(r);
-      }
-      result += seg.h;
-    }
-  }
-  return result;
-}
-
-function autoFillHira(val) {
-  if (!val.trim()) return;
-  clearTimeout(_hiraAutoTimer);
-  _hiraAutoTimer = setTimeout(async function() {
-    const statusEl = document.getElementById('hira-auto-status');
-    const hiraField = document.getElementById('modal-h');
-    if (!hiraField || hiraField.dataset.userEdited === '1') return;
-    if (statusEl) statusEl.textContent = '변환 중…';
-    let reading = '';
-    try { reading = await buildReading(val); } catch(e) {}
-    const hf = document.getElementById('modal-h');
-    if (reading && hf && hf.dataset.userEdited !== '1') hf.value = reading;
-    const se = document.getElementById('hira-auto-status');
-    if (se) se.textContent = reading ? '' : '직접 입력해주세요';
-    if (!reading && se) setTimeout(() => { se.textContent = ''; }, 2500);
-  }, 600);
-}
-
 function onKanjiFieldInput(val) {
   const kanjis = extractKanjiList(val);
   const autoKm = kanjis.map(k => lookupKanjiMeaning(k)).join(',');
-  // 현재 체크된 kimp 별표 상태 유지
   const currentKimp = getKimpValue();
   rebuildKanjiMeaningsForm(val, autoKm, currentKimp);
-  // 히라가나 자동 입력
-  const hiraField = document.getElementById('modal-h');
-  if (hiraField) hiraField.dataset.userEdited = '0';
-  autoFillHira(val);
 }
 
 // 한자 낱자별 훈음 입력 폼 생성
@@ -1896,8 +1792,6 @@ function openAddModal() {
   ['modal-k','modal-h','modal-r','modal-ex'].forEach(id => {
     document.getElementById(id).value = '';
   });
-  document.getElementById('modal-h').dataset.userEdited = '0';
-  document.getElementById('hira-auto-status').textContent = '';
   rebuildKanjiMeaningsForm('', '');
   document.getElementById('modal-delete-btn').style.display = 'none';
   document.getElementById('edit-modal').classList.add('open');
@@ -1909,9 +1803,7 @@ function openEditModal(i) {
   const v = VOCAB[i];
   document.getElementById('modal-title').textContent = '단어 수정';
   document.getElementById('modal-k').value   = v.k   || '';
-  const mh = document.getElementById('modal-h');
-  mh.value = v.h || '';
-  mh.dataset.userEdited = '1'; // 기존 단어 수정 시 자동입력 방지
+  document.getElementById('modal-h').value = v.h || '';
   document.getElementById('modal-r').value   = v.r   || '';
   document.getElementById('modal-ex').value  = v.ex  || '';
   rebuildKanjiMeaningsForm(v.k || '', v.km || '', v.kimp || '');
@@ -1943,6 +1835,15 @@ function saveModal() {
 
   if (!k && !h) { alert('한자 또는 히라가나 중 하나는 필수입니다.'); return; }
   if (!r)       { alert('한국어 뜻은 필수입니다.'); return; }
+
+  // 중복 체크
+  const dupIdx = VOCAB.findIndex((v, i) => i !== editIndex && ((k && v.k === k) || (h && !k && v.h === h)));
+  if (dupIdx !== -1) {
+    const dup = VOCAB[dupIdx];
+    const dupLabel = dup.k || dup.h;
+    alert('이미 등록된 단어입니다.\n\n「' + dupLabel + '」(' + dup.h + ') — ' + dup.r);
+    return;
+  }
 
   const word = { k, h, r };
   if (km)   word.km   = km;
