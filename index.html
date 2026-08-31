@@ -1372,8 +1372,13 @@ function speakText(text, indicatorBtn) {
     if (_speakBtn === indicatorBtn) _speakBtn = null;
   };
 
-  // Google TTS 시도 (iOS 포함) → 실패 시 Web Speech 폴백
-  // Audio 엘리먼트 방식은 iOS 유저 제스처 안에서도 동작함
+  if (_isIOS) {
+    // iOS: 유저 제스처 컨텍스트 유지를 위해 동기 호출
+    _webSpeechPlay(text, hideDone);
+    return;
+  }
+
+  // 非iOS: Google TTS 시도 → 실패 시 Web Speech 폴백
   const gtUrl = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q=' + encodeURIComponent(text);
   const audio = new Audio(gtUrl);
   _currentAudio = audio;
