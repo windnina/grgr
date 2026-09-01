@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "多数",
+      "h": "すう",
+      "r": "다수",
+      "km": ",셀 수"
+    },
+    {
       "k": "しゃもじ",
       "h": "",
       "r": "밥주걱"
@@ -852,6 +858,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -950,5 +957,5 @@
     false,
     false
   ],
-  "savedAt": 1788271939023
+  "savedAt": 1788272072506
 }
