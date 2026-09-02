@@ -1610,7 +1610,7 @@
       "h": "めいがら",
       "r": "상표",
       "km": "새길명, 자루병",
-      "imp": true
+      "imp": false
     },
     {
       "k": "歪曲",
@@ -3256,7 +3256,7 @@
     false,
     true,
     false,
-    false,
+    true,
     false,
     false,
     true,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788324291463
+  "savedAt": 1788324294932
 }
