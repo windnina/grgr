@@ -13,7 +13,7 @@
       "r": "기복",
       "km": "일어날기,업드릴복",
       "kimp": "起,伏",
-      "imp": true
+      "imp": false
     },
     {
       "k": "控除",
@@ -3041,7 +3041,7 @@
     false,
     false,
     false,
-    false,
+    true,
     false,
     false,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788325002056
+  "savedAt": 1788325015016
 }
