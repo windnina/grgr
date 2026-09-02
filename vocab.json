@@ -65,7 +65,7 @@
       "h": "どて",
       "r": "둑방 제방",
       "km": ",",
-      "imp": true
+      "imp": false
     },
     {
       "k": "捕虜",
@@ -3047,7 +3047,7 @@
     true,
     false,
     false,
-    false,
+    true,
     false,
     false,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788325033872
+  "savedAt": 1788325043302
 }
