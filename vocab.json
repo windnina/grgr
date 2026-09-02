@@ -2112,7 +2112,7 @@
       "h": "なだめる",
       "r": "달래다",
       "km": "너그러울유",
-      "imp": true,
+      "imp": false,
       "kimp": "宥"
     },
     {
@@ -2152,7 +2152,7 @@
       "k": "弁える",
       "h": "わきまえる",
       "r": "분별하다",
-      "imp": true
+      "imp": false
     },
     {
       "k": "我を通す",
@@ -3331,7 +3331,7 @@
     false,
     false,
     false,
-    false,
+    true,
     false,
     false,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788324341501
+  "savedAt": 1788324343243
 }
