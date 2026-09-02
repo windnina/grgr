@@ -334,7 +334,7 @@
       "h": "ひっかく",
       "r": "할퀴다",
       "km": ",긁을소",
-      "imp": true
+      "imp": false
     },
     {
       "k": "築く",
@@ -3083,7 +3083,7 @@
     false,
     false,
     false,
-    false,
+    true,
     false,
     false,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788325219652
+  "savedAt": 1788325230845
 }
