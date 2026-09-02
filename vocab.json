@@ -2250,7 +2250,7 @@
       "r": "고용하다",
       "km": "품팔고",
       "ex": "雇用　こよう　고용",
-      "imp": true
+      "imp": false
     },
     {
       "k": "高ずる",
@@ -3373,7 +3373,7 @@
     false,
     false,
     false,
-    false,
+    true,
     false,
     false,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788324345515
+  "savedAt": 1788324349216
 }
