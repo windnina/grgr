@@ -627,7 +627,7 @@
       "r": "써없애다 낭비하다",
       "km": "쓸비",
       "ex": "時間を費やす",
-      "imp": true
+      "imp": false
     },
     {
       "k": "剥ぐ",
@@ -3118,7 +3118,7 @@
     true,
     false,
     true,
-    false,
+    true,
     false,
     false,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788325406708
+  "savedAt": 1788325409056
 }
