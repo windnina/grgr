@@ -1018,7 +1018,7 @@
       "h": "すいそく",
       "r": "추측",
       "km": "밀추,헤아릴측",
-      "imp": true
+      "imp": false
     },
     {
       "k": "給う",
@@ -3037,7 +3037,7 @@
   ],
   "memorized": [
     false,
-    false,
+    true,
     false,
     false,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788324405804
+  "savedAt": 1788325002056
 }
