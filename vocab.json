@@ -588,7 +588,7 @@
       "h": "ひだりきき",
       "r": "왼손잡이",
       "km": ",이할리",
-      "imp": true
+      "imp": false
     },
     {
       "k": "憤慨",
@@ -3115,7 +3115,7 @@
     true,
     true,
     false,
-    false,
+    true,
     false,
     false,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788325393858
+  "savedAt": 1788325399316
 }
