@@ -1565,7 +1565,7 @@
       "h": "きざし",
       "r": "징조 조짐",
       "km": "억조조",
-      "imp": true,
+      "imp": false,
       "kimp": "兆"
     },
     {
@@ -3245,7 +3245,7 @@
     false,
     true,
     false,
-    false,
+    true,
     false,
     true,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788324277665
+  "savedAt": 1788324283938
 }
