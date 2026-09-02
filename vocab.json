@@ -421,7 +421,7 @@
       "h": "ふふく",
       "r": "불복",
       "km": ",옷복",
-      "imp": true
+      "imp": false
     },
     {
       "k": "絶つ",
@@ -3092,7 +3092,7 @@
     false,
     false,
     true,
-    false,
+    true,
     false,
     false,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788325263024
+  "savedAt": 1788325266162
 }
