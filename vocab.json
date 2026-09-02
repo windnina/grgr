@@ -1782,7 +1782,7 @@
       "h": "みくびる",
       "r": "깔보다 업신여기다(잘씀)",
       "ex": "相手を見くびると負けるよ。",
-      "imp": true
+      "imp": false
     },
     {
       "k": "せがむ",
@@ -3280,7 +3280,7 @@
     true,
     true,
     true,
-    false,
+    true,
     true,
     true,
     true,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788324305192
+  "savedAt": 1788324309407
 }
