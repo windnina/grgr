@@ -1712,7 +1712,7 @@
       "h": "しらふ",
       "r": "맨정신, 술안취한상태",
       "ex": "素面では言いにくい",
-      "imp": true
+      "imp": false
     },
     {
       "k": "面汚し",
@@ -3272,7 +3272,7 @@
     true,
     true,
     false,
-    false,
+    true,
     false,
     false,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788324297652
+  "savedAt": 1788324300528
 }
