@@ -484,7 +484,7 @@
       "km": "심을식",
       "kimp": "植",
       "ex": "うわる[植わる]심어지다",
-      "imp": true
+      "imp": false
     },
     {
       "k": "雌雄",
@@ -3103,7 +3103,7 @@
     false,
     false,
     false,
-    false,
+    true,
     false,
     false,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788325354148
+  "savedAt": 1788325359653
 }
