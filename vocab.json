@@ -101,7 +101,7 @@
       "h": "ひかえる",
       "r": "절제하다, 순서를기다리다",
       "km": "당길공",
-      "imp": true
+      "imp": false
     },
     {
       "k": "刺繍",
@@ -3124,7 +3124,7 @@
     false,
     false,
     false,
-    false,
+    true,
     false,
     false,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788325481669
+  "savedAt": 1788341048127
 }
