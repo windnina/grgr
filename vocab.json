@@ -1542,7 +1542,7 @@
       "h": "おだてる",
       "r": "치켜세우다",
       "km": "부채질할선",
-      "imp": true,
+      "imp": false,
       "kimp": "煽"
     },
     {
@@ -3241,7 +3241,7 @@
     false,
     true,
     true,
-    false,
+    true,
     false,
     false,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788324271742
+  "savedAt": 1788324273677
 }
