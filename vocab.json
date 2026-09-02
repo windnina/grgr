@@ -304,7 +304,7 @@
       "h": "いかにして",
       "r": "어떻게해서(방법,과정)",
       "km": ",",
-      "imp": true
+      "imp": false
     },
     {
       "k": "堪える",
@@ -3079,7 +3079,7 @@
     false,
     false,
     false,
-    false,
+    true,
     false,
     false,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788325197001
+  "savedAt": 1788325219652
 }
