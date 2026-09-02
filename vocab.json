@@ -1581,7 +1581,7 @@
       "h": "とかく",
       "r": "이럭저럭",
       "km": "토끼토, 뿔각",
-      "imp": true
+      "imp": false
     },
     {
       "k": "封鎖",
@@ -3249,7 +3249,7 @@
     false,
     true,
     false,
-    false,
+    true,
     true,
     true,
     true,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788324283938
+  "savedAt": 1788324291463
 }
