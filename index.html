@@ -613,7 +613,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
 <!-- ===== 단어 추가/수정 모달 ===== -->
 <div class="modal-overlay" id="edit-modal">
   <div class="modal-box" style="position:relative">
-    <div id="modal-delete-wrap" style="display:none;position:absolute;top:14px;right:14px">
+    <div id="modal-delete-wrap" style="display: block; position: absolute; top: 14px; right: 14px;">
       <button class="btn-delete" id="modal-delete-btn" onclick="toggleDeleteDropdown(event)">삭제</button>
       <div id="modal-delete-dropdown" style="display:none;position:absolute;top:calc(100% + 6px);right:0;background:#fff;border:1px solid #e0e0e0;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,0.13);overflow:hidden;min-width:90px;z-index:10">
         <button onclick="deleteWord()" style="display:block;width:100%;padding:11px 18px;background:none;border:none;color:#e74c3c;font-size:14px;font-weight:600;cursor:pointer;text-align:center">삭제</button>
@@ -621,7 +621,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
         <button onclick="closeDeleteDropdown()" style="display:block;width:100%;padding:11px 18px;background:none;border:none;color:#666;font-size:14px;cursor:pointer;text-align:center">취소</button>
       </div>
     </div>
-    <div class="modal-title" id="modal-title">단어 추가</div>
+    <div class="modal-title" id="modal-title">단어 수정</div>
     <div class="form-grid">
       <div class="form-row">
         <label class="form-label">한자표기</label>
@@ -630,10 +630,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
       </div>
       <div class="form-row">
         <label class="form-label">히라가나</label>
-        <div style="display:flex;align-items:center;gap:8px">
-          <input class="form-input" id="modal-h" onblur="checkDupRealtime()" style="flex:1">
-          <button type="button" id="modal-imp-btn" class="imp-btn on" onclick="toggleModalImp()" style="font-size:24px;padding:2px 2px;flex-shrink:0">★</button>
-        </div>
+        <input class="form-input" id="modal-h" onblur="checkDupRealtime()">
       </div>
     </div>
     <div class="form-row">
@@ -641,14 +638,14 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
       <input class="form-input" id="modal-r" oninput="updateSaveBtn()" onblur="showRMsgIfEmpty()">
       <span id="modal-r-msg" style="display:none;font-size:12px;color:#e74c3c;margin-top:4px"></span>
     </div>
-    <div class="form-row" id="kanji-meanings-section" style="display:none">
+    <div class="form-row" id="kanji-meanings-section" style="">
       <label class="form-label" style="display:flex;align-items:center;justify-content:space-between">
         <span>한자뜻 (각 한자의 훈음)</span>
         <button type="button" onclick="lookupHanja()" style="font-size:11px;padding:2px 8px;border:1.5px solid #2980b9;border-radius:20px;background:none;color:#2980b9;cursor:pointer;font-weight:600;white-space:nowrap">
           🔍 사전 열기
         </button>
       </label>
-      <div id="kanji-meanings-container"></div>
+      <div id="kanji-meanings-container"><div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;"><span style="font-size: 22px; font-weight: 700; color: rgb(26, 37, 53); min-width: 30px; text-align: center; flex-shrink: 0;">明</span><input class="form-input kanji-meaning-input" placeholder="훈음 입력" style="flex: 1 1 0%;"><button type="button" class="kimp-star-btn" data-kanji="明">☆</button></div></div>
     </div>
     <div class="form-row">
       <label class="form-label">예문</label>
@@ -656,7 +653,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     </div>
     <div class="modal-footer" style="justify-content:center;gap:16px;margin-top:24px">
       <button class="btn-cancel" onclick="closeModal()" style="width:120px;padding:13px 0;font-size:16px;border-radius:12px">취소</button>
-      <button class="btn-save" id="modal-save-btn" onclick="saveModal()" style="width:120px;padding:13px 0;font-size:16px;border-radius:12px">저장</button>
+      <button class="btn-save" id="modal-save-btn" onclick="saveModal()" style="width: 120px; padding: 13px 0px; font-size: 16px; border-radius: 12px;">저장</button>
     </div>
   </div>
 </div>
@@ -1851,23 +1848,10 @@ function getKimpValue() {
   return [...stars].map(s => s.dataset.kanji).join(',');
 }
 
-function setModalImp(val) {
-  const btn = document.getElementById('modal-imp-btn');
-  if (!btn) return;
-  if (val) { btn.classList.add('on'); btn.textContent = '★'; }
-  else     { btn.classList.remove('on'); btn.textContent = '☆'; }
-}
+let _modalImpValue = true;
 
-function toggleModalImp() {
-  const btn = document.getElementById('modal-imp-btn');
-  if (!btn) return;
-  setModalImp(!btn.classList.contains('on'));
-}
-
-function getModalImp() {
-  const btn = document.getElementById('modal-imp-btn');
-  return btn ? btn.classList.contains('on') : true;
-}
+function setModalImp(val) { _modalImpValue = val; }
+function getModalImp() { return _modalImpValue; }
 
 function openAddModal() {
   editIndex = -1;
