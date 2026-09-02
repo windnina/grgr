@@ -613,7 +613,14 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
 <!-- ===== 단어 추가/수정 모달 ===== -->
 <div class="modal-overlay" id="edit-modal">
   <div class="modal-box" style="position:relative">
-    <button class="btn-delete" id="modal-delete-btn" onclick="confirmDelete()" style="display:none;position:absolute;top:14px;right:14px">삭제</button>
+    <div id="modal-delete-wrap" style="display:none;position:absolute;top:14px;right:14px">
+      <button class="btn-delete" id="modal-delete-btn" onclick="toggleDeleteDropdown(event)">삭제</button>
+      <div id="modal-delete-dropdown" style="display:none;position:absolute;top:calc(100% + 6px);right:0;background:#fff;border:1px solid #e0e0e0;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,0.13);overflow:hidden;min-width:90px;z-index:10">
+        <button onclick="deleteWord()" style="display:block;width:100%;padding:11px 18px;background:none;border:none;color:#e74c3c;font-size:14px;font-weight:600;cursor:pointer;text-align:center">삭제</button>
+        <div style="height:1px;background:#f0f0f0"></div>
+        <button onclick="closeDeleteDropdown()" style="display:block;width:100%;padding:11px 18px;background:none;border:none;color:#666;font-size:14px;cursor:pointer;text-align:center">취소</button>
+      </div>
+    </div>
     <div class="modal-title" id="modal-title">단어 추가</div>
     <div class="form-grid">
       <div class="form-row">
@@ -628,7 +635,8 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     </div>
     <div class="form-row">
       <label class="form-label">한국어 뜻 <span style="color:#e74c3c">*</span></label>
-      <input class="form-input" id="modal-r">
+      <input class="form-input" id="modal-r" oninput="updateSaveBtn()" onblur="showRMsgIfEmpty()">
+      <span id="modal-r-msg" style="display:none;font-size:12px;color:#e74c3c;margin-top:4px"></span>
     </div>
     <div class="form-row" id="kanji-meanings-section" style="display:none">
       <label class="form-label" style="display:flex;align-items:center;justify-content:space-between">
@@ -649,12 +657,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     </div>
     <div class="modal-footer" style="justify-content:center;gap:16px;margin-top:24px">
       <button class="btn-cancel" onclick="closeModal()" style="width:120px;padding:13px 0;font-size:16px;border-radius:12px">취소</button>
-      <button class="btn-save" onclick="saveModal()" style="width:120px;padding:13px 0;font-size:16px;border-radius:12px">저장</button>
-    </div>
-    <div id="modal-confirm-delete" style="display:none;margin-top:12px;padding:12px;background:#fff0f0;border-radius:8px;text-align:center">
-      <div style="font-size:14px;color:#c0392b;margin-bottom:10px">정말 삭제할까요?</div>
-      <button onclick="deleteWord()" style="background:#e74c3c;color:#fff;border:none;border-radius:6px;padding:7px 18px;font-size:14px;cursor:pointer;margin-right:8px">삭제</button>
-      <button onclick="document.getElementById('modal-confirm-delete').style.display='none'" style="background:#aaa;color:#fff;border:none;border-radius:6px;padding:7px 18px;font-size:14px;cursor:pointer">취소</button>
+      <button class="btn-save" id="modal-save-btn" onclick="saveModal()" style="width:120px;padding:13px 0;font-size:16px;border-radius:12px">저장</button>
     </div>
   </div>
 </div>
@@ -1735,6 +1738,27 @@ function clearDupError() {
   const msg = document.getElementById('modal-dup-msg');
   if (kField) { kField.style.borderColor = ''; kField.style.boxShadow = ''; }
   if (msg) msg.style.display = 'none';
+  updateSaveBtn();
+}
+
+function showRMsgIfEmpty() {
+  const r = document.getElementById('modal-r').value.trim();
+  const msg = document.getElementById('modal-r-msg');
+  if (!msg) return;
+  if (!r) { msg.textContent = '한국어 뜻을 입력해주세요'; msg.style.display = 'block'; }
+  else { msg.style.display = 'none'; }
+  updateSaveBtn();
+}
+
+function updateSaveBtn() {
+  const btn = document.getElementById('modal-save-btn');
+  if (!btn) return;
+  const hasDup = document.getElementById('modal-dup-msg')?.style.display === 'block';
+  const hasR = document.getElementById('modal-r')?.value.trim().length > 0;
+  const disabled = hasDup || !hasR;
+  btn.disabled = disabled;
+  btn.style.opacity = disabled ? '0.4' : '';
+  btn.style.cursor = disabled ? 'not-allowed' : '';
 }
 
 let _modalKanjiEdited = false;
@@ -1753,6 +1777,7 @@ function checkDupRealtime() {
     kField.style.boxShadow = '0 0 0 2px rgba(231,76,60,0.2)';
     msg.textContent = '이미 등록된 단어';
     msg.style.display = 'block';
+    updateSaveBtn();
   } else {
     clearDupError();
   }
@@ -1853,10 +1878,13 @@ function openAddModal() {
     document.getElementById(id).value = '';
   });
   clearDupError();
+  const rMsg = document.getElementById('modal-r-msg');
+  if (rMsg) rMsg.style.display = 'none';
   rebuildKanjiMeaningsForm('', '');
   setModalImp(true);
-  document.getElementById('modal-delete-btn').style.display = 'none';
+  document.getElementById('modal-delete-wrap').style.display = 'none';
   document.getElementById('edit-modal').classList.add('open');
+  updateSaveBtn();
   setTimeout(() => { const el = document.getElementById('modal-k'); el.focus(); el.click(); }, 100);
 }
 
@@ -1864,6 +1892,8 @@ function openEditModal(i) {
   editIndex = i;
   _modalKanjiEdited = false;
   clearDupError();
+  const rMsg = document.getElementById('modal-r-msg');
+  if (rMsg) rMsg.style.display = 'none';
   const v = VOCAB[i];
   document.getElementById('modal-title').textContent = '단어 수정';
   document.getElementById('modal-k').value   = v.k   || '';
@@ -1872,8 +1902,10 @@ function openEditModal(i) {
   document.getElementById('modal-ex').value  = v.ex  || '';
   rebuildKanjiMeaningsForm(v.k || '', v.km || '', v.kimp || '');
   setModalImp(v.imp || false);
-  document.getElementById('modal-delete-btn').style.display = 'inline-block';
+  document.getElementById('modal-delete-wrap').style.display = 'block';
+  closeDeleteDropdown();
   document.getElementById('edit-modal').classList.add('open');
+  updateSaveBtn();
   setTimeout(() => { const el = document.getElementById('modal-r'); el.focus(); el.click(); }, 100);
 }
 
@@ -1898,7 +1930,7 @@ function saveModal() {
   const imp  = getModalImp();
 
   if (!k && !h) { alert('한자 또는 히라가나 중 하나는 필수입니다.'); return; }
-  if (!r)       { alert('한국어 뜻은 필수입니다.'); return; }
+  if (!r)       { showRMsgIfEmpty(); return; }
 
   // 중복 체크
   const dupIdx = VOCAB.findIndex((v, i) => i !== editIndex && ((k && v.k === k) || (h && !k && v.h === h)));
@@ -1934,9 +1966,22 @@ function saveModal() {
   afterEdit();
 }
 
-function confirmDelete() {
-  document.getElementById('modal-confirm-delete').style.display = 'block';
+function toggleDeleteDropdown(e) {
+  e.stopPropagation();
+  const dd = document.getElementById('modal-delete-dropdown');
+  dd.style.display = dd.style.display === 'block' ? 'none' : 'block';
 }
+
+function closeDeleteDropdown() {
+  const dd = document.getElementById('modal-delete-dropdown');
+  if (dd) dd.style.display = 'none';
+}
+
+// 드롭다운 외부 클릭 시 닫기
+document.addEventListener('click', function(e) {
+  const wrap = document.getElementById('modal-delete-wrap');
+  if (wrap && !wrap.contains(e.target)) closeDeleteDropdown();
+});
 
 function deleteWord() {
   if (editIndex === -1) return;
