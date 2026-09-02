@@ -2415,7 +2415,7 @@
       "h": "さらす",
       "r": "쬐다. 눈에띄게하다",
       "km": "쬘쇄",
-      "imp": true,
+      "imp": false,
       "kimp": "晒"
     },
     {
@@ -3154,7 +3154,7 @@
     false,
     false,
     false,
-    false,
+    true,
     false,
     true,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788324349216
+  "savedAt": 1788324377765
 }
