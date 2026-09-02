@@ -537,7 +537,7 @@
       "r": "뜻을두다 지향하다",
       "km": "뜻지",
       "ex": "研究者を志す若者が減少している。",
-      "imp": true
+      "imp": false
     },
     {
       "k": "陣列",
@@ -3107,7 +3107,7 @@
     true,
     false,
     true,
-    false,
+    true,
     false,
     false,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788325371936
+  "savedAt": 1788325376118
 }
