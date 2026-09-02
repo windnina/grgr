@@ -1552,7 +1552,7 @@
       "km": "가릴차",
       "kimp": "遮",
       "ex": "遮断 차단",
-      "imp": true
+      "imp": false
     },
     {
       "k": "山積",
@@ -3243,7 +3243,7 @@
     true,
     true,
     false,
-    false,
+    true,
     false,
     false,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788324273677
+  "savedAt": 1788324277665
 }
