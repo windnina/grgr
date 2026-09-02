@@ -995,7 +995,7 @@
       "km": "자를전",
       "kimp": "揃",
       "ex": "資料を一式揃えてください。\n画像のサイズを揃えてください。",
-      "imp": true
+      "imp": false
     },
     {
       "k": "備える",
@@ -3166,7 +3166,7 @@
     false,
     false,
     true,
-    false,
+    true,
     true,
     false,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788324394149
+  "savedAt": 1788324396668
 }
