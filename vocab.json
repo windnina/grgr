@@ -1660,7 +1660,7 @@
       "h": "",
       "r": "조르다",
       "ex": "かわいくおねだりする",
-      "imp": true
+      "imp": false
     },
     {
       "k": "膿を出す",
@@ -3264,7 +3264,7 @@
     false,
     true,
     true,
-    false,
+    true,
     true,
     false,
     true,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788324294932
+  "savedAt": 1788324297652
 }
