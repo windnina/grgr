@@ -428,7 +428,7 @@
       "h": "たつ",
       "r": "끊다",
       "km": "끊을절",
-      "imp": true
+      "imp": false
     },
     {
       "k": "壮大な",
@@ -3093,7 +3093,7 @@
     false,
     true,
     true,
-    false,
+    true,
     false,
     false,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788325266162
+  "savedAt": 1788325315488
 }
