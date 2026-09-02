@@ -613,13 +613,13 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
 <!-- ===== 단어 추가/수정 모달 ===== -->
 <div class="modal-overlay" id="edit-modal">
   <div class="modal-box" style="position:relative">
-    <button class="btn-delete" id="modal-delete-btn" onclick="confirmDelete()" style="display: inline-block; position: absolute; top: 14px; right: 14px;">삭제</button>
-    <div class="modal-title" id="modal-title">단어 수정</div>
+    <button class="btn-delete" id="modal-delete-btn" onclick="confirmDelete()" style="display:none;position:absolute;top:14px;right:14px">삭제</button>
+    <div class="modal-title" id="modal-title">단어 추가</div>
     <div class="form-grid">
       <div class="form-row">
         <label class="form-label">한자표기</label>
-        <input class="form-input" id="modal-k" style="font-size: 17px; border-color: rgb(231, 76, 60); box-shadow: rgba(231, 76, 60, 0.2) 0px 0px 0px 2px;" oninput="_modalKanjiEdited=true;onKanjiFieldInput(this.value);clearDupError()" onblur="checkDupRealtime()">
-        <span id="modal-dup-msg" style="font-size: 12px; color: rgb(231, 76, 60); margin-top: 4px; display: block;">이미 등록된 단어</span>
+        <input class="form-input" id="modal-k" style="font-size:17px" oninput="_modalKanjiEdited=true;onKanjiFieldInput(this.value);clearDupError()" onblur="checkDupRealtime()">
+        <span id="modal-dup-msg" style="display:none;font-size:12px;color:#e74c3c;margin-top:4px;display:none"></span>
       </div>
       <div class="form-row">
         <label class="form-label">히라가나</label>
@@ -630,14 +630,14 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
       <label class="form-label">한국어 뜻 <span style="color:#e74c3c">*</span></label>
       <input class="form-input" id="modal-r">
     </div>
-    <div class="form-row" id="kanji-meanings-section" style="">
+    <div class="form-row" id="kanji-meanings-section" style="display:none">
       <label class="form-label" style="display:flex;align-items:center;justify-content:space-between">
         <span>한자뜻 (각 한자의 훈음)</span>
         <button type="button" onclick="lookupHanja()" style="font-size:11px;padding:2px 8px;border:1.5px solid #2980b9;border-radius:20px;background:none;color:#2980b9;cursor:pointer;font-weight:600;white-space:nowrap">
           🔍 사전 열기
         </button>
       </label>
-      <div id="kanji-meanings-container"><div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;"><span style="font-size: 22px; font-weight: 700; color: rgb(26, 37, 53); min-width: 30px; text-align: center; flex-shrink: 0;">踵</span><input class="form-input kanji-meaning-input" placeholder="훈음 입력" style="flex: 1 1 0%;"><button type="button" class="kimp-star-btn" data-kanji="踵">☆</button></div></div>
+      <div id="kanji-meanings-container"></div>
     </div>
     <div class="form-row">
       <label class="form-label">예문</label>
@@ -1863,6 +1863,7 @@ function openAddModal() {
 function openEditModal(i) {
   editIndex = i;
   _modalKanjiEdited = false;
+  clearDupError();
   const v = VOCAB[i];
   document.getElementById('modal-title').textContent = '단어 수정';
   document.getElementById('modal-k').value   = v.k   || '';
