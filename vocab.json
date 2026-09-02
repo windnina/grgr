@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "煙る",
+      "h": "けむる",
+      "r": "연기나다",
+      "km": "연기연",
+      "imp": true
+    },
+    {
       "k": "戯曲",
       "h": "ぎきょく",
       "r": "희곡",
@@ -3080,6 +3087,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -3520,5 +3528,5 @@
     true,
     true
   ],
-  "savedAt": 1788358852672
+  "savedAt": 1788358968287
 }
