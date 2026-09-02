@@ -2032,7 +2032,7 @@
       "k": "冷やかす",
       "h": "ひやかす",
       "r": "놀리다 희롱하다",
-      "imp": true
+      "imp": false
     },
     {
       "k": "みっともない",
@@ -2104,7 +2104,7 @@
       "h": "すえる",
       "r": "붙박다 설치하다",
       "km": "의거할거",
-      "imp": true,
+      "imp": false,
       "kimp": "据"
     },
     {
@@ -3324,7 +3324,7 @@
     true,
     true,
     false,
-    false,
+    true,
     false,
     true,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788324335296
+  "savedAt": 1788324337411
 }
