@@ -210,7 +210,7 @@
       "h": "ひそかに",
       "r": "은밀히",
       "km": "빽빽할밀",
-      "imp": true
+      "imp": false
     },
     {
       "k": "而も•然も",
@@ -3062,7 +3062,7 @@
     false,
     false,
     false,
-    false,
+    true,
     true,
     false,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788325122137
+  "savedAt": 1788325126074
 }
