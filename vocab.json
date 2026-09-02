@@ -203,7 +203,7 @@
       "r": "우월",
       "km": "넉넉할우,넘을월",
       "kimp": "優",
-      "imp": true
+      "imp": false
     },
     {
       "k": "密かに",
@@ -3069,7 +3069,7 @@
     false,
     false,
     false,
-    false,
+    true,
     false,
     false,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788325126074
+  "savedAt": 1788325170676
 }
