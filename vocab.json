@@ -1767,7 +1767,7 @@
       "r": "상쾌한",
       "km": "시원할상",
       "kimp": "爽",
-      "imp": true
+      "imp": false
     },
     {
       "k": "穏やか",
@@ -1775,7 +1775,7 @@
       "r": "평온한",
       "km": "평온할온",
       "kimp": "穏",
-      "imp": true
+      "imp": false
     },
     {
       "k": "見くびる",
@@ -3273,7 +3273,7 @@
     true,
     false,
     true,
-    false,
+    true,
     false,
     false,
     true,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788324300528
+  "savedAt": 1788324302670
 }
