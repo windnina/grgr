@@ -1930,7 +1930,7 @@
       "h": "きょうぐう",
       "r": "형편 처지",
       "km": "지경경, 만날우",
-      "imp": true,
+      "imp": false,
       "kimp": "遇"
     },
     {
@@ -3313,7 +3313,7 @@
     true,
     true,
     true,
-    false,
+    true,
     true,
     true,
     true,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788324325196
+  "savedAt": 1788324335296
 }
