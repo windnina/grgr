@@ -913,7 +913,7 @@
       "km": "불취,아뢸주",
       "kimp": "吹,奏",
       "ex": "吹奏楽すいそうがく",
-      "imp": true
+      "imp": false
     },
     {
       "k": "懐く",
@@ -3165,7 +3165,7 @@
     false,
     false,
     false,
-    false,
+    true,
     false,
     true,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788324377765
+  "savedAt": 1788324394149
 }
