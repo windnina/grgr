@@ -1534,7 +1534,7 @@
       "h": "いじる",
       "r": "주무르다 만지다 놀리다",
       "km": "희롱할롱",
-      "imp": true,
+      "imp": false,
       "kimp": "弄"
     },
     {
@@ -3239,7 +3239,7 @@
     false,
     true,
     false,
-    false,
+    true,
     false,
     false,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788324262126
+  "savedAt": 1788324264968
 }
