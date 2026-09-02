@@ -43,7 +43,7 @@
       "h": "かかと",
       "r": "발뒷꿈치",
       "km": "발꿈치종",
-      "imp": true
+      "imp": false
     },
     {
       "k": "凝る",
@@ -3044,7 +3044,7 @@
     true,
     false,
     false,
-    false,
+    true,
     false,
     false,
     false,
@@ -3477,5 +3477,5 @@
     true,
     true
   ],
-  "savedAt": 1788325015016
+  "savedAt": 1788325033872
 }
