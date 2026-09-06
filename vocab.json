@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "挑む",
+      "h": "いどむ",
+      "r": "도전하다",
+      "km": "돋울도",
+      "imp": true
+    },
+    {
       "k": "中枢",
       "h": "ちゅうすう",
       "r": "중추",
@@ -3137,6 +3144,7 @@
   "memorized": [
     false,
     false,
+    false,
     true,
     true,
     false,
@@ -3589,5 +3597,5 @@
     true,
     true
   ],
-  "savedAt": 1788481805864
+  "savedAt": 1788668484666
 }
