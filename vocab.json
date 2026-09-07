@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "茎",
+      "h": "くき",
+      "r": "줄기",
+      "km": "줄기경",
+      "imp": true
+    },
+    {
       "k": "阻止",
       "h": "そし",
       "r": "저지",
@@ -3299,6 +3306,7 @@
     false,
     false,
     false,
+    false,
     true,
     true,
     false,
@@ -3751,5 +3759,5 @@
     true,
     true
   ],
-  "savedAt": 1788785063958
+  "savedAt": 1788785212996
 }
