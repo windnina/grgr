@@ -466,7 +466,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
         <span class="dd-icon">🔑</span> 비밀번호 변경
       </button>
       <div class="dd-divider" id="dd-lock-divider" style=""></div>
-      <button class="dd-item" id="dd-github" onclick="openGithubModal(); closeDropdown()">
+      <button class="dd-item" id="dd-github" onclick="openGithubModal(); closeDropdown()" style="display: block;">
         <span class="dd-icon">🔗</span> <span id="dd-github-label">GitHub 연동됨 ✓</span>
       </button>
       <button class="dd-item" id="dd-gh-sync" onclick="closeDropdown(); syncHtmlToGitHub()" style="display: block;">
@@ -489,7 +489,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     <div class="header-left">
       <div class="filter-btns" id="filter-btns">
         <button class="filter-btn active" onclick="setFilter('all')">전체</button>
-        <button class="filter-btn" id="vocab-imp-filter-btn" onclick="setFilter('important')">★ 중요 (32%)</button>
+        <button class="filter-btn" id="vocab-imp-filter-btn" onclick="setFilter('important')">★ 중요 (31%)</button>
         <button class="search-btn" id="search-toggle-btn" onclick="toggleSearch()">🔍</button>
       </div>
       <div class="search-wrap" id="search-wrap">
@@ -526,7 +526,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     <div class="header-left">
       <div class="filter-btns" id="kanji-filter-btns">
         <button class="filter-btn active" onclick="setKanjiFilter('all')">전체</button>
-        <button class="filter-btn" id="kanji-imp-filter-btn" onclick="setKanjiFilter('important')">★ 중요 (30%)</button>
+        <button class="filter-btn" id="kanji-imp-filter-btn" onclick="setKanjiFilter('important')">★ 중요 (34%)</button>
       </div>
     </div>
   </div>
@@ -847,6 +847,15 @@ async function connectFile() {
 }
 
 function toggleDropdown() {
+  if (!isEditMode) {
+    openAuthModal(() => {
+      const btn = document.getElementById('btn-settings');
+      const dd  = document.getElementById('settings-dropdown');
+      dd.classList.add('open');
+      btn.classList.add('open');
+    });
+    return;
+  }
   const btn = document.getElementById('btn-settings');
   const dd  = document.getElementById('settings-dropdown');
   const open = dd.classList.toggle('open');
@@ -930,13 +939,16 @@ function updateGithubBtn() {
   const syncItem = document.getElementById('dd-gh-sync');
   const vocabSyncItem = document.getElementById('dd-vocab-sync');
   const vocabPullItem = document.getElementById('dd-vocab-pull');
-  if (githubConfig && githubConfig.token) {
+  const githubBtn = document.getElementById('dd-github');
+  if (githubConfig && githubConfig.token && isEditMode) {
+    if (githubBtn) githubBtn.style.display = 'block';
     if (lbl) lbl.textContent = 'GitHub 연동됨 ✓';
     if (disc) disc.style.display = 'inline-block';
-    if (syncItem) syncItem.style.display = isEditMode ? 'block' : 'none';
-    if (vocabSyncItem) vocabSyncItem.style.display = isEditMode ? 'block' : 'none';
+    if (syncItem) syncItem.style.display = 'block';
+    if (vocabSyncItem) vocabSyncItem.style.display = 'block';
     if (vocabPullItem) vocabPullItem.style.display = 'block';
   } else {
+    if (githubBtn) githubBtn.style.display = isEditMode ? 'block' : 'none';
     if (lbl) lbl.textContent = 'GitHub 연동';
     if (disc) disc.style.display = 'none';
     if (syncItem) syncItem.style.display = 'none';
