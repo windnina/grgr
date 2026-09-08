@@ -478,7 +478,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     <div class="header-left">
       <div class="filter-btns" id="filter-btns">
         <button class="filter-btn active" onclick="setFilter('all')">전체</button>
-        <button class="filter-btn" id="vocab-imp-filter-btn" onclick="setFilter('important')">★ 중요 (30%)</button>
+        <button class="filter-btn" id="vocab-imp-filter-btn" onclick="setFilter('important')">★ 중요 (32%)</button>
         <button class="search-btn" id="search-toggle-btn" onclick="toggleSearch()">🔍</button>
       </div>
       <div class="search-wrap" id="search-wrap">
@@ -515,7 +515,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
     <div class="header-left">
       <div class="filter-btns" id="kanji-filter-btns">
         <button class="filter-btn active" onclick="setKanjiFilter('all')">전체</button>
-        <button class="filter-btn" id="kanji-imp-filter-btn" onclick="setKanjiFilter('important')">★ 중요 (30%)</button>
+        <button class="filter-btn" id="kanji-imp-filter-btn" onclick="setKanjiFilter('important')">★ 중요 (32%)</button>
       </div>
     </div>
   </div>
@@ -1551,9 +1551,9 @@ function setFilter(f) {
 function setKanjiFilter(f) {
   kanjiTabFilter = f;
   kanjiPage = 0;
-  const labelMap = {all:'전체', important:'★ 중요'};
   document.querySelectorAll('#kanji-filter-btns .filter-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.textContent.trim() === (labelMap[f] || ''));
+    const onclick = btn.getAttribute('onclick') || '';
+    btn.classList.toggle('active', onclick.includes("'" + f + "'"));
   });
   buildKanjiTable();
 }
