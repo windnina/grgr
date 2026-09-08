@@ -1537,9 +1537,18 @@ function stripKoreanForTTS(text) {
   return text.replace(/[가-힣ᄀ-ᇿ㄰-㆏]/g, '').replace(/\s+/g, ' ').trim();
 }
 
+function hiraganaToKatakanaForTTS(text) {
+  // 한자가 포함된 문장은 그대로 — TTS 언어모델이 올바르게 읽음
+  // 순수 히라가나(+기호/공백)만 카타카나로 변환하여 형태소 분석 오발음 방지
+  if (/[一-鿿㐀-䶿々〆〇]/.test(text)) return text;
+  return text.replace(/[ぁ-ゖ]/g, ch =>
+    String.fromCharCode(ch.charCodeAt(0) + 0x60)
+  );
+}
+
 function speakText(text, indicatorBtn) {
   if (!text) return;
-  text = stripKoreanForTTS(normalizeKanaForTTS(text));
+  text = hiraganaToKatakanaForTTS(stripKoreanForTTS(normalizeKanaForTTS(text)));
   if (!text) return;
 
   // 같은 버튼이면 중지
@@ -1567,7 +1576,7 @@ function speakText(text, indicatorBtn) {
 function speakVocabWord(i) {
   const v = VOCAB[i];
   if (!v) return;
-  const text = v.k || v.h || '';
+  const text = v.h || v.k || '';
   if (!text) return;
   const btn = document.getElementById('speak-' + i);
   _ttsIconTargetEl = document.getElementById('vocab-word-' + i) || btn;
@@ -1582,7 +1591,7 @@ function speakVocabEx(i) {
   _ttsIconTargetEl = exEl;
 
   // 줄바꿈이 있으면 줄 단위로 분리해서 순차 재생 (줄 사이 0.2초 간격)
-  const rawLines = v.ex.split('\n').map(l => stripKoreanForTTS(normalizeKanaForTTS(l))).filter(Boolean);
+  const rawLines = v.ex.split('\n').map(l => hiraganaToKatakanaForTTS(stripKoreanForTTS(normalizeKanaForTTS(l)))).filter(Boolean);
   if (rawLines.length <= 1) {
     speakText(v.ex, btn);
     return;
@@ -1903,7 +1912,7 @@ function toggleKanjiExpand(kanji, mainRow) {
         '<span class="kanji-expand-word">' + esc(word) + '</span>' +
         (v.h && v.k ? '<span class="kanji-expand-hira">' + esc(v.h) + '</span>' : '') +
         '<span class="kanji-expand-meaning">' + esc(v.r || '') + '</span>';
-      item.onclick = () => speakText(v.k || v.h || '', null);
+      item.onclick = () => speakText(v.h || v.k || '', null);
       card.appendChild(item);
     });
   }
@@ -2373,7 +2382,7 @@ function speakQuizWord() {
   const item = quizItems[quizIdx];
   if (!item) return;
   const v = VOCAB[item._i];
-  const word = v ? (v.k || v.h || '') : (item.kanji || '');
+  const word = v ? (v.h || v.k || '') : (item.kanji || '');
   if (!word) return;
   const btn = document.getElementById('q-speak-btn');
   const hiraEl = document.getElementById('q-hira');
@@ -2490,7 +2499,7 @@ function toggleKanjiExamples() {
         '<span class="q-example-word">' + esc(v.k) + '</span>' +
         (v.h ? '<span class="q-example-hira">(' + esc(v.h) + ')</span>' : '') +
         (v.r ? '<span style="color:#bbb;font-size:16px;margin-left:auto">' + esc(v.r) + '</span>' : '');
-      const word = v.k || v.h || '';
+      const word = v.h || v.k || '';
       if (word) {
         row.onclick = () => speakText(word, document.getElementById('q-speak-btn'));
       }
