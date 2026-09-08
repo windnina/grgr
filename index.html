@@ -243,13 +243,21 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
   -webkit-user-select: none;
   display: inline-block;
 }
-@keyframes tapBounce {
-  0%   { transform: scale(1); }
-  30%  { transform: scale(0.93); }
-  100% { transform: scale(1); }
+/* 클릭 피드백 */
+.vocab-table .clickable,
+.imp-btn,
+.kimp-star-btn,
+.choice-btn,
+.q-imp-btn {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.tap-pop {
-  animation: tapBounce 0.22s cubic-bezier(0.36,0.07,0.19,0.97) both;
+.vocab-table .clickable:active,
+.imp-btn:active,
+.kimp-star-btn:active,
+.choice-btn:active,
+.q-imp-btn:active {
+  transform: scale(0.92);
+  transition: transform 0.07s ease-in;
 }
 .mem-btn {
   padding: 4px 10px; border: 1.5px solid #4a9eff; border-radius: 16px;
@@ -459,7 +467,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
 .page-tab { font-size: 14px; }
 </style>
 </head>
-<body>
+<body ontouchstart="">
 
 <nav class="tab-nav">
   <button class="tab-btn active" onclick="switchTab('vocab',this)">단어</button>
@@ -2903,20 +2911,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
 }
 
-// ── 클릭 피드백 (탭 바운스 애니메이션) ─────────────────────────────
-(function() {
-  const TAP_TARGETS = '.vocab-table .clickable, .imp-btn, .kimp-star-btn, .choice-btn, .q-imp-btn';
-  function addTap(el) {
-    el.classList.remove('tap-pop');
-    void el.offsetWidth; // reflow to restart animation
-    el.classList.add('tap-pop');
-    el.addEventListener('animationend', () => el.classList.remove('tap-pop'), { once: true });
-  }
-  document.addEventListener('pointerdown', function(e) {
-    const el = e.target.closest(TAP_TARGETS);
-    if (el) addTap(el);
-  }, { passive: true });
-})();
+// 클릭 피드백은 CSS :active + transition으로 처리 (body ontouchstart="" 필수)
 </script>
 <div class="save-status" id="save-status"></div>
 
