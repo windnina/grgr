@@ -334,6 +334,15 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
   width: 100%; padding: 9px 12px; border: 1.5px solid #ddd; border-radius: 8px;
   font-size: 16px; font-family: inherit; transition: border-color 0.2s; color: #333;
 }
+select.form-input {
+  appearance: none; -webkit-appearance: none;
+  padding-right: 32px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px 8px;
+  box-sizing: border-box;
+}
 .form-input:focus, .form-textarea:focus { outline: none; border-color: #2980b9; }
 .form-textarea { resize: vertical; min-height: 72px; }
 .modal-footer { display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; align-items: center; }
@@ -730,7 +739,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
       </div>
       <div class="form-row">
         <label class="form-label">발음</label>
-        <select class="form-input" id="modal-pron" style="cursor:pointer;min-width:88px">
+        <select class="form-input" id="modal-pron" style="cursor:pointer;min-width:92px">
           <option value="k">한자</option>
           <option value="h">히라가나</option>
           <option value="t">카타카나</option>
