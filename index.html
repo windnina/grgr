@@ -2144,6 +2144,7 @@ function renderQuestion() {
   hiraEl.className = 'q-hira';
   hiraEl.textContent = item.k ? '히라가나 보기' : '';
   hiraEl.style.display = item.k ? '' : 'none';
+  hiraEl.onclick = (e) => { e.stopPropagation(); revealHiraOrSpeak(); };
   document.getElementById('q-examples-wrap').style.display = 'none';
 
   // 한자뜻 보기 버튼
@@ -2251,7 +2252,8 @@ function speakQuizWord() {
   const word = v ? (v.h || v.k || '') : (item.kanji || '');
   if (!word) return;
   const btn = document.getElementById('q-speak-btn');
-  _ttsIconTargetEl = document.getElementById('q-kanji');
+  const hiraEl = document.getElementById('q-hira');
+  _ttsIconTargetEl = (_hiraRevealed && hiraEl && hiraEl.textContent) ? hiraEl : document.getElementById('q-kanji');
   speakText(word, btn);
 }
 
