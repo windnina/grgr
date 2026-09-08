@@ -2503,8 +2503,8 @@ function renderQuestionKoJa() {
   _hiraRevealed = false;
   const hiraEl = document.getElementById('q-hira');
   hiraEl.className = 'q-hira';
-  hiraEl.textContent = item.k && item.h ? '히라가나 보기' : '';
-  hiraEl.style.display = item.k && item.h ? '' : 'none';
+  hiraEl.textContent = item.k && item.h ? '히라가나 보기' : (item.h ? '발음 듣기' : '');
+  hiraEl.style.display = item.h ? '' : 'none';
   hiraEl.onclick = (e) => { e.stopPropagation(); revealHiraOrSpeakKoJa(); };
 
   document.getElementById('q-examples-wrap').style.display = 'none';
