@@ -667,7 +667,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
       <button class="btn-next" id="btn-next" onclick="nextQuestion()">다음 문제 →</button>
       <div class="quiz-nav-btns">
         <button class="btn-quiz-nav" id="btn-back" onclick="goBackQuestion()">이전문제</button>
-        <button class="btn-quiz-nav" onclick="restartQuiz()">다시하기</button>
+        <button class="btn-quiz-nav" onclick="confirmRestartQuiz()">다시하기</button>
       </div>
     </div>
 
@@ -693,6 +693,19 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
   </div>
 </div>
 
+<!-- ===== 퀴즈 리셋 확인 팝업 ===== -->
+<div class="modal-overlay" id="quiz-confirm-modal" style="z-index:2000">
+  <div class="modal-box" style="max-width:320px;text-align:center;padding:28px 24px 20px">
+    <div style="font-size:28px;margin-bottom:12px">⚠️</div>
+    <div id="quiz-confirm-msg" style="font-size:15px;font-weight:600;color:#1a2535;margin-bottom:8px">시험이 초기화됩니다</div>
+    <div id="quiz-confirm-sub" style="font-size:13px;color:#888;margin-bottom:20px">지금까지의 진행 내용이 사라져요.</div>
+    <div style="display:flex;gap:10px;justify-content:center">
+      <button onclick="closeQuizConfirm()" style="flex:1;padding:10px 0;border:1.5px solid #ddd;border-radius:8px;background:#fff;font-size:14px;font-weight:600;color:#555;cursor:pointer">취소</button>
+      <button id="quiz-confirm-ok" onclick="doQuizConfirm()" style="flex:1;padding:10px 0;border:none;border-radius:8px;background:#e74c3c;color:#fff;font-size:14px;font-weight:600;cursor:pointer">계속하기</button>
+    </div>
+  </div>
+</div>
+
 <!-- ===== 단어 추가/수정 모달 ===== -->
 <div class="modal-overlay" id="edit-modal">
   <div class="modal-box" style="position:relative">
@@ -705,7 +718,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
       </div>
     </div>
     <div class="modal-title" id="modal-title">단어 추가</div>
-    <div class="form-grid">
+    <div class="form-grid" style="grid-template-columns: 1fr 1fr auto">
       <div class="form-row">
         <label class="form-label">한자표기</label>
         <input class="form-input" id="modal-k" style="font-size:17px" oninput="_modalKanjiEdited=true;onKanjiFieldInput(this.value);clearDupError()" onblur="checkDupRealtime()">
@@ -714,6 +727,14 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
       <div class="form-row">
         <label class="form-label">히라가나</label>
         <input class="form-input" id="modal-h" onblur="checkDupRealtime()">
+      </div>
+      <div class="form-row">
+        <label class="form-label">발음</label>
+        <select class="form-input" id="modal-pron" style="cursor:pointer;min-width:88px">
+          <option value="k">한자</option>
+          <option value="h">히라가나</option>
+          <option value="t">카타카나</option>
+        </select>
       </div>
     </div>
     <div class="form-row">
@@ -1548,7 +1569,7 @@ function hiraganaToKatakanaForTTS(text) {
 
 function speakText(text, indicatorBtn) {
   if (!text) return;
-  text = hiraganaToKatakanaForTTS(stripKoreanForTTS(normalizeKanaForTTS(text)));
+  text = stripKoreanForTTS(normalizeKanaForTTS(text));
   if (!text) return;
 
   // 같은 버튼이면 중지
@@ -1576,7 +1597,11 @@ function speakText(text, indicatorBtn) {
 function speakVocabWord(i) {
   const v = VOCAB[i];
   if (!v) return;
-  const text = v.h || v.k || '';
+  const pron = v.pron || 'k';
+  let text;
+  if (pron === 'h') text = v.h || '';
+  else if (pron === 't') text = hiraganaToKatakanaForTTS(v.h || '');
+  else text = v.k || v.h || '';  // 'k' default: 한자 우선
   if (!text) return;
   const btn = document.getElementById('speak-' + i);
   _ttsIconTargetEl = document.getElementById('vocab-word-' + i) || btn;
@@ -1591,7 +1616,7 @@ function speakVocabEx(i) {
   _ttsIconTargetEl = exEl;
 
   // 줄바꿈이 있으면 줄 단위로 분리해서 순차 재생 (줄 사이 0.2초 간격)
-  const rawLines = v.ex.split('\n').map(l => hiraganaToKatakanaForTTS(stripKoreanForTTS(normalizeKanaForTTS(l)))).filter(Boolean);
+  const rawLines = v.ex.split('\n').map(l => stripKoreanForTTS(normalizeKanaForTTS(l))).filter(Boolean);
   if (rawLines.length <= 1) {
     speakText(v.ex, btn);
     return;
@@ -2088,6 +2113,7 @@ function openAddModal() {
   ['modal-k','modal-h','modal-r','modal-ex'].forEach(id => {
     document.getElementById(id).value = '';
   });
+  document.getElementById('modal-pron').value = 'k';
   clearDupError();
   const rMsg = document.getElementById('modal-r-msg');
   if (rMsg) rMsg.style.display = 'none';
@@ -2106,10 +2132,11 @@ function openEditModal(i) {
   if (rMsg) rMsg.style.display = 'none';
   const v = VOCAB[i];
   document.getElementById('modal-title').textContent = '단어 수정';
-  document.getElementById('modal-k').value   = v.k   || '';
-  document.getElementById('modal-h').value = v.h || '';
-  document.getElementById('modal-r').value   = v.r   || '';
-  document.getElementById('modal-ex').value  = v.ex  || '';
+  document.getElementById('modal-k').value    = v.k    || '';
+  document.getElementById('modal-h').value    = v.h    || '';
+  document.getElementById('modal-r').value    = v.r    || '';
+  document.getElementById('modal-ex').value   = v.ex   || '';
+  document.getElementById('modal-pron').value = v.pron || 'k';
   rebuildKanjiMeaningsForm(v.k || '', v.km || '', v.kimp || '');
   setModalImp(v.imp || false);
   document.getElementById('modal-delete-wrap').style.display = 'block';
@@ -2156,11 +2183,13 @@ function saveModal() {
     return;
   }
 
+  const pron = document.getElementById('modal-pron').value || 'k';
   const word = { k, h, r };
-  if (km)   word.km   = km;
-  if (kimp) word.kimp = kimp;
-  if (ex)   word.ex   = ex;
-  if (imp)  word.imp  = true;
+  if (km)           word.km   = km;
+  if (kimp)         word.kimp = kimp;
+  if (ex)           word.ex   = ex;
+  if (imp)          word.imp  = true;
+  if (pron !== 'k') word.pron = pron; // 기본값(한자)은 저장 생략
 
   if (editIndex === -1) {
     VOCAB.unshift(word);
@@ -2370,7 +2399,11 @@ function revealHiraOrSpeakKoJa() {
     hiraEl.style.display = '';
   }
   const v = VOCAB[item._i];
-  const word = v ? (v.h || v.k || '') : '';
+  const pron0 = v ? (v.pron || 'k') : 'k';
+  let word;
+  if (pron0 === 'h') word = v ? (v.h || '') : '';
+  else if (pron0 === 't') word = v ? hiraganaToKatakanaForTTS(v.h || '') : '';
+  else word = v ? (v.h || v.k || '') : '';
   if (word) {
     // 히라가나가 표시된 경우 그 옆에, 아니면 q-kanji(한자) 옆에 아이콘
     _ttsIconTargetEl = _hiraRevealed ? hiraEl : document.getElementById('q-kanji');
@@ -2382,7 +2415,11 @@ function speakQuizWord() {
   const item = quizItems[quizIdx];
   if (!item) return;
   const v = VOCAB[item._i];
-  const word = v ? (v.h || v.k || '') : (item.kanji || '');
+  const pron = v ? (v.pron || 'k') : 'k';
+  let word;
+  if (pron === 'h') word = v ? (v.h || '') : (item.kanji || '');
+  else if (pron === 't') word = v ? hiraganaToKatakanaForTTS(v.h || '') : (item.kanji || '');
+  else word = v ? (v.k || v.h || '') : (item.kanji || '');
   if (!word) return;
   const btn = document.getElementById('q-speak-btn');
   const hiraEl = document.getElementById('q-hira');
@@ -2449,6 +2486,82 @@ function restartQuiz() {
   // 모드 탭 UI 동기화
   selectQuizMode(currentQuizMode);
 }
+
+// =============================================
+// 퀴즈 진행 중 여부
+// =============================================
+function _isQuizInProgress() {
+  const qEl = document.getElementById('quiz-question');
+  return currentTab === 'quiz' && qEl && qEl.style.display !== 'none' && quizItems.length > 0;
+}
+
+// =============================================
+// 퀴즈 리셋 확인 팝업
+// =============================================
+let _quizConfirmCallback = null;
+
+function showQuizConfirm(msg, sub, okLabel, callback) {
+  _quizConfirmCallback = callback;
+  document.getElementById('quiz-confirm-msg').textContent = msg;
+  document.getElementById('quiz-confirm-sub').textContent = sub;
+  document.getElementById('quiz-confirm-ok').textContent  = okLabel;
+  document.getElementById('quiz-confirm-modal').classList.add('open');
+}
+
+function closeQuizConfirm() {
+  document.getElementById('quiz-confirm-modal').classList.remove('open');
+  _quizConfirmCallback = null;
+}
+
+function doQuizConfirm() {
+  document.getElementById('quiz-confirm-modal').classList.remove('open');
+  const cb = _quizConfirmCallback;
+  _quizConfirmCallback = null;
+  if (cb) cb();
+}
+
+function confirmRestartQuiz() {
+  if (!_isQuizInProgress()) { restartQuiz(); return; }
+  showQuizConfirm(
+    '시험이 초기화됩니다',
+    '지금까지의 진행 내용이 사라져요.',
+    '다시하기',
+    restartQuiz
+  );
+}
+
+function confirmResetQuiz() {
+  if (!_isQuizInProgress()) { resetQuiz(); return; }
+  showQuizConfirm(
+    '시험을 처음부터 시작합니다',
+    '지금까지의 진행 내용이 사라져요.',
+    '처음으로',
+    resetQuiz
+  );
+}
+
+// pull-to-refresh 및 beforeunload 차단 (퀴즈 진행 중)
+(function() {
+  let _touchStartY = 0;
+  document.addEventListener('touchstart', function(e) {
+    _touchStartY = e.touches[0].pageY;
+  }, { passive: true });
+
+  document.addEventListener('touchmove', function(e) {
+    if (!_isQuizInProgress()) return;
+    const dy = e.touches[0].pageY - _touchStartY;
+    if (dy > 0 && window.scrollY === 0) {
+      e.preventDefault(); // pull-to-refresh 차단
+    }
+  }, { passive: false });
+
+  window.addEventListener('beforeunload', function(e) {
+    if (_isQuizInProgress()) {
+      e.preventDefault();
+      e.returnValue = '시험이 진행 중입니다. 새로고침하면 초기화됩니다.';
+    }
+  });
+})();
 
 
 function toggleWordKanjiMeaning() {
