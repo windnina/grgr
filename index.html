@@ -340,8 +340,8 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
 .q-speak-btn.playing { display: inline-block; color: #4a9eff; }
 .q-kanji { font-size: 62px; font-weight: 700; color: #1a2535; margin-bottom: 8px; letter-spacing: 2px; line-height: 1.2; }
 .q-kanji.word-mode { font-size: 62px; }
-.q-kanji.koja-mode { font-size: 56px; }
-.choice-btn.ja { font-size: 18px; }
+.q-kanji.koja-mode { font-size: 50px; }
+.choice-btn.ja { font-size: 20px; }
 .q-hira { font-size: 18px; color: #bbb; min-height: 26px; cursor: pointer; }
 .q-hira.revealed { color: #999; cursor: default; }
 .q-examples-btn {
@@ -2444,8 +2444,7 @@ function selectAnswerKoJa(btn, chosen, correct, grid) {
     fb.textContent = '✓ 정답!'; fb.className = 'q-feedback ok';
     quizScore++;
     document.getElementById('qs-text').textContent = '맞힌 수: ' + quizScore;
-    if (v) speakText(v.h || v.k || '', null);
-    setTimeout(() => { quizIdx++; renderCurrentQuestion(); }, 800);
+    setTimeout(() => { quizIdx++; renderCurrentQuestion(); }, 600);
   } else {
     btn.classList.add('wrong');
     fb.textContent = '✗ 오답! 정답: ' + correct + (hira ? ' (' + hira + ')' : '');
