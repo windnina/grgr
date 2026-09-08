@@ -1180,6 +1180,7 @@ function switchTab(tab, btn) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
   btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'instant' });
   // 페이지 탭 초기화 (공유 엘리먼트이므로 탭 전환 시 숨김)
   document.getElementById('page-tabs-wrap').style.display = 'none';
   document.getElementById('page-tabs').innerHTML = '';
@@ -1453,8 +1454,8 @@ const _ttsInlineIcon = (() => {
   const img = document.createElement('img');
   img.id = 'tts-inline-icon';
   img.src = _SOUND_ICON_SRC;
-  img.width = 20;
-  img.height = 16;
+  img.width = 17;
+  img.height = 14;
   return img;
 })();
 
