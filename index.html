@@ -340,6 +340,8 @@ body { font-family: 'Segoe UI', sans-serif; background: #fff; color: #333; min-h
 .q-speak-btn.playing { display: inline-block; color: #4a9eff; }
 .q-kanji { font-size: 62px; font-weight: 700; color: #1a2535; margin-bottom: 8px; letter-spacing: 2px; line-height: 1.2; }
 .q-kanji.word-mode { font-size: 62px; }
+.q-kanji.koja-mode { font-size: 56px; }
+.choice-btn.ja { font-size: 18px; }
 .q-hira { font-size: 18px; color: #bbb; min-height: 26px; cursor: pointer; }
 .q-hira.revealed { color: #999; cursor: default; }
 .q-examples-btn {
@@ -2391,7 +2393,7 @@ function renderQuestionKoJa() {
 
   const kanjiEl = document.getElementById('q-kanji');
   kanjiEl.textContent = item.r;
-  kanjiEl.className = 'q-kanji word-mode';
+  kanjiEl.className = 'q-kanji koja-mode';
 
   const hiraEl = document.getElementById('q-hira');
   hiraEl.style.display = 'none';
@@ -2418,6 +2420,7 @@ function renderQuestionKoJa() {
     const btn = document.createElement('button');
     btn.className = 'choice-btn';
     btn.textContent = c;
+    btn.className = 'choice-btn ja';
     btn.onclick = () => selectAnswerKoJa(btn, c, correct, grid);
     grid.appendChild(btn);
   });
