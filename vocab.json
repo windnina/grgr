@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "戦",
+      "h": "いくさ",
+      "r": "전쟁",
+      "km": "싸울전",
+      "imp": true
+    },
+    {
       "k": "氾濫",
       "h": "はんらん",
       "r": "범람",
@@ -3407,6 +3414,7 @@
     false,
     false,
     false,
+    false,
     true,
     true,
     false,
@@ -3859,5 +3867,5 @@
     true,
     true
   ],
-  "savedAt": 1789091090938
+  "savedAt": 1789091182681
 }
