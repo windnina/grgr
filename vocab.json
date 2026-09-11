@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "発作",
+      "h": "ほっさ",
+      "r": "발작",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "山岳",
       "h": "さんがく",
       "r": "산악",
@@ -3424,6 +3431,7 @@
     false,
     false,
     false,
+    false,
     true,
     true,
     false,
@@ -3876,5 +3884,5 @@
     true,
     true
   ],
-  "savedAt": 1789091239467
+  "savedAt": 1789091299594
 }
