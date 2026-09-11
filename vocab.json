@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "個々",
+      "h": "ここ",
+      "r": "개개 낱낱",
+      "km": "낱개",
+      "imp": true
+    },
+    {
       "k": "利息",
       "h": "りそく",
       "r": "이자",
@@ -3373,6 +3380,7 @@
     false,
     false,
     false,
+    false,
     true,
     true,
     false,
@@ -3825,5 +3833,5 @@
     true,
     true
   ],
-  "savedAt": 1789089259128
+  "savedAt": 1789089308554
 }
