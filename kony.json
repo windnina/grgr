@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "問題",
+      "h": "もんだい",
+      "r": "문제",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "間違います",
       "h": "まちがいます",
       "r": "틀렸어요",
@@ -986,6 +993,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1084,5 +1092,5 @@
     false,
     false
   ],
-  "savedAt": 1790170837833
+  "savedAt": 1790170875316
 }
