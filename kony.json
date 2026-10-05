@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "持ち出します",
+      "h": "もちだします",
+      "r": "들고나가다 carry out",
+      "km": ",날 출",
+      "imp": true
+    },
+    {
       "k": "様子",
       "h": "ようす",
       "r": "모양, 상태. 모습. 기미. 징조..",
@@ -1100,6 +1107,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1198,5 +1206,5 @@
     false,
     false
   ],
-  "savedAt": 1791193321033
+  "savedAt": 1791193445066
 }
