@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "避難所",
+      "h": "ひなんじょ",
+      "r": "피난처",
+      "km": ",,바 소",
+      "imp": true
+    },
+    {
       "k": "壁",
       "h": "かべ",
       "r": "벽",
@@ -1122,6 +1129,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1220,5 +1228,5 @@
     false,
     false
   ],
-  "savedAt": 1791193512516
+  "savedAt": 1791193536000
 }
