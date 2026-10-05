@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "決めます",
+      "h": "きめます",
+      "r": "정하다. 결정하다.",
+      "imp": true
+    },
+    {
       "k": "持ち出します",
       "h": "もちだします",
       "r": "들고나가다 carry out",
@@ -1108,6 +1114,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1206,5 +1213,5 @@
     false,
     false
   ],
-  "savedAt": 1791193445066
+  "savedAt": 1791193493600
 }
