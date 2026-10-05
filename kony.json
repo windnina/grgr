@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "壁",
+      "h": "かべ",
+      "r": "벽",
+      "imp": true
+    },
+    {
       "k": "決めます",
       "h": "きめます",
       "r": "정하다. 결정하다.",
@@ -1115,6 +1121,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1213,5 +1220,5 @@
     false,
     false
   ],
-  "savedAt": 1791193493600
+  "savedAt": 1791193512516
 }
