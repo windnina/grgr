@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "後輩",
+      "h": "こうはい",
+      "r": "후배",
+      "km": "뒤 후,무리 배",
+      "imp": true
+    },
+    {
       "k": "先輩",
       "h": "せんぱい",
       "r": "선배",
@@ -1293,6 +1300,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1391,5 +1399,5 @@
     false,
     false
   ],
-  "savedAt": 1791297500554
+  "savedAt": 1791297540271
 }
