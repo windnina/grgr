@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "部下",
+      "h": "ぶか",
+      "r": "부하",
+      "km": "떼 부,아래 하",
+      "imp": true
+    },
+    {
       "k": "数字",
       "h": "すうじ",
       "r": "숫자",
@@ -1259,6 +1266,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1357,5 +1365,5 @@
     false,
     false
   ],
-  "savedAt": 1791297125173
+  "savedAt": 1791297187722
 }
