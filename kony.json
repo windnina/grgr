@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "上司",
+      "h": "じょうし",
+      "r": "상사",
+      "km": "윗 상,맡을 사",
+      "imp": true
+    },
+    {
       "k": "部下",
       "h": "ぶか",
       "r": "부하",
@@ -1267,6 +1274,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1365,5 +1373,5 @@
     false,
     false
   ],
-  "savedAt": 1791297187722
+  "savedAt": 1791297276122
 }
