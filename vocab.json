@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "騙す",
+      "h": "だます",
+      "r": "속이다",
+      "imp": true
+    },
+    {
       "k": "荒らす",
       "h": "あらす",
       "r": "휩쓸다 망치다",
@@ -3737,6 +3743,7 @@
     false,
     false,
     false,
+    false,
     true,
     true,
     false,
@@ -4188,5 +4195,5 @@
     true,
     true
   ],
-  "savedAt": 1791248383827
+  "savedAt": 1791248654486
 }
