@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "持ちます",
+      "h": "も",
+      "r": "(자신감을)가지다.",
+      "ex": "〔自信を〜\n〕\nhave [confidence]\n\n3G",
+      "imp": true
+    },
+    {
       "k": "希望します",
       "h": "きぼうします",
       "r": "기원하다",
@@ -1406,6 +1413,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1504,5 +1512,5 @@
     false,
     false
   ],
-  "savedAt": 1791467174699
+  "savedAt": 1791467238646
 }
