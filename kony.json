@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "犯人",
+      "h": "はんにん",
+      "r": "범인",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "防犯",
       "h": "ぼうはん",
       "r": "보안",
@@ -1588,6 +1595,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1686,5 +1694,5 @@
     false,
     false
   ],
-  "savedAt": 1791470397714
+  "savedAt": 1791470459247
 }
