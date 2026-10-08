@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "落ち込む",
+      "h": "おちこむ",
+      "r": "우울해지다.침울해지다.",
+      "km": ",담을입",
+      "imp": true
+    },
+    {
       "k": "育てます",
       "h": "そだてます",
       "r": "bring up 기르다. 키우다.",
@@ -1437,6 +1444,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1535,5 +1543,5 @@
     false,
     false
   ],
-  "savedAt": 1791467366091
+  "savedAt": 1791467475636
 }
