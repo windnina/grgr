@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "嫌(な)",
+      "h": "いや",
+      "r": "싫다",
+      "km": "싫어할 혐",
+      "imp": true
+    },
+    {
       "k": "悪口",
       "h": "わるくち/ぐち",
       "r": "욕",
@@ -1533,6 +1540,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1631,5 +1639,5 @@
     false,
     false
   ],
-  "savedAt": 1791469565890
+  "savedAt": 1791469637956
 }
