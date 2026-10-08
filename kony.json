@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "目的",
+      "h": "もくてき",
+      "r": "목적",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "来日",
       "h": "らいにち",
       "r": "내일 (일본방문)",
@@ -1612,6 +1619,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1710,5 +1718,5 @@
     false,
     false
   ],
-  "savedAt": 1791470527646
+  "savedAt": 1791470549029
 }
