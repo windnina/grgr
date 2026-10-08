@@ -31,7 +31,7 @@
       "k": "持ちます",
       "h": "も",
       "r": "(자신감을)가지다.",
-      "ex": "〔自信を〜\n〕\nhave [confidence]\n\n3G",
+      "ex": "〔自信を〜〕have [confidence]",
       "imp": true
     },
     {
@@ -1543,5 +1543,5 @@
     false,
     false
   ],
-  "savedAt": 1791467475636
+  "savedAt": 1791467501869
 }
