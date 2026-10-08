@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "選手",
+      "h": "せんしゅ",
+      "r": "선수",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "部活",
       "h": "ぶかつ",
       "r": "부활동",
@@ -1367,6 +1374,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1465,5 +1473,5 @@
     false,
     false
   ],
-  "savedAt": 1791467073686
+  "savedAt": 1791467090285
 }
