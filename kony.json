@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "満員",
+      "h": "まんいん",
+      "r": "만원(버스)",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "途中",
       "h": "とちゅう",
       "r": "도중",
@@ -1517,6 +1524,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1615,5 +1623,5 @@
     false,
     false
   ],
-  "savedAt": 1791469472457
+  "savedAt": 1791469527323
 }
