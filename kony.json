@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "文化",
+      "h": "ぶんか",
+      "r": "문화",
+      "km": "글월문,",
+      "imp": true
+    },
+    {
       "k": "目的",
       "h": "もくてき",
       "r": "목적",
@@ -1620,6 +1627,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1718,5 +1726,5 @@
     false,
     false
   ],
-  "savedAt": 1791470549029
+  "savedAt": 1791470571212
 }
