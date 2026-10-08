@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "価格",
+      "h": "かかく",
+      "r": "가격",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "値引き",
       "h": "ねびき",
       "r": "깍아줌. 싸게함.할인",
@@ -1461,6 +1468,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1559,5 +1567,5 @@
     false,
     false
   ],
-  "savedAt": 1791467644213
+  "savedAt": 1791467671278
 }
