@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "希望します",
+      "h": "きぼうします",
+      "r": "기원하다",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "中止",
       "h": "ちゅうし",
       "r": "중지",
@@ -1398,6 +1405,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1496,5 +1504,5 @@
     false,
     false
   ],
-  "savedAt": 1791467150216
+  "savedAt": 1791467174699
 }
