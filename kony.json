@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "貯金",
+      "h": "ちょきん",
+      "r": "저금",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "犯人",
       "h": "はんにん",
       "r": "범인",
@@ -1596,6 +1603,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1694,5 +1702,5 @@
     false,
     false
   ],
-  "savedAt": 1791470459247
+  "savedAt": 1791470481280
 }
