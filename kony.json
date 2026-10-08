@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "可能性",
+      "h": "かのうせい",
+      "r": "가능성",
+      "km": ",,",
+      "imp": true
+    },
+    {
       "k": "価格",
       "h": "かかく",
       "r": "가격",
@@ -1469,6 +1476,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1567,5 +1575,5 @@
     false,
     false
   ],
-  "savedAt": 1791467671278
+  "savedAt": 1791467688644
 }
