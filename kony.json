@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "勝ちます",
+      "h": "かちます",
+      "r": "이기다",
+      "imp": true
+    },
+    {
       "k": "選手",
       "h": "せんしゅ",
       "r": "선수",
@@ -1375,6 +1381,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1473,5 +1480,5 @@
     false,
     false
   ],
-  "savedAt": 1791467090285
+  "savedAt": 1791467112668
 }
