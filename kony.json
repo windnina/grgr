@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "中止",
+      "h": "ちゅうし",
+      "r": "중지",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "離婚",
       "h": "りこん",
       "r": "이혼",
@@ -1390,6 +1397,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1488,5 +1496,5 @@
     false,
     false
   ],
-  "savedAt": 1791467132800
+  "savedAt": 1791467150216
 }
