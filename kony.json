@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "丈夫な",
+      "h": "じょうぶ",
+      "r": "튼튼한",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "文化",
       "h": "ぶんか",
       "r": "문화",
@@ -1628,6 +1635,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1726,5 +1734,5 @@
     false,
     false
   ],
-  "savedAt": 1791470571212
+  "savedAt": 1791470595245
 }
