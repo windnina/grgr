@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "離婚",
+      "h": "りこん",
+      "r": "이혼",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "勝ちます",
       "h": "かちます",
       "r": "이기다",
@@ -1382,6 +1389,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1480,5 +1488,5 @@
     false,
     false
   ],
-  "savedAt": 1791467112668
+  "savedAt": 1791467132800
 }
