@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "たたきます",
+      "h": "たたきます",
+      "r": "두들기다.",
+      "imp": true
+    },
+    {
       "k": "とります",
       "h": "とります",
       "r": "가져가다",
@@ -1549,6 +1555,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1647,5 +1654,5 @@
     false,
     false
   ],
-  "savedAt": 1791469726838
+  "savedAt": 1791469755871
 }
