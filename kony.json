@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "育てます",
+      "h": "そだてます",
+      "r": "bring up 기르다. 키우다.",
+      "imp": true
+    },
+    {
       "k": "社員",
       "h": "しゃいん",
       "r": "사원(회사원)",
@@ -1430,6 +1436,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1528,5 +1535,5 @@
     false,
     false
   ],
-  "savedAt": 1791467328209
+  "savedAt": 1791467366091
 }
