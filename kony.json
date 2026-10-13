@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "なぜ",
+      "h": "",
+      "r": "왜, 어째서",
+      "imp": true
+    },
+    {
       "k": "疑問",
       "h": "ぎもん",
       "r": "의문",
@@ -1762,6 +1768,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1860,5 +1867,5 @@
     false,
     false
   ],
-  "savedAt": 1791892304749
+  "savedAt": 1791892337616
 }
