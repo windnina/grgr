@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "部品",
+      "h": "ぶひん",
+      "r": "부품",
+      "km": "떼 부,믈건품",
+      "imp": true
+    },
+    {
       "k": "作品",
       "h": "さくひん",
       "r": "작품",
@@ -1827,6 +1834,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1925,5 +1933,5 @@
     false,
     false
   ],
-  "savedAt": 1791892781747
+  "savedAt": 1791892803380
 }
