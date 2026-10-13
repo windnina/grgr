@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "参加する",
+      "h": "さんかする",
+      "r": "참가하다",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "協力",
       "h": "きょうりょく",
       "r": "협력",
@@ -1723,6 +1730,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1821,5 +1829,5 @@
     false,
     false
   ],
-  "savedAt": 1791891933452
+  "savedAt": 1791892059251
 }
