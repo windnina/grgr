@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "全国",
+      "h": "ぜんこく",
+      "r": "전국",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "丈夫な",
       "h": "じょうぶ",
       "r": "튼튼한",
@@ -1636,6 +1643,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1734,5 +1742,5 @@
     false,
     false
   ],
-  "savedAt": 1791470610161
+  "savedAt": 1791891595132
 }
