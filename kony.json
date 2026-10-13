@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "介護",
+      "h": "かいご",
+      "r": "간호",
+      "km": "낄개,",
+      "imp": true
+    },
+    {
       "k": "発明",
       "h": "はつめい",
       "r": "발명",
@@ -1683,6 +1690,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1781,5 +1789,5 @@
     false,
     false
   ],
-  "savedAt": 1791891764936
+  "savedAt": 1791891784586
 }
