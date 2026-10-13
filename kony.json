@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "作品",
+      "h": "さくひん",
+      "r": "작품",
+      "km": "만들 작,믈건품",
+      "imp": true
+    },
+    {
       "k": "修理",
       "h": "しゅう り",
       "r": "수리",
@@ -1819,6 +1826,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1917,5 +1925,5 @@
     false,
     false
   ],
-  "savedAt": 1791892716780
+  "savedAt": 1791892781747
 }
