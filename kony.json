@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "協力",
+      "h": "きょうりょく",
+      "r": "협력",
+      "km": "화합할 협,힘 력",
+      "imp": true
+    },
+    {
       "k": "事件",
       "h": "じけん",
       "r": "사건",
@@ -1715,6 +1722,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1813,5 +1821,5 @@
     false,
     false
   ],
-  "savedAt": 1791891872852
+  "savedAt": 1791891933452
 }
