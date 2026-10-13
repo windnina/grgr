@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "(お)みこし",
+      "h": "",
+      "r": "portable shrine, 축제가마",
+      "imp": true
+    },
+    {
       "k": "回覧板",
       "h": "かいらんばん",
       "r": "회람판",
@@ -1747,6 +1753,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1845,5 +1852,5 @@
     false,
     false
   ],
-  "savedAt": 1791892213933
+  "savedAt": 1791892264866
 }
