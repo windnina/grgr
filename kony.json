@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "疑問",
+      "h": "ぎもん",
+      "r": "의문",
+      "km": "의힘할 의, 안정할 응,물을 문",
+      "imp": true
+    },
+    {
       "k": "(お)みこし",
       "h": "",
       "r": "portable shrine, 축제가마",
@@ -1754,6 +1761,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1852,5 +1860,5 @@
     false,
     false
   ],
-  "savedAt": 1791892264866
+  "savedAt": 1791892304749
 }
