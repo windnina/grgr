@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "田んぼ",
+      "h": "たんぼ",
+      "r": "논",
+      "km": "밭 전",
+      "imp": true
+    },
+    {
       "k": "予定",
       "h": "よてい",
       "r": "예정",
@@ -1714,6 +1721,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1812,5 +1820,5 @@
     false,
     false
   ],
-  "savedAt": 1791986255395
+  "savedAt": 1791986288161
 }
