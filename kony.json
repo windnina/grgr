@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "比べます",
+      "h": "くらべます",
+      "r": "비교하다",
+      "imp": true
+    },
+    {
       "k": "通じます",
       "h": "つうじます",
       "r": "통하다.",
@@ -1666,6 +1672,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1764,5 +1771,5 @@
     false,
     false
   ],
-  "savedAt": 1791983390199
+  "savedAt": 1791983411966
 }
