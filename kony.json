@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "風船",
+      "h": "ふうせん",
+      "r": "풍선",
+      "km": "바람 풍,배 선",
+      "imp": true
+    },
+    {
       "k": "雲",
       "h": "くも",
       "r": "구름",
@@ -1650,6 +1657,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1748,5 +1756,5 @@
     false,
     false
   ],
-  "savedAt": 1791983286416
+  "savedAt": 1791983327599
 }
