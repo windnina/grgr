@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "乾きます",
+      "h": "かわきます",
+      "r": "말리다 かわく 마르다.",
+      "imp": true
+    },
+    {
       "k": "興味",
       "h": "きょうみ",
       "r": "흥미",
@@ -1771,6 +1777,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1869,5 +1876,5 @@
     false,
     false
   ],
-  "savedAt": 1791986473444
+  "savedAt": 1791986535526
 }
