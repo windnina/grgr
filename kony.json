@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "興味",
+      "h": "きょうみ",
+      "r": "흥미",
+      "km": "일 흥,맛 미",
+      "imp": true
+    },
+    {
       "k": "見学",
       "h": "けんがく",
       "r": "견학",
@@ -1762,6 +1769,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1860,5 +1868,5 @@
     false,
     false
   ],
-  "savedAt": 1791986424811
+  "savedAt": 1791986456944
 }
