@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "出産",
+      "h": "しゅっさん",
+      "r": "출산",
+      "km": "날 출,",
+      "imp": true
+    },
+    {
       "k": "減ります",
       "h": "へります",
       "r": "감소하다",
@@ -1698,6 +1705,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1796,5 +1804,5 @@
     false,
     false
   ],
-  "savedAt": 1791986199828
+  "savedAt": 1791986239795
 }
