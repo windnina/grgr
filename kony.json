@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "算 数",
+      "h": "さんすう",
+      "r": "산수",
+      "km": ",셀 수",
+      "imp": true
+    },
+    {
       "k": "親友",
       "h": "しんゆう",
       "r": "절친",
@@ -1861,6 +1868,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1959,5 +1967,5 @@
     false,
     false
   ],
-  "savedAt": 1791982872369
+  "savedAt": 1791982908169
 }
