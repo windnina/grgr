@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "予定",
+      "h": "よてい",
+      "r": "예정",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "出産",
       "h": "しゅっさん",
       "r": "출산",
@@ -1706,6 +1713,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1804,5 +1812,5 @@
     false,
     false
   ],
-  "savedAt": 1791986239795
+  "savedAt": 1791986255395
 }
