@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "農業",
+      "h": "のうぎょう",
+      "r": "농업",
+      "km": "농사 농,업 업",
+      "imp": true
+    },
+    {
       "k": "田んぼ",
       "h": "たんぼ",
       "r": "논",
@@ -1722,6 +1729,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1820,5 +1828,5 @@
     false,
     false
   ],
-  "savedAt": 1791986288161
+  "savedAt": 1791986327061
 }
