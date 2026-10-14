@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "都会",
+      "h": "とかい",
+      "r": "도시",
+      "km": "도읍도,모을회",
+      "imp": true
+    },
+    {
       "k": "農業",
       "h": "のうぎょう",
       "r": "농업",
@@ -1730,6 +1737,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1828,5 +1836,5 @@
     false,
     false
   ],
-  "savedAt": 1791986327061
+  "savedAt": 1791986349828
 }
