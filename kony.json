@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "通じます",
+      "h": "つうじます",
+      "r": "통하다.",
+      "km": "통할통",
+      "imp": true
+    },
+    {
       "k": "風船",
       "h": "ふうせん",
       "r": "풍선",
@@ -1658,6 +1665,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1756,5 +1764,5 @@
     false,
     false
   ],
-  "savedAt": 1791983327599
+  "savedAt": 1791983390199
 }
