@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "自然",
+      "h": "しぜん",
+      "r": "자연",
+      "km": "스스로자,그럴 연",
+      "imp": true
+    },
+    {
       "k": "都会",
       "h": "とかい",
       "r": "도시",
@@ -1738,6 +1745,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1836,5 +1844,5 @@
     false,
     false
   ],
-  "savedAt": 1791986349828
+  "savedAt": 1791986386777
 }
