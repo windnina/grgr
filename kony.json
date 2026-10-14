@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "雲",
+      "h": "くも",
+      "r": "구름",
+      "imp": true
+    },
+    {
       "k": "幸せ(な)",
       "h": "しあわせ(な)",
       "r": "행복한",
@@ -1643,6 +1649,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1741,5 +1748,5 @@
     false,
     false
   ],
-  "savedAt": 1791983269450
+  "savedAt": 1791983286416
 }
