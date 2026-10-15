@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "合格",
+      "h": "ごうかく",
+      "r": "합격",
+      "km": "합할합,",
+      "imp": true
+    },
+    {
       "k": "(免許を)とりま す",
       "h": "とりま す",
       "r": "면허를 따다 [obtain]a license",
@@ -1881,6 +1888,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1979,5 +1987,5 @@
     false,
     false
   ],
-  "savedAt": 1792080369142
+  "savedAt": 1792080422457
 }
