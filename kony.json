@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "無理な",
+      "h": "むりな",
+      "r": "무리나",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "かげ",
       "h": "かげ",
       "r": "그늘",
@@ -1912,6 +1919,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2010,5 +2018,5 @@
     false,
     false
   ],
-  "savedAt": 1792080881139
+  "savedAt": 1792080912521
 }
