@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "(免許を)とりま す",
+      "h": "とりま す",
+      "r": "면허를 따다 [obtain]a license",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "国際免許証",
       "h": "こくさい めんきょしょう",
       "r": "국제면허증",
@@ -1873,6 +1880,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1971,5 +1979,5 @@
     false,
     false
   ],
-  "savedAt": 1792080328960
+  "savedAt": 1792080369142
 }
