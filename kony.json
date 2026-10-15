@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "魔法",
+      "h": "まほう",
+      "r": "마법",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "消費期限",
       "h": "しょうひきげん",
       "r": "소비기간",
@@ -1848,6 +1855,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -1946,5 +1954,5 @@
     false,
     false
   ],
-  "savedAt": 1791987854719
+  "savedAt": 1792080194932
 }
