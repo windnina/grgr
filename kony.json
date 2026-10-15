@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "かげ",
+      "h": "かげ",
+      "r": "그늘",
+      "imp": true
+    },
+    {
       "k": "用意します",
       "h": "ようい",
       "r": "준비하다. 대비하다.prepare",
@@ -1905,6 +1911,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2003,5 +2010,5 @@
     false,
     false
   ],
-  "savedAt": 1792080513853
+  "savedAt": 1792080881139
 }
