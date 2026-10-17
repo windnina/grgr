@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "紅葉",
+      "h": "こうよう",
+      "r": "단풍",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "子犬",
       "h": "こいぬ",
       "r": "강아지",
@@ -1936,6 +1943,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2034,5 +2042,5 @@
     false,
     false
   ],
-  "savedAt": 1792243119211
+  "savedAt": 1792243172961
 }
