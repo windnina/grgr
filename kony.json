@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "泊まります",
+      "h": "とまります",
+      "r": "머물다 stay",
+      "imp": true
+    },
+    {
       "k": "招待します",
       "h": "しょうたいします",
       "r": "초대하다",
@@ -1975,6 +1981,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2073,5 +2080,5 @@
     false,
     false
   ],
-  "savedAt": 1792243279179
+  "savedAt": 1792243304862
 }
