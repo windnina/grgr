@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "立派な",
+      "h": "りっぱな",
+      "r": "훌륭한",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "宣伝",
       "h": "せんでん",
       "r": "제품",
@@ -1959,6 +1966,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2057,5 +2065,5 @@
     false,
     false
   ],
-  "savedAt": 1792243208111
+  "savedAt": 1792243229478
 }
