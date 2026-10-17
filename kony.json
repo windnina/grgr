@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "宣伝",
+      "h": "せんでん",
+      "r": "제품",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "お城",
       "h": "おしろ",
       "r": "성. 캐슬",
@@ -1951,6 +1958,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2049,5 +2057,5 @@
     false,
     false
   ],
-  "savedAt": 1792243192778
+  "savedAt": 1792243208111
 }
