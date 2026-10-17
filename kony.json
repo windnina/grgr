@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "お城",
+      "h": "おしろ",
+      "r": "성. 캐슬",
+      "imp": true
+    },
+    {
       "k": "紅葉",
       "h": "こうよう",
       "r": "단풍",
@@ -1944,6 +1950,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2042,5 +2049,5 @@
     false,
     false
   ],
-  "savedAt": 1792243172961
+  "savedAt": 1792243192778
 }
