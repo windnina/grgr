@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "首輪",
+      "h": "くびわ",
+      "r": "개목줄 목걸이",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "無理な",
       "h": "むりな",
       "r": "무리나",
@@ -1920,6 +1927,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2018,5 +2026,5 @@
     false,
     false
   ],
-  "savedAt": 1792080912521
+  "savedAt": 1792243089245
 }
