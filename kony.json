@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "缶切り",
+      "h": "かんきり",
+      "r": "캔따개",
+      "km": ",끊을절",
+      "imp": true
+    },
+    {
       "k": "のり",
       "h": "のり",
       "r": "풀",
@@ -2030,6 +2037,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2128,5 +2136,5 @@
     false,
     false
   ],
-  "savedAt": 1792417626180
+  "savedAt": 1792417650380
 }
