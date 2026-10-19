@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "ちょうど",
+      "h": "ちょうど",
+      "r": "딱. 알맞게.정확히",
+      "imp": true
+    },
+    {
       "k": "通勤",
       "h": "つうきん",
       "r": "통근",
@@ -2053,6 +2059,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2151,5 +2158,5 @@
     false,
     false
   ],
-  "savedAt": 1792417709413
+  "savedAt": 1792417727379
 }
