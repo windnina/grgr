@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "のり",
+      "h": "のり",
+      "r": "풀",
+      "imp": true
+    },
+    {
       "k": "電卓",
       "h": "でんたく",
       "r": "계산기",
@@ -2023,6 +2029,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2121,5 +2128,5 @@
     false,
     false
   ],
-  "savedAt": 1792417612313
+  "savedAt": 1792417626180
 }
