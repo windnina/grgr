@@ -1,6 +1,14 @@
 {
   "vocab": [
     {
+      "k": "洗濯",
+      "h": "せんたく",
+      "r": "세탁 laundry",
+      "km": ",",
+      "ex": "洗濯物をたたんでいます。",
+      "imp": true
+    },
+    {
       "k": "洗剤",
       "h": "せんざい",
       "r": "세재",
@@ -2068,6 +2076,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2166,5 +2175,5 @@
     false,
     false
   ],
-  "savedAt": 1792500769159
+  "savedAt": 1792500801441
 }
