@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "大勢",
+      "h": "おおぜい",
+      "r": "여럿. 많은사람",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "おでこ",
       "h": "おでこ",
       "r": "이마",
@@ -2134,6 +2141,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2232,5 +2240,5 @@
     false,
     false
   ],
-  "savedAt": 1792595509066
+  "savedAt": 1792595547716
 }
