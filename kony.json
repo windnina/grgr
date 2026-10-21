@@ -1,6 +1,14 @@
 {
   "vocab": [
     {
+      "k": "焦げます",
+      "h": "焦げます",
+      "r": "타버릴것같아요. be burned",
+      "km": "탈 초",
+      "ex": "こげる [焦げる]",
+      "imp": true
+    },
+    {
       "k": "焦げ臭い",
       "h": "こげくさい",
       "r": "탄냄새",
@@ -2158,6 +2166,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2256,5 +2265,5 @@
     false,
     false
   ],
-  "savedAt": 1792595614048
+  "savedAt": 1792595698230
 }
