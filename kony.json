@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "計算",
+      "h": "けいさん",
+      "r": "계산",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "機械",
       "h": "きかい",
       "r": "기계",
@@ -2112,6 +2119,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2210,5 +2218,5 @@
     false,
     false
   ],
-  "savedAt": 1792595450200
+  "savedAt": 1792595463434
 }
