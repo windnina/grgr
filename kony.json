@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "水たまり",
+      "h": "みずたまり",
+      "r": "물웅덩이",
+      "imp": true
+    },
+    {
       "k": "計算",
       "h": "けいさん",
       "r": "계산",
@@ -2120,6 +2126,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2218,5 +2225,5 @@
     false,
     false
   ],
-  "savedAt": 1792595463434
+  "savedAt": 1792595492517
 }
