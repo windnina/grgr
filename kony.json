@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "焦げ臭い",
+      "h": "こげくさい",
+      "r": "탄냄새",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "複雑な",
       "h": "ふくざつな",
       "r": "복잡한",
@@ -2150,6 +2157,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2248,5 +2256,5 @@
     false,
     false
   ],
-  "savedAt": 1792595585715
+  "savedAt": 1792595614048
 }
