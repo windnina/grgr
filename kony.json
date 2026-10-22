@@ -1,6 +1,14 @@
 {
   "vocab": [
     {
+      "k": "最新",
+      "h": "さいしん",
+      "r": "최신",
+      "km": "가장 최,",
+      "kimp": "最",
+      "imp": true
+    },
+    {
       "k": "優勝",
       "h": "ゆうしょう",
       "r": "우승",
@@ -2201,6 +2209,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2299,5 +2308,5 @@
     false,
     false
   ],
-  "savedAt": 1792688176178
+  "savedAt": 1792688195978
 }
