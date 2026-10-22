@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "うまく",
+      "h": "",
+      "r": "잘,",
+      "imp": true
+    },
+    {
       "k": "派手な",
       "h": "はでな",
       "r": "화려한",
@@ -2307,6 +2313,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2405,5 +2412,5 @@
     false,
     false
   ],
-  "savedAt": 1792689477601
+  "savedAt": 1792689494201
 }
