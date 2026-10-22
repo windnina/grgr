@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "絶対に",
+      "h": "ぜったい",
+      "r": "절대로",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "うまく",
       "h": "",
       "r": "잘,",
@@ -2314,6 +2321,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2412,5 +2420,5 @@
     false,
     false
   ],
-  "savedAt": 1792689494201
+  "savedAt": 1792689507134
 }
