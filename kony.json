@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "派手な",
+      "h": "はでな",
+      "r": "화려한",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "気持ちが悪い",
       "h": "",
       "r": "기분이 안좋다",
@@ -2299,6 +2306,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2397,5 +2405,5 @@
     false,
     false
   ],
-  "savedAt": 1792689457701
+  "savedAt": 1792689477601
 }
