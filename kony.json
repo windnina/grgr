@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "女優",
+      "h": "じょゆう",
+      "r": "여배우",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "最新",
       "h": "さいしん",
       "r": "최신",
@@ -2210,6 +2217,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2308,5 +2316,5 @@
     false,
     false
   ],
-  "savedAt": 1792688195978
+  "savedAt": 1792688221595
 }
