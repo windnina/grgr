@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "針",
+      "h": "はり",
+      "r": "바늘",
+      "ex": "かぎ針 코바늘",
+      "imp": true
+    },
+    {
       "k": "女優",
       "h": "じょゆう",
       "r": "여배우",
@@ -2218,6 +2225,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2316,5 +2324,5 @@
     false,
     false
   ],
-  "savedAt": 1792688221595
+  "savedAt": 1792688306962
 }
