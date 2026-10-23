@@ -1,6 +1,17 @@
 {
   "sentences": [
     {
+      "s": "sdadadad",
+      "r": "asdad",
+      "ruby": [
+        {
+          "t": "sdadadad",
+          "f": ""
+        }
+      ],
+      "imp": false
+    },
+    {
       "s": "改善を準備しております。",
       "r": "개선을 준비하고있습니다.",
       "ruby": [
@@ -59,5 +70,5 @@
       "imp": true
     }
   ],
-  "savedAt": 1792727293569
+  "savedAt": 1792727309562
 }
