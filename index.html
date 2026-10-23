@@ -2352,6 +2352,7 @@ function openAddModal() {
   sentEditIndex = -1;
   _modalKanjiEdited = false;
   document.getElementById('modal-delete-wrap').style.display = 'none';
+  document.getElementById('modal-tab-bar').style.display = '';
   document.getElementById('edit-modal').classList.add('open');
   _lockScroll();
   _clearSentForm(); // 항상 문장 폼 초기화
@@ -2381,6 +2382,7 @@ function openEditModal(i) {
   clearDupError();
   const rMsg = document.getElementById('modal-r-msg');
   if (rMsg) rMsg.style.display = 'none';
+  document.getElementById('modal-tab-bar').style.display = 'none';
   const v = VOCAB[i];
   switchModalTab('word');
   document.getElementById('modal-title').textContent = '단어 수정';
@@ -2829,6 +2831,7 @@ function openEditSentModal(i) {
   sentEditIndex = i;
   editIndex = -1;
   const s = SENTENCES[i];
+  document.getElementById('modal-tab-bar').style.display = 'none';
   document.getElementById('edit-modal').classList.add('open');
   _lockScroll();
   switchModalTab('sent');
