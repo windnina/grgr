@@ -502,23 +502,14 @@ select.form-input {
   padding: 14px 16px;
   border-bottom: 1px solid #f0f0f0;
   display: flex;
-  align-items: flex-start;
-  gap: 8px;
+  flex-direction: column;
 }
-.sent-main { flex: 1; min-width: 0; }
-.sent-jp { font-size: 24px; line-height: 1.6; color: #1a2535; }
+.sent-main { display: contents; }
+.sent-jp { font-size: 24px; line-height: 1.6; color: #1a2535; width: 100%; }
 .sent-jp ruby rt { font-size: 12px; color: #888; }
-.sent-kr { font-size: 17px; color: #333; margin-top: 4px; }
-.sent-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; padding-top: 6px; }
-.sent-speak-btn {
-  background: none; border: none; cursor: pointer;
-  color: #bbb; padding: 4px; line-height: 1;
-  display: inline-flex; align-items: center;
-  -webkit-tap-highlight-color: transparent;
-  transition: color 0.15s;
-  flex-shrink: 0;
-}
-.sent-speak-btn.playing { color: #4a9eff; }
+.sent-kr-row { display: flex; align-items: center; gap: 4px; margin-top: 4px; }
+.sent-kr { font-size: 17px; color: #333; flex: 1; min-width: 0; }
+.sent-actions { display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
 .sent-imp-btn {
   background: none; border: none; cursor: pointer;
   font-size: 16px; padding: 4px; line-height: 1;
@@ -2786,31 +2777,26 @@ function buildSentTable() {
     const card = document.createElement('div');
     card.className = 'sent-card';
     const jpHTML = (s.ruby && s.ruby.length) ? renderRubyHTML(s.ruby) : esc(s.s);
-    const _speakSVG = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>';
     card.innerHTML =
-      '<div class="sent-main">' +
-        '<div class="sent-jp" style="cursor:pointer;user-select:none">' + jpHTML + '</div>' +
+      '<div class="sent-jp" style="cursor:pointer;user-select:none">' + jpHTML + '</div>' +
+      '<div class="sent-kr-row">' +
         '<div class="sent-kr">' + esc(s.r) + '</div>' +
-      '</div>' +
-      '<div class="sent-actions">' +
-        '<button class="sent-speak-btn" id="sent-speak-' + i + '">' + _speakSVG + '</button>' +
-        '<button class="sent-imp-btn' + (s.imp ? ' on' : '') + '" data-idx="' + i + '" onclick="toggleSentImp(' + i + ',this)">' + _STAR_SVG + '</button>' +
-        '<button class="sent-edit-btn" data-idx="' + i + '" onclick="requireAuth(()=>openEditSentModal(' + i + '))">' +
-          '<svg width="16" height="4" viewBox="0 0 16 4" fill="currentColor"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="14" cy="2" r="1.6"/></svg>' +
-        '</button>' +
+        '<div class="sent-actions">' +
+          '<button class="sent-imp-btn' + (s.imp ? ' on' : '') + '" data-idx="' + i + '" onclick="toggleSentImp(' + i + ',this)">' + _STAR_SVG + '</button>' +
+          '<button class="sent-edit-btn" data-idx="' + i + '" onclick="requireAuth(()=>openEditSentModal(' + i + '))">' +
+            '<svg width="16" height="4" viewBox="0 0 16 4" fill="currentColor"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="14" cy="2" r="1.6"/></svg>' +
+          '</button>' +
+        '</div>' +
       '</div>';
     const jpDiv = card.querySelector('.sent-jp');
-    const speakBtnEl = card.querySelector('.sent-speak-btn');
     if (jpDiv) {
-      (function(sentText, jpEl, speakEl) {
-        function playSent(e) {
-          e && e.stopPropagation();
+      (function(sentText, jpEl) {
+        jpEl.addEventListener('click', function(e) {
+          e.stopPropagation();
           _ttsIconTargetEl = jpEl;
-          speakText(sentText, speakEl);
-        }
-        jpEl.addEventListener('click', playSent);
-        if (speakEl) speakEl.addEventListener('click', playSent);
-      })(s.s, jpDiv, speakBtnEl);
+          speakText(sentText, jpEl);
+        });
+      })(s.s, jpDiv);
     }
     container.appendChild(card);
   });
