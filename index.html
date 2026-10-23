@@ -506,7 +506,7 @@ select.form-input {
   gap: 8px;
 }
 .sent-main { flex: 1; min-width: 0; }
-.sent-jp { font-size: 28px; line-height: 2.2; color: #1a2535; }
+.sent-jp { font-size: 28px; line-height: 1.6; color: #1a2535; }
 .sent-jp ruby rt { font-size: 12px; color: #888; }
 .sent-kr { font-size: 13px; color: #888; margin-top: 4px; }
 .sent-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; padding-top: 6px; }
@@ -2324,6 +2324,16 @@ let _modalImpValue = true;
 function setModalImp(val) { _modalImpValue = val; }
 function getModalImp() { return _modalImpValue; }
 
+function _clearSentForm() {
+  document.getElementById('modal-s').value = '';
+  document.getElementById('modal-sr').value = '';
+  document.getElementById('ruby-section').style.display = 'none';
+  document.getElementById('ruby-inputs').innerHTML = '';
+  document.getElementById('ruby-preview').style.display = 'none';
+  if (_autoFillTimer) { clearTimeout(_autoFillTimer); _autoFillTimer = null; }
+  updateSentSaveBtn();
+}
+
 function openAddModal() {
   editIndex = -1;
   sentEditIndex = -1;
@@ -2331,14 +2341,9 @@ function openAddModal() {
   document.getElementById('modal-delete-wrap').style.display = 'none';
   document.getElementById('edit-modal').classList.add('open');
   _lockScroll();
+  _clearSentForm(); // 항상 문장 폼 초기화
   if (currentTab === 'sent') {
     switchModalTab('sent');
-    document.getElementById('modal-s').value = '';
-    document.getElementById('modal-sr').value = '';
-    document.getElementById('ruby-section').style.display = 'none';
-    document.getElementById('ruby-inputs').innerHTML = '';
-    document.getElementById('ruby-preview').style.display = 'none';
-    updateSentSaveBtn();
   } else {
     switchModalTab('word');
     document.getElementById('modal-title').textContent = '단어 추가';
