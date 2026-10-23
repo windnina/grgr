@@ -2535,40 +2535,70 @@ function parseSentSegments(text) {
 }
 
 let _autoFillTimer = null;
-let _kuromojiTokenizer = null;
-let _kuromojiPromise = null;
-let _kuromojiUnavailable = false;
 
-function _initKuromoji() {
-  if (_kuromojiTokenizer) return Promise.resolve(_kuromojiTokenizer);
-  if (_kuromojiUnavailable) return Promise.reject(new Error('unavailable'));
-  if (_kuromojiPromise) return _kuromojiPromise;
+// ── Kuromoji Web Worker (메인 스레드 블로킹 방지) ──────────────────
+let _kw = null, _kwReady = false, _kwUnavail = false;
+let _kwPendingCbs = [], _kwReqs = {}, _kwReqId = 0;
 
-  _kuromojiPromise = Promise.race([
-    new Promise((resolve, reject) => {
-      function build() {
-        kuromoji.builder({ dicPath: 'https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/dict' })
-          .build(function(err, tokenizer) {
-            if (err) { reject(err); return; }
-            _kuromojiTokenizer = tokenizer;
-            resolve(tokenizer);
-          });
-      }
-      if (typeof kuromoji !== 'undefined') { build(); return; }
-      const s = document.createElement('script');
-      s.src = 'https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/build/kuromoji.js';
-      s.onload = build;
-      s.onerror = reject;
-      document.head.appendChild(s);
-    }),
-    new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 7000))
-  ]).catch(e => {
-    _kuromojiUnavailable = true;
-    _kuromojiPromise = null;
-    throw e;
+function _kwStart() {
+  if (_kw || _kwUnavail) return;
+  const workerSrc = [
+    "importScripts('https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/build/kuromoji.js');",
+    "var T=null;",
+    "kuromoji.builder({dicPath:'https://cdn.jsdelivr.net/npm/kuromoji@0.1.2/dict'}).build(function(e,t){",
+    "  if(e){postMessage({t:'err'});return;}",
+    "  T=t; postMessage({t:'ok'});",
+    "});",
+    "self.onmessage=function(m){",
+    "  if(!T){postMessage({t:'res',id:m.data.id,err:1});return;}",
+    "  try{",
+    "    var r=T.tokenize(m.data.text).map(function(x){return x.reading||x.surface_form;});",
+    "    postMessage({t:'res',id:m.data.id,r:r});",
+    "  }catch(e){postMessage({t:'res',id:m.data.id,err:1});}",
+    "};"
+  ].join('\n');
+
+  try {
+    const blob = new Blob([workerSrc], { type: 'text/javascript' });
+    _kw = new Worker(URL.createObjectURL(blob));
+  } catch(e) { _kwUnavail = true; return; }
+
+  // 20초 안에 준비 안 되면 포기
+  const failTimer = setTimeout(_kwFail, 20000);
+
+  _kw.onmessage = function(e) {
+    const d = e.data;
+    if (d.t === 'ok') {
+      clearTimeout(failTimer);
+      _kwReady = true;
+      _kwPendingCbs.forEach(fn => fn()); _kwPendingCbs = [];
+    } else if (d.t === 'err' && d.id == null) {
+      clearTimeout(failTimer); _kwFail();
+    } else if (d.t === 'res') {
+      const cb = _kwReqs[d.id];
+      if (cb) { delete _kwReqs[d.id]; cb(d.err ? null : d.r); }
+    }
+  };
+  _kw.onerror = function() { _kwFail(); };
+}
+
+function _kwFail() {
+  _kwUnavail = true;
+  if (_kw) { _kw.terminate(); _kw = null; }
+  _kwPendingCbs.forEach(fn => fn()); _kwPendingCbs = [];
+}
+
+function _kwTokenize(text) {
+  return new Promise((resolve, reject) => {
+    if (_kwUnavail) { reject(); return; }
+    if (!_kw) _kwStart();
+    if (_kwUnavail) { reject(); return; }
+    const id = ++_kwReqId;
+    const timer = setTimeout(() => { delete _kwReqs[id]; reject(); }, 8000);
+    _kwReqs[id] = function(r) { clearTimeout(timer); r ? resolve(r) : reject(); };
+    const send = () => { _kwUnavail || !_kw ? reject() : _kw.postMessage({ text, id }); };
+    _kwReady ? send() : _kwPendingCbs.push(send);
   });
-
-  return _kuromojiPromise;
 }
 
 function _kata2hira(str) {
@@ -2577,7 +2607,7 @@ function _kata2hira(str) {
 }
 
 async function autoFillAllFurigana() {
-  if (_kuromojiUnavailable) return;
+  if (_kwUnavail) return;
   const rows = document.querySelectorAll('#ruby-inputs .ruby-pair-row');
   const toFill = [];
   rows.forEach(row => {
@@ -2587,18 +2617,16 @@ async function autoFillAllFurigana() {
     toFill.push({ inp, kanji: row.dataset.t });
   });
   if (!toFill.length) return;
+  if (!_kw) _kwStart();
   try {
-    const tokenizer = await _initKuromoji();
-    toFill.forEach(({ inp, kanji }) => {
+    await Promise.all(toFill.map(async ({ inp, kanji }) => {
       if (inp.value) return;
-      const tokens = tokenizer.tokenize(kanji);
-      const reading = _kata2hira(tokens.map(t => t.reading || t.surface_form).join(''));
+      const tokens = await _kwTokenize(kanji);
+      const reading = _kata2hira(tokens.join(''));
       if (reading && !inp.value) inp.value = reading;
-    });
+    }));
     updateRubyPreview();
-  } catch(e) {
-    // 조용히 실패 — 사용자가 직접 입력
-  }
+  } catch(e) { /* 조용히 실패 */ }
 }
 
 function onSentInput() {
