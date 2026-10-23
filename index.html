@@ -3915,7 +3915,7 @@ async function pullFromGitHub() {
   if (VOCAB_NAME) {
     document.title = '단어장 · ' + VOCAB_NAME;
     const badge = document.getElementById('vocab-name-badge');
-    if (badge) { badge.textContent = '📂 ' + VOCAB_NAME; badge.style.display = 'flex'; }
+    if (badge) { badge.textContent = VOCAB_NAME; badge.style.display = 'flex'; }
   }
 })();
 
