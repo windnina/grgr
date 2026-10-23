@@ -710,12 +710,12 @@ select.form-input {
       <button id="qmode-sent" class="option-chip mode-chip" onclick="selectQuizTopTab('sent')" style="flex:1;padding:10px;font-size:14px;justify-content:center">문장</button>
     </div>
     <div id="quiz-start" class="quiz-start" style="display: block;">
-      <h2 id="quiz-start-title">✏️ 한→일 시험</h2>
+      <h2 id="quiz-start-title">✏️ 단어 시험</h2>
       <p id="quiz-start-desc">한국어 뜻을 보고 맞는 일본어를 고르세요.</p>
       <div class="opt-label" id="word-dir-label">방향</div>
       <div class="start-options" id="word-dir-options">
-        <div class="option-chip mode-chip" data-val="word" onclick="selectWordDir(this)">일→한</div>
-        <div class="option-chip mode-chip selected" data-val="ko-ja" onclick="selectWordDir(this)">한→일</div>
+        <div class="option-chip" data-val="word" onclick="selectWordDir(this)">일→한</div>
+        <div class="option-chip selected" data-val="ko-ja" onclick="selectWordDir(this)">한→일</div>
       </div>
       <div class="opt-label">문제 수</div>
       <div class="start-options" id="count-options">
@@ -736,8 +736,8 @@ select.form-input {
       </div>
       <div class="opt-label" id="sent-submode-label" style="display:none">방향</div>
       <div class="start-options" id="sent-submode-options" style="display:none">
-        <div class="option-chip mode-chip selected" data-val="ja-ko" onclick="selectSentSubMode(this)">일→한</div>
-        <div class="option-chip mode-chip" data-val="ko-ja" onclick="selectSentSubMode(this)">한→일</div>
+        <div class="option-chip selected" data-val="ja-ko" onclick="selectSentSubMode(this)">일→한</div>
+        <div class="option-chip" data-val="ko-ja" onclick="selectSentSubMode(this)">한→일</div>
       </div>
       <div class="opt-label" id="sent-scope-label" style="display:none">범위</div>
       <div class="start-options" id="sent-scope-options" style="display:none">
@@ -3344,14 +3344,14 @@ function selectQuizTopTab(tab) {
   }
 
   // 타이틀/설명 업데이트
-  const titles = { 'word': '일→한 시험', 'ko-ja': '한→일 시험', 'kanji': '한자 시험', 'sent': '문장 시험' };
+  const tabTitles = { 'word': '단어 시험', 'kanji': '한자 시험', 'sent': '문장 시험' };
   const descs  = {
     'word':  '일본어를 보고 맞는 한국어 뜻을 고르세요.',
     'ko-ja': '한국어 뜻을 보고 맞는 일본어를 고르세요.',
     'kanji': '한자를 보고 맞는 훈음(한자뜻)을 고르세요.',
     'sent':  '문장을 보고 맞는 뜻을 고르세요.'
   };
-  document.getElementById('quiz-start-title').textContent = '✏️ ' + (titles[currentQuizMode] || '');
+  document.getElementById('quiz-start-title').textContent = '✏️ ' + (tabTitles[tab] || '');
   document.getElementById('quiz-start-desc').textContent  = descs[currentQuizMode]  || '';
 
   // 단어 방향 서브모드 (단어 탭에서만)
@@ -3375,10 +3375,9 @@ function selectWordDir(el) {
   el.classList.add('selected');
   currentWordDir  = el.dataset.val;
   currentQuizMode = currentWordDir;
-  const titles = { 'word': '일→한 시험', 'ko-ja': '한→일 시험' };
   const descs  = { 'word': '일본어를 보고 맞는 한국어 뜻을 고르세요.', 'ko-ja': '한국어 뜻을 보고 맞는 일본어를 고르세요.' };
-  document.getElementById('quiz-start-title').textContent = '✏️ ' + titles[currentWordDir];
-  document.getElementById('quiz-start-desc').textContent  = descs[currentWordDir];
+  // 타이틀은 "단어 시험" 고정, 설명만 방향에 따라 변경
+  document.getElementById('quiz-start-desc').textContent = descs[currentWordDir];
 }
 
 // 하위 호환: 현재 mode에서 top-tab 이름 반환
@@ -3697,6 +3696,22 @@ function startSentQuiz() {
   renderSentQuestion();
 }
 
+// 중복 없는 오답 보기 추출: pool에서 correct와 다른 값을 최대 n개 뽑음
+function _pickDistractors(pool, keyFn, correct, n) {
+  const seen = new Set([correct]);
+  const result = [];
+  const shuffled = shuffle(pool.slice());
+  for (const v of shuffled) {
+    const val = keyFn(v);
+    if (val && !seen.has(val)) {
+      seen.add(val);
+      result.push(val);
+      if (result.length === n) break;
+    }
+  }
+  return result;
+}
+
 function renderSentQuestion() {
   if (quizIdx >= quizItems.length) { showResults(); return; }
   window.speechSynthesis && window.speechSynthesis.cancel();
@@ -3741,18 +3756,24 @@ function renderSentQuestion() {
       };
     })(item.s, kanjiEl);
     correct = item.r;
-    others = shuffle(quizPool.filter(v => v.r !== correct).map(v => v.r)).slice(0, 3);
+    others = _pickDistractors(quizPool, v => v.r, correct, 3);
   } else {
     // 한국어 뜻 보여주기 → 일본어 문장 선택
     kanjiEl.textContent = item.r;
     kanjiEl.className = 'q-kanji koja-mode';
     kanjiEl.style.fontSize = '';
     kanjiEl.style.lineHeight = '';
-    kanjiEl.style.cursor = '';
-    kanjiEl.title = '';
-    kanjiEl.onclick = null;
+    kanjiEl.style.cursor = 'pointer';
+    kanjiEl.title = '클릭하여 일본어 듣기';
+    kanjiEl.onclick = (function(jpText, el) {
+      return function(e) {
+        e.stopPropagation();
+        _ttsIconTargetEl = el;
+        speakText(jpText, el);
+      };
+    })(item.s, kanjiEl);
     correct = item.s;
-    others = shuffle(quizPool.filter(v => v.s !== correct).map(v => v.s)).slice(0, 3);
+    others = _pickDistractors(quizPool, v => v.s, correct, 3);
   }
 
   const choices = shuffle([correct, ...others]);
