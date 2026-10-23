@@ -985,6 +985,7 @@ const VOCAB_NAME = (() => {
   return p ? p.replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 40) : '';
 })();
 const VOCAB_FILE = VOCAB_NAME ? VOCAB_NAME + '.json' : 'vocab.json';
+const SENT_FILE  = VOCAB_NAME ? VOCAB_NAME + '_sentences.json' : 'sentences.json';
 const STORAGE_KEY   = 'jp_vocab_v1' + (VOCAB_NAME ? '_' + VOCAB_NAME : '');
 const SENT_STORAGE_KEY = 'jp_sent_v1' + (VOCAB_NAME ? '_' + VOCAB_NAME : '');
 const AUTH_HASH_KEY = 'jp_auth'     + (VOCAB_NAME ? '_' + VOCAB_NAME : '');
@@ -1374,7 +1375,7 @@ async function writeSentToGitHub() {
   const timeout = setTimeout(() => { _ghSentSyncing = false; }, 15000);
   try {
     const payload = JSON.stringify({ sentences: SENTENCES, savedAt: Date.now() }, null, 2);
-    await ghPut(token, owner, repo, 'sentences.json', payload, '문장 데이터 업데이트');
+    await ghPut(token, owner, repo, SENT_FILE, payload, '문장 데이터 업데이트');
   } catch(e) {
     console.warn('문장 GitHub 저장 실패:', e);
   } finally {
@@ -3868,7 +3869,7 @@ async function pullFromGitHub() {
   // sentences.json 로드 (없으면 무시)
   try {
     const sRes = await fetch(
-      `https://raw.githubusercontent.com/${owner}/${repo}/master/sentences.json?t=` + Date.now()
+      `https://raw.githubusercontent.com/${owner}/${repo}/master/${SENT_FILE}?t=` + Date.now()
     );
     if (!sRes.ok) return;
     const sJson = await sRes.json();
