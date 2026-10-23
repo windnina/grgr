@@ -515,8 +515,9 @@ select.form-input {
 .sent-actions { display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
 .sent-imp-btn {
   background: none; border: none; cursor: pointer;
-  font-size: 16px; padding: 4px; line-height: 1;
-  color: #ddd;
+  font-size: 18px; padding: 4px 6px; line-height: 1;
+  color: #ddd; margin-left: 8px;
+  vertical-align: middle; position: relative;
   display: inline-flex; align-items: center;
   -webkit-tap-highlight-color: transparent;
   outline: none; user-select: none; -webkit-user-select: none;
@@ -524,7 +525,8 @@ select.form-input {
 .sent-imp-btn.on { color: #4a9eff; }
 .sent-edit-btn {
   background: none; border: none; cursor: pointer;
-  color: #ddd; padding: 4px; line-height: 1;
+  color: #ddd; padding: 4px 4px; line-height: 1;
+  vertical-align: middle;
   display: inline-flex; align-items: center;
   -webkit-tap-highlight-color: transparent;
   transition: color 0.15s;
@@ -595,9 +597,9 @@ select.form-input {
 <body ontouchstart="" style="">
 
 <nav class="tab-nav">
-  <button class="tab-btn" onclick="switchTab('vocab',this)">단어</button>
+  <button class="tab-btn active" onclick="switchTab('vocab',this)">단어</button>
   <button class="tab-btn" onclick="switchTab('kanji',this)">한자</button>
-  <button class="tab-btn active" onclick="switchTab('sent',this)">문장</button>
+  <button class="tab-btn" onclick="switchTab('sent',this)">문장</button>
   <button class="tab-btn" onclick="switchTab('quiz',this)">시험</button>
   <div id="vocab-name-badge" style="display:none;align-items:center;padding:0 8px;font-size:12px;color:#999;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px"></div>
   <div style="flex:1"></div>
@@ -637,7 +639,7 @@ select.form-input {
 </nav>
 
 <!-- ===== 단어장 탭 ===== -->
-<div id="tab-vocab" class="tab-panel">
+<div id="tab-vocab" class="tab-panel active">
   <div class="vocab-header">
     <div class="header-left">
       <div class="filter-btns" id="filter-btns">
@@ -682,7 +684,7 @@ select.form-input {
 </div>
 
 <!-- ===== 문장 탭 ===== -->
-<div id="tab-sent" class="tab-panel active">
+<div id="tab-sent" class="tab-panel">
   <div class="vocab-header">
     <div class="header-left">
       <div class="filter-btns">
@@ -691,7 +693,7 @@ select.form-input {
       </div>
     </div>
   </div>
-  <div id="sent-list"><div class="sent-card"><div class="sent-jp" style="cursor:pointer;user-select:none"><ruby>日本語<rt>にほんご</rt></ruby>で<ruby>使用<rt>しよう</rt></ruby>する<ruby>中<rt>なか</rt></ruby>で<ruby>感<rt>かん</rt></ruby>じた<ruby>不具合<rt>ふぐあい</rt></ruby>や<ruby>翻訳上<rt>ほんやくじょう</rt></ruby>の<ruby>問題<rt>もんだい</rt></ruby>などをご<ruby>指摘<rt>してき</rt></ruby>いただければ、<ruby>取<rt>と</rt></ruby>りまとめてお<ruby>伝<rt>つて</rt></ruby>えいたします</div><div class="sent-kr-row"><div class="sent-kr">일본어로 사용하는중에 느낀 불편함이나 통역상의 문제를 지적해 주면  취합해서 전달하겠습니다.</div><div class="sent-actions"><button class="sent-imp-btn" data-idx="0" onclick="toggleSentImp(0,this)"><svg width="1.2em" height="1.2em" viewBox="0 0 24 24" class="imp-star" xmlns="http://www.w3.org/2000/svg"><polygon points="12,3 14.4,8.8 20.6,9.2 15.8,13.2 17.3,19.3 12,16 6.7,19.3 8.2,13.2 3.4,9.2 9.6,8.8"></polygon></svg></button><button class="sent-edit-btn" data-idx="0" onclick="requireAuth(()=&gt;openEditSentModal(0))"><svg width="16" height="4" viewBox="0 0 16 4" fill="currentColor"><circle cx="2" cy="2" r="1.6"></circle><circle cx="8" cy="2" r="1.6"></circle><circle cx="14" cy="2" r="1.6"></circle></svg></button></div></div></div><div class="sent-card"><div class="sent-jp" style="cursor:pointer;user-select:none"><ruby>構造<rt>こうぞう</rt></ruby>が<ruby>分<rt>ぶん</rt></ruby>かりづらいので<ruby>整理<rt>せいり</rt></ruby>されますように</div><div class="sent-kr-row"><div class="sent-kr">구조가 알기어려우므로 정기되길..</div><div class="sent-actions"><button class="sent-imp-btn" data-idx="1" onclick="toggleSentImp(1,this)"><svg width="1.2em" height="1.2em" viewBox="0 0 24 24" class="imp-star" xmlns="http://www.w3.org/2000/svg"><polygon points="12,3 14.4,8.8 20.6,9.2 15.8,13.2 17.3,19.3 12,16 6.7,19.3 8.2,13.2 3.4,9.2 9.6,8.8"></polygon></svg></button><button class="sent-edit-btn" data-idx="1" onclick="requireAuth(()=&gt;openEditSentModal(1))"><svg width="16" height="4" viewBox="0 0 16 4" fill="currentColor"><circle cx="2" cy="2" r="1.6"></circle><circle cx="8" cy="2" r="1.6"></circle><circle cx="14" cy="2" r="1.6"></circle></svg></button></div></div></div><div class="sent-card"><div class="sent-jp" style="cursor:pointer;user-select:none"><ruby>改善<rt>かいぜん</rt></ruby>を<ruby>準備<rt>じゅんび</rt></ruby>しております。</div><div class="sent-kr-row"><div class="sent-kr">개선을 준비하고있습니다.</div><div class="sent-actions"><button class="sent-imp-btn" data-idx="2" onclick="toggleSentImp(2,this)"><svg width="1.2em" height="1.2em" viewBox="0 0 24 24" class="imp-star" xmlns="http://www.w3.org/2000/svg"><polygon points="12,3 14.4,8.8 20.6,9.2 15.8,13.2 17.3,19.3 12,16 6.7,19.3 8.2,13.2 3.4,9.2 9.6,8.8"></polygon></svg></button><button class="sent-edit-btn" data-idx="2" onclick="requireAuth(()=&gt;openEditSentModal(2))"><svg width="16" height="4" viewBox="0 0 16 4" fill="currentColor"><circle cx="2" cy="2" r="1.6"></circle><circle cx="8" cy="2" r="1.6"></circle><circle cx="14" cy="2" r="1.6"></circle></svg></button></div></div></div><div class="sent-card"><div class="sent-jp" style="cursor:pointer;user-select:none">この<ruby>姉妹<rt>しまい</rt></ruby>はとても<ruby>仲<rt>なか</rt></ruby>が<ruby>良<rt>りょう</rt></ruby>いです。この<ruby>姉妹<rt>しまい</rt></ruby>はとても<ruby>仲<rt>なか</rt></ruby>が<ruby>良<rt>りょう</rt></ruby>いです。この<ruby>姉妹<rt>しまい</rt></ruby>はとても<ruby>仲<rt>なか</rt></ruby>が<ruby>良<rt>りょう</rt></ruby>いです。</div><div class="sent-kr-row"><div class="sent-kr">asdad</div><div class="sent-actions"><button class="sent-imp-btn on" data-idx="3" onclick="toggleSentImp(3,this)"><svg width="1.2em" height="1.2em" viewBox="0 0 24 24" class="imp-star" xmlns="http://www.w3.org/2000/svg"><polygon points="12,3 14.4,8.8 20.6,9.2 15.8,13.2 17.3,19.3 12,16 6.7,19.3 8.2,13.2 3.4,9.2 9.6,8.8"></polygon></svg></button><button class="sent-edit-btn" data-idx="3" onclick="requireAuth(()=&gt;openEditSentModal(3))"><svg width="16" height="4" viewBox="0 0 16 4" fill="currentColor"><circle cx="2" cy="2" r="1.6"></circle><circle cx="8" cy="2" r="1.6"></circle><circle cx="14" cy="2" r="1.6"></circle></svg></button></div></div></div><div class="sent-card"><div class="sent-jp" style="cursor:pointer;user-select:none">この<ruby>姉妹<rt>しまい</rt></ruby>はとても<ruby>仲<rt>なか</rt></ruby>が良いです。</div><div class="sent-kr-row"><div class="sent-kr">이 자매는 매우 사이가 좋습니다.</div><div class="sent-actions"><button class="sent-imp-btn" data-idx="4" onclick="toggleSentImp(4,this)"><svg width="1.2em" height="1.2em" viewBox="0 0 24 24" class="imp-star" xmlns="http://www.w3.org/2000/svg"><polygon points="12,3 14.4,8.8 20.6,9.2 15.8,13.2 17.3,19.3 12,16 6.7,19.3 8.2,13.2 3.4,9.2 9.6,8.8"></polygon></svg></button><button class="sent-edit-btn" data-idx="4" onclick="requireAuth(()=&gt;openEditSentModal(4))"><svg width="16" height="4" viewBox="0 0 16 4" fill="currentColor"><circle cx="2" cy="2" r="1.6"></circle><circle cx="8" cy="2" r="1.6"></circle><circle cx="14" cy="2" r="1.6"></circle></svg></button></div></div></div><div class="sent-card"><div class="sent-jp" style="cursor:pointer;user-select:none">この<ruby>姉妹<rt>しまい</rt></ruby>はとても<ruby>仲<rt>中</rt></ruby>が良いです。</div><div class="sent-kr-row"><div class="sent-kr">이 자매는 매우 사이가 좋습니다.</div><div class="sent-actions"><button class="sent-imp-btn" data-idx="5" onclick="toggleSentImp(5,this)"><svg width="1.2em" height="1.2em" viewBox="0 0 24 24" class="imp-star" xmlns="http://www.w3.org/2000/svg"><polygon points="12,3 14.4,8.8 20.6,9.2 15.8,13.2 17.3,19.3 12,16 6.7,19.3 8.2,13.2 3.4,9.2 9.6,8.8"></polygon></svg></button><button class="sent-edit-btn" data-idx="5" onclick="requireAuth(()=&gt;openEditSentModal(5))"><svg width="16" height="4" viewBox="0 0 16 4" fill="currentColor"><circle cx="2" cy="2" r="1.6"></circle><circle cx="8" cy="2" r="1.6"></circle><circle cx="14" cy="2" r="1.6"></circle></svg></button></div></div></div></div>
+  <div id="sent-list"></div>
 </div>
 
 <!-- ===== 시험 탭 ===== -->
@@ -711,6 +713,11 @@ select.form-input {
         <div class="option-chip" data-val="word" onclick="selectWordDir(this)">일→한</div>
         <div class="option-chip selected" data-val="ko-ja" onclick="selectWordDir(this)">한→일</div>
       </div>
+      <div class="opt-label" id="sent-submode-label" style="display:none">방향</div>
+      <div class="start-options" id="sent-submode-options" style="display:none">
+        <div class="option-chip selected" data-val="ja-ko" onclick="selectSentSubMode(this)">일→한</div>
+        <div class="option-chip" data-val="ko-ja" onclick="selectSentSubMode(this)">한→일</div>
+      </div>
       <div class="opt-label">문제 수</div>
       <div class="start-options" id="count-options">
         <div class="option-chip selected" data-val="9999" onclick="selectCount(this)">전체</div>
@@ -727,11 +734,6 @@ select.form-input {
       <div class="start-options" id="kanji-scope-options" style="display:none">
         <div class="option-chip selected" data-val="all" onclick="selectKanjiScope(this)">전체</div>
         <div class="option-chip" data-val="kimp" onclick="selectKanjiScope(this)">중요한자만</div>
-      </div>
-      <div class="opt-label" id="sent-submode-label" style="display:none">방향</div>
-      <div class="start-options" id="sent-submode-options" style="display:none">
-        <div class="option-chip selected" data-val="ja-ko" onclick="selectSentSubMode(this)">일→한</div>
-        <div class="option-chip" data-val="ko-ja" onclick="selectSentSubMode(this)">한→일</div>
       </div>
       <div class="opt-label" id="sent-scope-label" style="display:none">범위</div>
       <div class="start-options" id="sent-scope-options" style="display:none">
@@ -2785,10 +2787,10 @@ function buildSentTable() {
       '<div class="sent-kr-row">' +
         '<div class="sent-kr">' + esc(s.r) + '</div>' +
         '<div class="sent-actions">' +
-          '<button class="sent-imp-btn' + (s.imp ? ' on' : '') + '" data-idx="' + i + '" onclick="toggleSentImp(' + i + ',this)">' + _STAR_SVG + '</button>' +
           '<button class="sent-edit-btn" data-idx="' + i + '" onclick="requireAuth(()=>openEditSentModal(' + i + '))">' +
             '<svg width="16" height="4" viewBox="0 0 16 4" fill="currentColor"><circle cx="2" cy="2" r="1.6"/><circle cx="8" cy="2" r="1.6"/><circle cx="14" cy="2" r="1.6"/></svg>' +
           '</button>' +
+          '<button class="sent-imp-btn' + (s.imp ? ' on' : '') + '" data-idx="' + i + '" onclick="toggleSentImp(' + i + ',this)">' + _STAR_SVG + '</button>' +
         '</div>' +
       '</div>';
     const jpDiv = card.querySelector('.sent-jp');
