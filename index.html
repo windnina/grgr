@@ -986,9 +986,11 @@ const VOCAB_NAME = (() => {
 })();
 const VOCAB_FILE = VOCAB_NAME ? VOCAB_NAME + '.json' : 'vocab.json';
 const SENT_FILE  = VOCAB_NAME ? VOCAB_NAME + '_sentences.json' : 'sentences.json';
-const STORAGE_KEY   = 'jp_vocab_v1' + (VOCAB_NAME ? '_' + VOCAB_NAME : '');
-const SENT_STORAGE_KEY = 'jp_sent_v1' + (VOCAB_NAME ? '_' + VOCAB_NAME : '');
-const AUTH_HASH_KEY = 'jp_auth'     + (VOCAB_NAME ? '_' + VOCAB_NAME : '');
+const STORAGE_KEY      = 'jp_vocab_v1'    + (VOCAB_NAME ? '_' + VOCAB_NAME : '');
+const SENT_STORAGE_KEY = 'jp_sent_v1'     + (VOCAB_NAME ? '_' + VOCAB_NAME : '');
+const AUTH_HASH_KEY    = 'jp_auth'        + (VOCAB_NAME ? '_' + VOCAB_NAME : '');
+// 이전 공유 sentences.json 데이터 정리 완료 여부 (사용자별)
+const SENT_ISOLATED_KEY = 'jp_sent_isolated' + (VOCAB_NAME ? '_' + VOCAB_NAME : '');
 const DEFAULT_AUTH_HASH = '797b59d2942a9118ea3d4cb78eae60a64271b609207f99594ee76b9f57b9944a'; // 0880
 let   currentAuthHash   = localStorage.getItem(AUTH_HASH_KEY) || DEFAULT_AUTH_HASH;
 const PAGE_SIZE = 50;
@@ -3866,12 +3868,25 @@ async function pullFromGitHub() {
     }
   }
 
-  // sentences.json 로드 (없으면 무시)
+  // 문장 파일 로드
   try {
     const sRes = await fetch(
       `https://raw.githubusercontent.com/${owner}/${repo}/master/${SENT_FILE}?t=` + Date.now()
     );
-    if (!sRes.ok) return;
+    if (!sRes.ok) {
+      // GitHub에 파일 없음 → 이전 공유 데이터가 localStorage에 남아있을 수 있으므로
+      // 아직 정리 안 된 경우에만 한 번 초기화 (이후에는 localStorage 그대로 유지)
+      if (!localStorage.getItem(SENT_ISOLATED_KEY)) {
+        SENTENCES = [];
+        saveSentData();
+        localStorage.setItem(SENT_ISOLATED_KEY, '1');
+        if (currentTab === 'sent') buildSentTable();
+        writeSentToGitHub(); // 토큰 있으면 빈 파일 생성, 없으면 무시
+      }
+      return;
+    }
+    // 파일 있음 → 정리 완료로 표시
+    localStorage.setItem(SENT_ISOLATED_KEY, '1');
     const sJson = await sRes.json();
     const ghSentAt = sJson.savedAt || 0;
     const sRaw = localStorage.getItem(SENT_STORAGE_KEY);
@@ -3882,7 +3897,7 @@ async function pullFromGitHub() {
       if (currentTab === 'sent') buildSentTable();
     }
   } catch(e) {
-    // sentences.json 없으면 그냥 무시
+    // 네트워크 오류 등 무시
   }
 }
 
