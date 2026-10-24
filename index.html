@@ -576,6 +576,16 @@ select.form-input {
 .ruby-input-wrap:has(.ruby-furigana-input:not(:placeholder-shown)) .ruby-clear-btn { display: block; }
 .ruby-placeholder { flex: 1; color: #ddd; font-size: 13px; font-style: italic; padding: 7px 0; }
 
+/* ---- 형광펜 강조 ---- */
+.sent-hl { background: linear-gradient(transparent 60%, #bbfb69 60%); }
+.hl-chip {
+  display: inline-block; padding: 4px 10px; border-radius: 20px;
+  border: 1.5px solid #ddd; background: #f8f8f8; color: #333;
+  font-size: 16px; cursor: pointer; transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent; user-select: none;
+}
+.hl-chip.on { background: #bbfb69; border-color: #8fd43a; color: #333; font-weight: 600; }
+
 /* ---- 단일 레이아웃 (모바일 통일) ---- */
 .combined-cell {
   display: table-cell;
@@ -599,9 +609,9 @@ select.form-input {
 <body ontouchstart="" style="">
 
 <nav class="tab-nav">
-  <button class="tab-btn active" onclick="switchTab('vocab',this)">단어</button>
+  <button class="tab-btn" onclick="switchTab('vocab',this)">단어</button>
   <button class="tab-btn" onclick="switchTab('kanji',this)">한자</button>
-  <button class="tab-btn" onclick="switchTab('sent',this)">문장</button>
+  <button class="tab-btn active" onclick="switchTab('sent',this)">문장</button>
   <button class="tab-btn" onclick="switchTab('quiz',this)">시험</button>
   <div id="vocab-name-badge" style="display:none;align-items:center;padding:0 8px;font-size:12px;color:#999;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px"></div>
   <div style="flex:1"></div>
@@ -641,7 +651,7 @@ select.form-input {
 </nav>
 
 <!-- ===== 단어장 탭 ===== -->
-<div id="tab-vocab" class="tab-panel active">
+<div id="tab-vocab" class="tab-panel">
   <div class="vocab-header">
     <div class="header-left">
       <div class="filter-btns" id="filter-btns">
@@ -686,7 +696,7 @@ select.form-input {
 </div>
 
 <!-- ===== 문장 탭 ===== -->
-<div id="tab-sent" class="tab-panel">
+<div id="tab-sent" class="tab-panel active">
   <div class="vocab-header">
     <div class="header-left">
       <div class="filter-btns">
@@ -695,7 +705,7 @@ select.form-input {
       </div>
     </div>
   </div>
-  <div id="sent-list"></div>
+  <div id="sent-list"><div class="sent-card"><div class="sent-jp" style="cursor:pointer;user-select:none"><ruby>多額<rt>たがく</rt></ruby>の<mark class="sent-hl"><ruby>負債<rt>ふさい</rt></ruby></mark>を<mark class="sent-hl"><ruby>抱<rt>かか</rt></ruby></mark><mark class="sent-hl">えた。</mark></div><div class="sent-kr-row"><div class="sent-kr">많은 부채를 안고있다</div><div class="sent-actions"><button class="sent-edit-btn" data-idx="0" onclick="requireAuth(()=&gt;openEditSentModal(0))"><svg width="16" height="4" viewBox="0 0 16 4" fill="currentColor"><circle cx="2" cy="2" r="1.6"></circle><circle cx="8" cy="2" r="1.6"></circle><circle cx="14" cy="2" r="1.6"></circle></svg></button><button class="sent-imp-btn" data-idx="0" onclick="toggleSentImp(0,this)"><svg width="1.2em" height="1.2em" viewBox="0 0 24 24" class="imp-star" xmlns="http://www.w3.org/2000/svg"><polygon points="12,3 14.4,8.8 20.6,9.2 15.8,13.2 17.3,19.3 12,16 6.7,19.3 8.2,13.2 3.4,9.2 9.6,8.8"></polygon></svg></button></div></div></div><div class="sent-card"><div class="sent-jp" style="cursor:pointer;user-select:none">その<ruby>話<rt>はなし</rt></ruby>は<ruby>辻褄<rt>つじつま</rt></ruby>が合っていない。</div><div class="sent-kr-row"><div class="sent-kr">그말은 앞뒤가 맞지않아</div><div class="sent-actions"><button class="sent-edit-btn" data-idx="1" onclick="requireAuth(()=&gt;openEditSentModal(1))"><svg width="16" height="4" viewBox="0 0 16 4" fill="currentColor"><circle cx="2" cy="2" r="1.6"></circle><circle cx="8" cy="2" r="1.6"></circle><circle cx="14" cy="2" r="1.6"></circle></svg></button><button class="sent-imp-btn" data-idx="1" onclick="toggleSentImp(1,this)"><svg width="1.2em" height="1.2em" viewBox="0 0 24 24" class="imp-star" xmlns="http://www.w3.org/2000/svg"><polygon points="12,3 14.4,8.8 20.6,9.2 15.8,13.2 17.3,19.3 12,16 6.7,19.3 8.2,13.2 3.4,9.2 9.6,8.8"></polygon></svg></button></div></div></div><div class="sent-card"><div class="sent-jp" style="cursor:pointer;user-select:none"><ruby>道理<rt>どうり</rt></ruby>で<ruby>連絡<rt>れんらく</rt></ruby>がないと思いました。</div><div class="sent-kr-row"><div class="sent-kr">어쩐지 연락이 없더라구요</div><div class="sent-actions"><button class="sent-edit-btn" data-idx="2" onclick="requireAuth(()=&gt;openEditSentModal(2))"><svg width="16" height="4" viewBox="0 0 16 4" fill="currentColor"><circle cx="2" cy="2" r="1.6"></circle><circle cx="8" cy="2" r="1.6"></circle><circle cx="14" cy="2" r="1.6"></circle></svg></button><button class="sent-imp-btn" data-idx="2" onclick="toggleSentImp(2,this)"><svg width="1.2em" height="1.2em" viewBox="0 0 24 24" class="imp-star" xmlns="http://www.w3.org/2000/svg"><polygon points="12,3 14.4,8.8 20.6,9.2 15.8,13.2 17.3,19.3 12,16 6.7,19.3 8.2,13.2 3.4,9.2 9.6,8.8"></polygon></svg></button></div></div></div><div class="sent-card"><div class="sent-jp" style="cursor:pointer;user-select:none">その<ruby>罪<rt>つみ</rt></ruby>を<ruby>償<rt>つぐなう</rt></ruby>うため、<ruby>私<rt>わたし</rt></ruby>はここで<ruby>死<rt>し</rt></ruby>ぬ</div><div class="sent-kr-row"><div class="sent-kr">그 죄를 갚기위해 나는 여기서 죽는다</div><div class="sent-actions"><button class="sent-edit-btn" data-idx="3" onclick="requireAuth(()=&gt;openEditSentModal(3))"><svg width="16" height="4" viewBox="0 0 16 4" fill="currentColor"><circle cx="2" cy="2" r="1.6"></circle><circle cx="8" cy="2" r="1.6"></circle><circle cx="14" cy="2" r="1.6"></circle></svg></button><button class="sent-imp-btn" data-idx="3" onclick="toggleSentImp(3,this)"><svg width="1.2em" height="1.2em" viewBox="0 0 24 24" class="imp-star" xmlns="http://www.w3.org/2000/svg"><polygon points="12,3 14.4,8.8 20.6,9.2 15.8,13.2 17.3,19.3 12,16 6.7,19.3 8.2,13.2 3.4,9.2 9.6,8.8"></polygon></svg></button></div></div></div><div class="sent-card"><div class="sent-jp" style="cursor:pointer;user-select:none"><ruby>日本語<rt>にほんご</rt></ruby>で<ruby>使用<rt>しよう</rt></ruby>する<ruby>中<rt>なか</rt></ruby>で<ruby>感<rt>かん</rt></ruby>じた<ruby>不具合<rt>ふぐあい</rt></ruby>や<ruby>翻訳上<rt>ほんやくじょう</rt></ruby>の<ruby>問題<rt>もんだい</rt></ruby>などをご<ruby>指摘<rt>してき</rt></ruby>いただければ、<ruby>取<rt>と</rt></ruby>りまとめてお<ruby>伝<rt>つて</rt></ruby>えいたします</div><div class="sent-kr-row"><div class="sent-kr">일본어로 사용하는중에 느낀 불편함이나 통역상의 문제를 지적해 주면  취합해서 전달하겠습니다.</div><div class="sent-actions"><button class="sent-edit-btn" data-idx="4" onclick="requireAuth(()=&gt;openEditSentModal(4))"><svg width="16" height="4" viewBox="0 0 16 4" fill="currentColor"><circle cx="2" cy="2" r="1.6"></circle><circle cx="8" cy="2" r="1.6"></circle><circle cx="14" cy="2" r="1.6"></circle></svg></button><button class="sent-imp-btn on" data-idx="4" onclick="toggleSentImp(4,this)"><svg width="1.2em" height="1.2em" viewBox="0 0 24 24" class="imp-star" xmlns="http://www.w3.org/2000/svg"><polygon points="12,3 14.4,8.8 20.6,9.2 15.8,13.2 17.3,19.3 12,16 6.7,19.3 8.2,13.2 3.4,9.2 9.6,8.8"></polygon></svg></button></div></div></div><div class="sent-card"><div class="sent-jp" style="cursor:pointer;user-select:none"><ruby>構造<rt>こうぞう</rt></ruby>が<ruby>分<rt>ぶん</rt></ruby>かりづらいので<ruby>整理<rt>せいり</rt></ruby>されますように</div><div class="sent-kr-row"><div class="sent-kr">구조가 알기어려우므로 정기되길..</div><div class="sent-actions"><button class="sent-edit-btn" data-idx="5" onclick="requireAuth(()=&gt;openEditSentModal(5))"><svg width="16" height="4" viewBox="0 0 16 4" fill="currentColor"><circle cx="2" cy="2" r="1.6"></circle><circle cx="8" cy="2" r="1.6"></circle><circle cx="14" cy="2" r="1.6"></circle></svg></button><button class="sent-imp-btn on" data-idx="5" onclick="toggleSentImp(5,this)"><svg width="1.2em" height="1.2em" viewBox="0 0 24 24" class="imp-star" xmlns="http://www.w3.org/2000/svg"><polygon points="12,3 14.4,8.8 20.6,9.2 15.8,13.2 17.3,19.3 12,16 6.7,19.3 8.2,13.2 3.4,9.2 9.6,8.8"></polygon></svg></button></div></div></div><div class="sent-card"><div class="sent-jp" style="cursor:pointer;user-select:none"><ruby>改善<rt>かいぜん</rt></ruby>を<ruby>準備<rt>じゅんび</rt></ruby>しております。</div><div class="sent-kr-row"><div class="sent-kr">개선을 준비하고있습니다.</div><div class="sent-actions"><button class="sent-edit-btn" data-idx="6" onclick="requireAuth(()=&gt;openEditSentModal(6))"><svg width="16" height="4" viewBox="0 0 16 4" fill="currentColor"><circle cx="2" cy="2" r="1.6"></circle><circle cx="8" cy="2" r="1.6"></circle><circle cx="14" cy="2" r="1.6"></circle></svg></button><button class="sent-imp-btn" data-idx="6" onclick="toggleSentImp(6,this)"><svg width="1.2em" height="1.2em" viewBox="0 0 24 24" class="imp-star" xmlns="http://www.w3.org/2000/svg"><polygon points="12,3 14.4,8.8 20.6,9.2 15.8,13.2 17.3,19.3 12,16 6.7,19.3 8.2,13.2 3.4,9.2 9.6,8.8"></polygon></svg></button></div></div></div><div class="sent-card"><div class="sent-jp" style="cursor:pointer;user-select:none">この<ruby>姉妹<rt>しまい</rt></ruby>はとても<ruby>仲<rt>なか</rt></ruby>が良いです。</div><div class="sent-kr-row"><div class="sent-kr">이 자매는 매우 사이가 좋습니다.</div><div class="sent-actions"><button class="sent-edit-btn" data-idx="7" onclick="requireAuth(()=&gt;openEditSentModal(7))"><svg width="16" height="4" viewBox="0 0 16 4" fill="currentColor"><circle cx="2" cy="2" r="1.6"></circle><circle cx="8" cy="2" r="1.6"></circle><circle cx="14" cy="2" r="1.6"></circle></svg></button><button class="sent-imp-btn on" data-idx="7" onclick="toggleSentImp(7,this)"><svg width="1.2em" height="1.2em" viewBox="0 0 24 24" class="imp-star" xmlns="http://www.w3.org/2000/svg"><polygon points="12,3 14.4,8.8 20.6,9.2 15.8,13.2 17.3,19.3 12,16 6.7,19.3 8.2,13.2 3.4,9.2 9.6,8.8"></polygon></svg></button></div></div></div></div>
 </div>
 
 <!-- ===== 시험 탭 ===== -->
@@ -875,7 +885,7 @@ select.form-input {
     <div id="modal-sent-form" style="display:none">
       <div class="form-row">
         <label class="form-label">일본어 문장</label>
-        <textarea class="form-textarea" id="modal-s" rows="3" oninput="onSentInput()" placeholder="日本語の文章を入力"></textarea>
+        <textarea class="form-textarea" id="modal-s" rows="1" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';onSentInput()" placeholder="日本語の文章を入力" style="resize:none;overflow:hidden;min-height:0"></textarea>
       </div>
       <div class="form-row">
         <label class="form-label" style="display:flex;align-items:center;justify-content:space-between">
@@ -888,6 +898,13 @@ select.form-input {
         <label class="form-label">후리가나</label>
         <div id="ruby-inputs"></div>
         <div id="ruby-preview" style="margin-top:10px;padding:10px;background:#f8f8f8;border-radius:8px;font-size:18px;line-height:2.2;display:none"></div>
+      </div>
+      <div class="form-row" id="hl-section" style="display:none">
+        <label class="form-label" style="display:flex;align-items:center;gap:6px">
+          형광펜 강조
+          <span style="font-size:11px;color:#aaa;font-weight:400">탭하여 선택</span>
+        </label>
+        <div id="hl-selector" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px"></div>
       </div>
       <div class="modal-footer" style="justify-content:center;gap:16px;margin-top:24px">
         <button class="btn-cancel" onclick="closeModal()" style="width:120px;padding:13px 0;font-size:16px;border-radius:12px">취소</button>
@@ -2339,12 +2356,20 @@ let _modalImpValue = true;
 function setModalImp(val) { _modalImpValue = val; }
 function getModalImp() { return _modalImpValue; }
 
+function _resetSentTextareaHeight() {
+  const ta = document.getElementById('modal-s');
+  if (ta) { ta.style.height = 'auto'; }
+}
 function _clearSentForm() {
-  document.getElementById('modal-s').value = '';
+  const ta = document.getElementById('modal-s');
+  ta.value = '';
+  ta.style.height = 'auto';
   document.getElementById('modal-sr').value = '';
   document.getElementById('ruby-section').style.display = 'none';
   document.getElementById('ruby-inputs').innerHTML = '';
   document.getElementById('ruby-preview').style.display = 'none';
+  document.getElementById('hl-section').style.display = 'none';
+  document.getElementById('hl-selector').innerHTML = '';
   if (_autoFillTimer) { clearTimeout(_autoFillTimer); _autoFillTimer = null; }
   updateSentSaveBtn();
 }
@@ -2712,9 +2737,35 @@ function onSentInput() {
     rubyInputs.appendChild(row);
   });
   updateRubyPreview();
+  buildHlSelector(segs);
   if (hasKanji) {
     _autoFillTimer = setTimeout(() => autoFillAllFurigana(), 600);
   }
+}
+
+function buildHlSelector(segs) {
+  const section = document.getElementById('hl-section');
+  const container = document.getElementById('hl-selector');
+  if (!segs || !segs.length) { section.style.display = 'none'; return; }
+  // 현재 선택값 보존
+  const prevOn = new Set(
+    Array.from(document.querySelectorAll('#hl-selector .hl-chip.on')).map(c => c.dataset.t)
+  );
+  section.style.display = '';
+  container.innerHTML = '';
+  segs.forEach(seg => {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'hl-chip' + (prevOn.has(seg.t) ? ' on' : '');
+    chip.textContent = seg.t;
+    chip.dataset.t = seg.t;
+    chip.addEventListener('click', function() { this.classList.toggle('on'); });
+    container.appendChild(chip);
+  });
+}
+
+function getHlData() {
+  return Array.from(document.querySelectorAll('#hl-selector .hl-chip.on')).map(c => c.dataset.t);
 }
 
 function getRubyData() {
@@ -2733,11 +2784,26 @@ function getRubyData() {
   return ruby;
 }
 
-function renderRubyHTML(ruby) {
+function renderRubyHTML(ruby, hlSet) {
   return (ruby || []).map(r => {
-    if (r.f) return '<ruby>' + esc(r.t) + '<rt>' + esc(r.f) + '</rt></ruby>';
-    return esc(r.t);
+    const inner = r.f
+      ? '<ruby>' + esc(r.t) + '<rt>' + esc(r.f) + '</rt></ruby>'
+      : esc(r.t);
+    if (hlSet && hlSet.has(r.t)) return '<mark class="sent-hl">' + inner + '</mark>';
+    return inner;
   }).join('');
+}
+
+// 후리가나 없는 문장에 형광펜 적용
+function applyHlToPlain(text, hlArr) {
+  if (!hlArr || !hlArr.length) return esc(text);
+  const sorted = hlArr.slice().sort((a, b) => b.length - a.length);
+  let result = esc(text);
+  sorted.forEach(hl => {
+    const e = esc(hl);
+    result = result.split(e).join('<mark class="sent-hl">' + e + '</mark>');
+  });
+  return result;
 }
 
 function updateRubyPreview() {
@@ -2770,11 +2836,12 @@ function saveSentModal() {
   const r = (document.getElementById('modal-sr').value || '').trim();
   if (!s || !r) { alert('일본어 문장과 한국어 뜻을 모두 입력해주세요.'); return; }
   const ruby = getRubyData();
+  const hl = getHlData();
   if (sentEditIndex < 0) {
-    SENTENCES.unshift({ s, r, ruby, imp: false });
+    SENTENCES.unshift({ s, r, ruby, hl, imp: false });
   } else {
     const existing = SENTENCES[sentEditIndex] || {};
-    SENTENCES[sentEditIndex] = { s, r, ruby, imp: existing.imp || false };
+    SENTENCES[sentEditIndex] = { s, r, ruby, hl, imp: existing.imp || false };
   }
   sentEditIndex = -1;
   closeModal();
@@ -2801,7 +2868,10 @@ function buildSentTable() {
   indices.forEach(({ s, i }) => {
     const card = document.createElement('div');
     card.className = 'sent-card';
-    const jpHTML = (s.ruby && s.ruby.length) ? renderRubyHTML(s.ruby) : esc(s.s);
+    const hlSet = (s.hl && s.hl.length) ? new Set(s.hl) : null;
+    const jpHTML = (s.ruby && s.ruby.length)
+      ? renderRubyHTML(s.ruby, hlSet)
+      : (hlSet ? applyHlToPlain(s.s, s.hl) : esc(s.s));
     card.innerHTML =
       '<div class="sent-jp" style="cursor:pointer;user-select:none">' + jpHTML + '</div>' +
       '<div class="sent-kr-row">' +
@@ -2852,7 +2922,10 @@ function openEditSentModal(i) {
   switchModalTab('sent');
   document.getElementById('modal-delete-wrap').style.display = 'block';
   closeDeleteDropdown();
-  document.getElementById('modal-s').value = s.s || '';
+  const _msTa = document.getElementById('modal-s');
+  _msTa.value = s.s || '';
+  _msTa.style.height = 'auto';
+  _msTa.style.height = _msTa.scrollHeight + 'px';
   document.getElementById('modal-sr').value = s.r || '';
   // rebuild ruby inputs
   onSentInput();
@@ -2871,6 +2944,12 @@ function openEditSentModal(i) {
       }
     });
     updateRubyPreview();
+  }
+  // Restore highlight chip selections
+  if (s.hl && s.hl.length) {
+    document.querySelectorAll('#hl-selector .hl-chip').forEach(chip => {
+      if (s.hl.includes(chip.dataset.t)) chip.classList.add('on');
+    });
   }
   updateSentSaveBtn();
 }
