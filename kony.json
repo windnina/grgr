@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "環境",
+      "h": "かんきょう",
+      "r": "환경",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "新聞社",
       "h": "しんぶんしゃ",
       "r": "신문사",
@@ -2531,6 +2538,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2629,5 +2637,5 @@
     false,
     false
   ],
-  "savedAt": 1793005682941
+  "savedAt": 1793005704941
 }
