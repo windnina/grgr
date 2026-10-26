@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "お手伝い",
+      "h": "おて つだい",
+      "r": "도움",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "実家",
       "h": "じっか",
       "r": "본가, 고향",
@@ -2372,6 +2379,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2470,5 +2478,5 @@
     false,
     false
   ],
-  "savedAt": 1793005178199
+  "savedAt": 1793005194816
 }
