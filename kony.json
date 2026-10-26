@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "たとえば",
+      "h": "",
+      "r": "예를들면",
+      "imp": true
+    },
+    {
       "k": "集めます",
       "h": "あつめます",
       "r": "모으다.",
@@ -2396,6 +2402,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2494,5 +2501,5 @@
     false,
     false
   ],
-  "savedAt": 1793005232166
+  "savedAt": 1793005249997
 }
