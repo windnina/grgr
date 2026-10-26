@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "新聞社",
+      "h": "しんぶんしゃ",
+      "r": "신문사",
+      "km": ",,",
+      "imp": true
+    },
+    {
       "k": "職場",
       "h": "しょくば",
       "r": "직장",
@@ -2523,6 +2530,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2621,5 +2629,5 @@
     false,
     false
   ],
-  "savedAt": 1793005667290
+  "savedAt": 1793005682941
 }
