@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "[嘘を]つきます",
+      "h": "[うそを]つきます",
+      "r": "거짓말하다",
+      "imp": true
+    },
+    {
       "k": "〜頃",
       "h": "",
       "r": "쯤",
@@ -2412,6 +2418,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2510,5 +2517,5 @@
     false,
     false
   ],
-  "savedAt": 1793005290164
+  "savedAt": 1793005318329
 }
