@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "連休",
+      "h": "れんきゅう",
+      "r": "연휴",
+      "km": ",쉴휴",
+      "imp": true
+    },
+    {
       "k": "うさぎ",
       "h": "",
       "r": "토끼",
@@ -2426,6 +2433,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2524,5 +2532,5 @@
     false,
     false
   ],
-  "savedAt": 1793005334680
+  "savedAt": 1793005349496
 }
