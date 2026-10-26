@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "経済",
+      "h": "けいざい",
+      "r": "경제",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "大会",
       "h": "たいかい",
       "r": "시합",
@@ -2499,6 +2506,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2597,5 +2605,5 @@
     false,
     false
   ],
-  "savedAt": 1793005582326
+  "savedAt": 1793005606592
 }
