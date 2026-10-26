@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "転勤",
+      "h": "てんきん",
+      "r": "전근",
+      "km": "구룰 전,",
+      "imp": true
+    },
+    {
       "k": "転校生",
       "h": "てんこうせい",
       "r": "전학생",
@@ -2348,6 +2355,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2446,5 +2454,5 @@
     false,
     false
   ],
-  "savedAt": 1793005124300
+  "savedAt": 1793005137033
 }
