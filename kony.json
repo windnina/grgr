@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "うさぎ",
+      "h": "",
+      "r": "토끼",
+      "imp": true
+    },
+    {
       "k": "[嘘を]つきます",
       "h": "[うそを]つきます",
       "r": "거짓말하다",
@@ -2419,6 +2425,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2517,5 +2524,5 @@
     false,
     false
   ],
-  "savedAt": 1793005318329
+  "savedAt": 1793005334680
 }
