@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "習い事",
+      "h": "ならいごと",
+      "r": "레슨",
+      "km": "익힐 습,일사",
+      "imp": true
+    },
+    {
       "k": "塾",
       "h": "じゅく",
       "r": "학원",
@@ -2572,6 +2579,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2670,5 +2678,5 @@
     false,
     false
   ],
-  "savedAt": 1793097212700
+  "savedAt": 1793097261834
 }
