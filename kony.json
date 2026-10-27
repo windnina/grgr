@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "家庭",
+      "h": "かてい",
+      "r": "가정",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "立場",
       "h": "たちば",
       "r": "입장",
@@ -2588,6 +2595,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2686,5 +2694,5 @@
     false,
     false
   ],
-  "savedAt": 1793097291083
+  "savedAt": 1793097306850
 }
