@@ -581,13 +581,15 @@ select.form-input {
 /* ---- 형광펜 강조 ---- */
 .sent-hl { background: linear-gradient(transparent 60%, #bbfb69 60%); }
 .hl-chip {
-  display: inline-flex; align-items: center; justify-content: center;
-  min-width: 36px; height: 36px; padding: 0 6px; border-radius: 8px;
-  border: 1.5px solid #ddd; background: #f8f8f8; color: #333;
-  font-size: 18px; cursor: pointer; transition: all 0.15s;
+  display: inline;
+  padding: 0 1px;
+  border: none; border-radius: 0;
+  background: linear-gradient(transparent 60%, #ddd 60%);
+  color: #333; font-size: 22px; font-family: inherit;
+  cursor: pointer; transition: background 0.12s;
   -webkit-tap-highlight-color: transparent; user-select: none;
 }
-.hl-chip.on { background: #bbfb69; border-color: #8fd43a; color: #333; }
+.hl-chip.on { background: linear-gradient(transparent 60%, #bbfb69 60%); }
 
 /* ---- 단일 레이아웃 (모바일 통일) ---- */
 .combined-cell {
@@ -659,7 +661,7 @@ select.form-input {
     <div class="header-left">
       <div class="filter-btns" id="filter-btns">
         <button class="filter-btn active" onclick="setFilter('all')">전체</button>
-        <button class="filter-btn" id="vocab-imp-filter-btn" onclick="setFilter('important')">★ 중요 (9%)</button>
+        <button class="filter-btn" id="vocab-imp-filter-btn" onclick="setFilter('important')">★ 중요 (10%)</button>
         <button class="search-btn" id="search-toggle-btn" onclick="toggleSearch()">🔍</button>
       </div>
       <div class="search-wrap" id="search-wrap">
@@ -907,7 +909,7 @@ select.form-input {
           형광펜 강조
           <span style="font-size:11px;color:#aaa;font-weight:400">글자를 탭하여 선택</span>
         </label>
-        <div id="hl-selector" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px"></div>
+        <div id="hl-selector" style="margin-top:8px;line-height:2.4;word-break:break-all"></div>
       </div>
       <div class="modal-footer" style="justify-content:center;gap:16px;margin-top:24px">
         <button class="btn-cancel" onclick="closeModal()" style="width:120px;padding:13px 0;font-size:16px;border-radius:12px">취소</button>
