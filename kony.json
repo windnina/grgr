@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "立場",
+      "h": "たちば",
+      "r": "입장",
+      "km": "설립,마당장",
+      "imp": true
+    },
+    {
       "k": "習い事",
       "h": "ならいごと",
       "r": "레슨",
@@ -2580,6 +2587,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2678,5 +2686,5 @@
     false,
     false
   ],
-  "savedAt": 1793097261834
+  "savedAt": 1793097291083
 }
