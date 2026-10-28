@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "病",
+      "h": "やまい",
+      "r": "병마",
+      "km": "병병",
+      "imp": true
+    },
+    {
       "k": "償う",
       "h": "つぐなう",
       "r": "갚다",
@@ -3801,6 +3808,7 @@
     false,
     false,
     false,
+    false,
     true,
     true,
     false,
@@ -4252,5 +4260,5 @@
     true,
     true
   ],
-  "savedAt": 1793188397125
+  "savedAt": 1793197707420
 }
