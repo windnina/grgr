@@ -579,7 +579,7 @@ select.form-input {
 .ruby-placeholder { flex: 1; color: #ddd; font-size: 13px; font-style: italic; padding: 7px 0; }
 
 /* ---- 형광펜 강조 ---- */
-.sent-hl { background: linear-gradient(transparent 60%, #bbfb69 60%); }
+.sent-hl { background: linear-gradient(transparent 60%, #a0fcea 60%); }
 .hl-chip {
   display: inline;
   padding: 0 1px;
@@ -589,7 +589,7 @@ select.form-input {
   cursor: pointer; transition: background 0.12s;
   -webkit-tap-highlight-color: transparent; user-select: none;
 }
-.hl-chip.on { background: linear-gradient(transparent 60%, #bbfb69 60%); }
+.hl-chip.on { background: linear-gradient(transparent 60%, #a0fcea 60%); }
 
 /* ---- 단일 레이아웃 (모바일 통일) ---- */
 .combined-cell {
@@ -978,7 +978,7 @@ select.form-input {
       <button class="btn-cancel" onclick="closeGithubModal()">취소</button>
       <button class="btn-cancel" id="gh-disconnect" onclick="disconnectGithub()" style="display: inline-block; color: rgb(231, 76, 60); border-color: rgb(231, 76, 60);">연동 해제</button>
     </div>
-    <div id="gh-status" style="margin-top:12px;font-size:13px;color:#888">✓ 저장됐어요. 다음 편집부터 자동 동기화돼요.</div>
+    <div id="gh-status" style="margin-top:12px;font-size:13px;color:#888"></div>
   </div>
 </div>
 
