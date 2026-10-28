@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "はんたい",
+      "h": "반대",
+      "r": "반대",
+      "ex": "反対します",
+      "imp": true
+    },
+    {
       "k": "肩こり",
       "h": "かたこり",
       "r": "어깨결림",
@@ -2703,6 +2710,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2801,5 +2809,5 @@
     false,
     false
   ],
-  "savedAt": 1793196233639
+  "savedAt": 1793196270139
 }
