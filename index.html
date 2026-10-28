@@ -584,7 +584,7 @@ select.form-input {
   display: inline;
   padding: 0 1px;
   border: none; border-radius: 0;
-  background: linear-gradient(transparent 60%, #ddd 60%);
+  background: linear-gradient(transparent 60%, #ebebeb 60%);
   color: #333; font-size: 22px; font-family: inherit;
   cursor: pointer; transition: background 0.12s;
   -webkit-tap-highlight-color: transparent; user-select: none;
@@ -906,8 +906,8 @@ select.form-input {
       </div>
       <div class="form-row" id="hl-section" style="display:none">
         <label class="form-label" style="display:flex;align-items:center;gap:6px">
-          형광펜 강조
-          <span style="font-size:11px;color:#aaa;font-weight:400">글자를 탭하여 선택</span>
+          클릭해서 강조표시
+          <button type="button" id="hl-clear-btn" onclick="clearAllHl()" style="display:none;margin-left:2px;padding:2px 8px;font-size:11px;color:#aaa;background:none;border:1px solid #ddd;border-radius:10px;cursor:pointer;font-family:inherit;line-height:1.4">초기화</button>
         </label>
         <div id="hl-selector" style="margin-top:8px;line-height:2.4;word-break:break-all"></div>
       </div>
@@ -2766,13 +2766,25 @@ function buildHlSelector(text) {
     chip.className = 'hl-chip' + (prevOn.has(ch) ? ' on' : '');
     chip.textContent = ch;
     chip.dataset.t = ch;
-    chip.addEventListener('click', function() { this.classList.toggle('on'); });
+    chip.addEventListener('click', function() { this.classList.toggle('on'); _updateHlClearBtn(); });
     container.appendChild(chip);
   });
+  _updateHlClearBtn();
 }
 
 function getHlData() {
   return Array.from(document.querySelectorAll('#hl-selector .hl-chip.on')).map(c => c.dataset.t);
+}
+
+function _updateHlClearBtn() {
+  const btn = document.getElementById('hl-clear-btn');
+  if (!btn) return;
+  btn.style.display = document.querySelector('#hl-selector .hl-chip.on') ? '' : 'none';
+}
+
+function clearAllHl() {
+  document.querySelectorAll('#hl-selector .hl-chip.on').forEach(c => c.classList.remove('on'));
+  _updateHlClearBtn();
 }
 
 function getRubyData() {
@@ -2793,12 +2805,22 @@ function getRubyData() {
 
 function renderRubyHTML(ruby, hlSet) {
   return (ruby || []).map(r => {
-    // hlSet: 글자 단위 Set — 세그먼트 내 글자가 하나라도 포함되면 강조
-    const doHL = hlSet && [...r.t].some(ch => hlSet.has(ch));
-    const inner = r.f
-      ? '<ruby>' + esc(r.t) + '<rt>' + esc(r.f) + '</rt></ruby>'
-      : esc(r.t);
-    return doHL ? '<mark class="sent-hl">' + inner + '</mark>' : inner;
+    if (!hlSet || !hlSet.size) {
+      return r.f
+        ? '<ruby>' + esc(r.t) + '<rt>' + esc(r.f) + '</rt></ruby>'
+        : esc(r.t);
+    }
+    if (r.f) {
+      // 후리가나 있는 세그먼트: 세그먼트 전체 글자가 모두 선택되었을 때만 강조
+      const allIn = [...r.t].every(ch => hlSet.has(ch));
+      const inner = '<ruby>' + esc(r.t) + '<rt>' + esc(r.f) + '</rt></ruby>';
+      return allIn ? '<mark class="sent-hl">' + inner + '</mark>' : inner;
+    } else {
+      // 후리가나 없는 세그먼트: 글자별로 개별 강조
+      return [...r.t].map(ch =>
+        hlSet.has(ch) ? '<mark class="sent-hl">' + esc(ch) + '</mark>' : esc(ch)
+      ).join('');
+    }
   }).join('');
 }
 
@@ -2968,6 +2990,7 @@ function openEditSentModal(i) {
       if (hlChars.has(chip.dataset.t)) chip.classList.add('on');
     });
   }
+  _updateHlClearBtn();
   updateSentSaveBtn();
 }
 
