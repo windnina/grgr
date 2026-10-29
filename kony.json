@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "[店を]やりま す",
+      "h": "みせをやりま す",
+      "r": "(가게를)운영하다 manage/run",
+      "km": "가게점",
+      "imp": true
+    },
+    {
       "k": "徒歩",
       "h": "とほ",
       "r": "도보",
@@ -2750,6 +2757,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2848,5 +2856,5 @@
     false,
     false
   ],
-  "savedAt": 1793284754045
+  "savedAt": 1793284798962
 }
