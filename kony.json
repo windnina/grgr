@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "手続き",
+      "h": "て つづ",
+      "r": "수속,절차",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "[店を]やりま す",
       "h": "みせをやりま す",
       "r": "(가게를)운영하다 manage/run",
@@ -2758,6 +2765,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2856,5 +2864,5 @@
     false,
     false
   ],
-  "savedAt": 1793284798962
+  "savedAt": 1793284847111
 }
