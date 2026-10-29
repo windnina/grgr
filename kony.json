@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "以内",
+      "h": "いない",
+      "r": "이내",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "手続き",
       "h": "て つづ",
       "r": "수속,절차",
@@ -2766,6 +2773,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2864,5 +2872,5 @@
     false,
     false
   ],
-  "savedAt": 1793284847111
+  "savedAt": 1793284883561
 }
