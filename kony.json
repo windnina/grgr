@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "病室",
+      "h": "びょうしつ",
+      "r": "병실",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "はんたい",
       "h": "반대",
       "r": "반대",
@@ -2711,6 +2718,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2809,5 +2817,5 @@
     false,
     false
   ],
-  "savedAt": 1793196270139
+  "savedAt": 1793284692451
 }
