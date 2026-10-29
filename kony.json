@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "ふきだし",
+      "h": "",
+      "r": "말풍선",
+      "imp": true
+    },
+    {
       "k": "面会",
       "h": "めんかい",
       "r": "면회",
@@ -2727,6 +2733,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2825,5 +2832,5 @@
     false,
     false
   ],
-  "savedAt": 1793284707532
+  "savedAt": 1793284723095
 }
