@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "面会",
+      "h": "めんかい",
+      "r": "면회",
+      "km": "낯면,모을회",
+      "imp": true
+    },
+    {
       "k": "病室",
       "h": "びょうしつ",
       "r": "병실",
@@ -2719,6 +2726,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2817,5 +2825,5 @@
     false,
     false
   ],
-  "savedAt": 1793284692451
+  "savedAt": 1793284707532
 }
