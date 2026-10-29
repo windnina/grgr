@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "徒歩",
+      "h": "とほ",
+      "r": "도보",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "駐車券",
       "h": "ちゅうしゃけん",
       "r": "주차권",
@@ -2742,6 +2749,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2840,5 +2848,5 @@
     false,
     false
   ],
-  "savedAt": 1793284738062
+  "savedAt": 1793284754045
 }
