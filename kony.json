@@ -1,6 +1,12 @@
 {
   "vocab": [
     {
+      "k": "お礼",
+      "h": "おれい",
+      "r": "사례",
+      "imp": true
+    },
+    {
       "k": "出産祝い",
       "h": "しゅっさんいわ",
       "r": "출산축하",
@@ -2799,6 +2805,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2897,5 +2904,5 @@
     false,
     false
   ],
-  "savedAt": 1793332706294
+  "savedAt": 1793332766628
 }
