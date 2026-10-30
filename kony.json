@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "演奏",
+      "h": "えんそう",
+      "r": "연주",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "お礼",
       "h": "おれい",
       "r": "사례",
@@ -2806,6 +2813,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2904,5 +2912,5 @@
     false,
     false
   ],
-  "savedAt": 1793332766628
+  "savedAt": 1793332829678
 }
