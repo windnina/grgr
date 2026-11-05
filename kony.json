@@ -1,6 +1,13 @@
 {
   "vocab": [
     {
+      "k": "刺し身",
+      "h": "さしみ",
+      "r": "사시미",
+      "km": ",",
+      "imp": true
+    },
+    {
       "k": "小説家",
       "h": "しょうせつか",
       "r": "소설가",
@@ -2861,6 +2868,7 @@
     false,
     false,
     false,
+    false,
     true,
     false,
     false,
@@ -2959,5 +2967,5 @@
     false,
     false
   ],
-  "savedAt": 1793883788586
+  "savedAt": 1793883830285
 }
